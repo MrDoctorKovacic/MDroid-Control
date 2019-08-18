@@ -9,7 +9,7 @@
   "dependencies": {
     "http": "0.0.0",
     "react": "16.8.3",
-    "react-native": "0.59.5",
+    "react-native": "^0.60.5",
     "react-native-maps": "^0.24.2",
     "react-native-navigation-bar-color": "0.0.9",
     "react-native-responsive-screen": "^1.2.2",
