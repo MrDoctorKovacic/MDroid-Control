@@ -53,7 +53,9 @@ export default class ControlsScreen extends React.Component {
 
 				<ButtonGroup isConnected={this.props.isConnected} title="Convertible Top" reference="convertible" buttons={["Up", "Down"]} buttonFunctions={[() => SendCommand("top/up"), () => SendCommand("top/down")]} />
 
-				<ButtonGroup isConnected={this.props.isConnected} title="Lighting" reference="lighting" buttons={["Flashers", "Hazards", "Interior"]} buttonFunctions={[() => SendCommand("flashers/toggle"), () => SendCommand("hazards/toggle")]} />
+				<ButtonGroup isConnected={this.props.isConnected} title="Hazards" reference="hazards" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("hazards/on"), () => SendCommand("hazards/off")]} />
+
+        <ButtonGroup isConnected={this.props.isConnected} title="Flashers" reference="flashers" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("flashers/on"), () => SendCommand("flashers/off")]} />
 
 				<ButtonGroup isConnected={this.props.isConnected} title="Security" reference="security" buttons={["Alarm"]} buttonFunctions={[() => SendCommand("")]} />
     		</View>
