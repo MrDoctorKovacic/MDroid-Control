@@ -32,7 +32,20 @@ export default class SystemScreen extends React.Component {
       .then(function(sessionObject) {
         console.log(sessionObject);
         componentHandler.setState({
-          session: sessionObject
+          region: {
+            latitude: "LATITUDE" in sessionObject ? sessionObject["LATITUDE"] : "N/A",
+            longitude: "LONGITUDE" in sessionObject ? sessionObject["LONGITUDE"] : "N/A",
+          },
+          coordinate: {
+            latitude: "LATITUDE" in sessionObject ? sessionObject["LATITUDE"] : "N/A",
+            longitude: "LONGITUDE" in sessionObject ? sessionObject["LONGITUDE"] : "N/A",
+          },
+          gps: {
+            time: "TIME" in sessionObject ? sessionObject["TIME"] : "N/A",
+            altitude: "ALTITUDE" in sessionObject ? sessionObject["ALTITUDE"] : "N/A",
+            climb: "CLIMB" in sessionObject ? sessionObject["CLIMB"] : "N/A",
+            speed: "SPEED" in sessionObject ? sessionObject["SPEED"] : "N/A"
+          }
         });
       }).catch((error) => {
         console.log(error);
@@ -75,9 +88,10 @@ export default class SystemScreen extends React.Component {
         longitude: LONGITUDE,
       },
       gps: {
-        time: "Test",
-        altitude: "Testing",
-        climb: "Testee"
+        time: "N/A",
+        altitude: "N/A",
+        climb: "N/A",
+        speed: "N/A"
       }
     };
 	}
@@ -124,6 +138,7 @@ export default class SystemScreen extends React.Component {
               <Text style={styles.auxText}>Time Fixed: {this.state.gps.time}</Text>
               <Text style={styles.auxText}>Altitude: {this.state.gps.altitude}</Text>
               <Text style={styles.auxText}>Climb: {this.state.gps.climb}</Text>
+              <Text style={styles.auxText}>Speed: {this.state.gps.speed}</Text>
             </View>
     			</View>
         </View>
