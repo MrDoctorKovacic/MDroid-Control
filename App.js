@@ -35,7 +35,7 @@ export default class App extends React.Component {
 			PingHost(this);
 
 			// We check less frequently if we're already connected
-			var pingHostInvervalDuration = this.state.isConnected ? 5000 : 2000 
+			var pingHostInvervalDuration = this.state.isConnected ? 10000 : 2000 
 
 			// Clear interval first, to make sure we're not creating duplicate loops
 			if (this.interval) {
