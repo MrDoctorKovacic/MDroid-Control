@@ -12,21 +12,27 @@ export const PingHost = async (componentHandler) => {
         })
         .then(function(sessionObject) {
             console.log(sessionObject);
-            componentHandler.setState({
-                isConnected: true
-            });
+            if (!componentHandler.state.isConnected) {
+                componentHandler.setState({
+                    isConnected: true
+                });
+            }
         }).catch((error) => {
             console.log(error);
-            componentHandler.setState({
-                isConnected: false
-            });
+            if (componentHandler.state.isConnected) {
+                componentHandler.setState({
+                    isConnected: false
+                });
+            }
             ToastAndroid.show("Disconnected", ToastAndroid.SHORT);
         });
     }
     catch (error) {
-        componentHandler.setState({
-            isConnected: false
-        });
+        if (componentHandler.state.isConnected) {
+            componentHandler.setState({
+                isConnected: false
+            });
+        }
         console.log(error);
         ToastAndroid.show("Disconnected", ToastAndroid.SHORT);
     }
