@@ -135,14 +135,8 @@ export default class App extends React.Component {
 						style={styles.mainContainer}>
 						<ControlsScreen isConnected={this.state.isConnected} />
 					</ScrollView>
-					<ScrollView 
-						refreshControl={<RefreshControl 
-						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true} 
-						style={styles.mainContainer}>
 						<SystemScreen isConnected={this.state.isConnected} />
-					</ScrollView>
+					
 					<ScrollView 
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 

@@ -2,6 +2,8 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
+  ScrollView,
+  RefreshControl,
   View,
   ToastAndroid,
   Dimensions,
@@ -33,12 +35,14 @@ export default class SystemScreen extends React.Component {
         console.log(sessionObject);
         componentHandler.setState({
           region: {
-            latitude: "latitude" in sessionObject ? sessionObject["latitude"] : "N/A",
-            longitude: "longitude" in sessionObject ? sessionObject["longitude"] : "N/A",
+            latitude: "latitude" in sessionObject ? parseFloat(sessionObject["latitude"]) : "N/A",
+            longitude: "longitude" in sessionObject ? parseFloat(sessionObject["longitude"]) : "N/A",
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
           },
           coordinate: {
-            latitude: "latitude" in sessionObject ? sessionObject["latitude"] : "N/A",
-            longitude: "longitude" in sessionObject ? sessionObject["longitude"] : "N/A",
+            latitude: "latitude" in sessionObject ? parseFloat(sessionObject["latitude"]) : "N/A",
+            longitude: "longitude" in sessionObject ? parseFloat(sessionObject["longitude"]) : "N/A",
           },
           gps: {
             time: "time" in sessionObject ? sessionObject["time"] : "N/A",
@@ -73,10 +77,18 @@ export default class SystemScreen extends React.Component {
     rol();
   }
 
+  _onRefresh = () => {
+		this.setState({refreshing: true});
+		this._refreshSensorData(this).then(() => {
+			this.setState({refreshing: false});
+		});
+	}
+
 	constructor(props) {
 		super(props);
 
     this.state = {
+      refreshing: false,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -115,6 +127,12 @@ export default class SystemScreen extends React.Component {
     var styles = reloadStyles(height < width, this.props.isConnected);
 
 		return (
+      <ScrollView 
+						refreshControl={<RefreshControl 
+						refreshing={this.state.refreshing} 
+						onRefresh={this._onRefresh} />} 
+						removeClippedSubviews={true} 
+					>
         <View>
     			<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
     				<Text style={styles.mainTitleText}>Location</Text>
@@ -142,6 +160,7 @@ export default class SystemScreen extends React.Component {
             </View>
     			</View>
         </View>
+      </ScrollView>
 		);
   	}
 }
