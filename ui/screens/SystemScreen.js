@@ -33,18 +33,18 @@ export default class SystemScreen extends React.Component {
         console.log(sessionObject);
         componentHandler.setState({
           region: {
-            latitude: "LATITUDE" in sessionObject ? sessionObject["LATITUDE"] : "N/A",
-            longitude: "LONGITUDE" in sessionObject ? sessionObject["LONGITUDE"] : "N/A",
+            latitude: "latitude" in sessionObject ? sessionObject["latitude"] : "N/A",
+            longitude: "longitude" in sessionObject ? sessionObject["longitude"] : "N/A",
           },
           coordinate: {
-            latitude: "LATITUDE" in sessionObject ? sessionObject["LATITUDE"] : "N/A",
-            longitude: "LONGITUDE" in sessionObject ? sessionObject["LONGITUDE"] : "N/A",
+            latitude: "latitude" in sessionObject ? sessionObject["latitude"] : "N/A",
+            longitude: "longitude" in sessionObject ? sessionObject["longitude"] : "N/A",
           },
           gps: {
-            time: "TIME" in sessionObject ? sessionObject["TIME"] : "N/A",
-            altitude: "ALTITUDE" in sessionObject ? sessionObject["ALTITUDE"] : "N/A",
-            climb: "CLIMB" in sessionObject ? sessionObject["CLIMB"] : "N/A",
-            speed: "SPEED" in sessionObject ? sessionObject["SPEED"] : "N/A"
+            time: "time" in sessionObject ? sessionObject["time"] : "N/A",
+            altitude: "altitude" in sessionObject ? sessionObject["altitude"] : "N/A",
+            climb: "climb" in sessionObject ? sessionObject["climb"] : "N/A",
+            speed: "speed" in sessionObject ? sessionObject["speed"] : "N/A"
           }
         });
       }).catch((error) => {
