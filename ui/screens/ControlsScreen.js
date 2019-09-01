@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  ToastAndroid,
+  ScrollView,
   Dimensions
 } from 'react-native';
 import {
@@ -40,25 +40,27 @@ export default class ControlsScreen extends React.Component {
     var styles = reloadStyles(height < width, this.props.isConnected);
 
 		return (
-      <View>
-			  <View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
-				  <Text style={styles.mainTitleText}>Controls</Text>
-			  </View>
-			  <View style={[styles.largeContainer, styles.colContainer]}>
-          <ButtonGroup isConnected={this.props.isConnected} title="Doors" reference="doors" buttons={["Lock", "Unlock"]} buttonFunctions={[() => SendCommand("doors/lock"), () => SendCommand("doors/unlock")]} />
+      <ScrollView removeClippedSubviews={true}>
+        <View>
+          <View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
+            <Text style={styles.mainTitleText}>Controls</Text>
+          </View>
+          <View style={[styles.largeContainer, styles.colContainer]}>
+            <ButtonGroup isConnected={this.props.isConnected} title="Doors" reference="doors" buttons={["Lock", "Unlock"]} buttonFunctions={[() => SendCommand("doors/lock"), () => SendCommand("doors/unlock")]} />
 
-          <ButtonGroup isConnected={this.props.isConnected} title="Windows" reference="windows" buttons={["Open", "Close"]} buttonFunctions={[() => SendCommand("windows/down"), () => SendCommand("windows/up")]} />
+            <ButtonGroup isConnected={this.props.isConnected} title="Windows" reference="windows" buttons={["Open", "Close"]} buttonFunctions={[() => SendCommand("windows/down"), () => SendCommand("windows/up")]} />
 
-          <ButtonGroup isConnected={this.props.isConnected} title="Trunk" reference="trunk" buttons={["Open"]} buttonFunctions={[() => SendCommand("trunk/open")]} />
+            <ButtonGroup isConnected={this.props.isConnected} title="Trunk" reference="trunk" buttons={["Open"]} buttonFunctions={[() => SendCommand("trunk/open")]} />
 
-          <ButtonGroup isConnected={this.props.isConnected} title="Climate" reference="climate" buttons={["Air Out"]} buttonFunctions={[() => SendCommand("windows/popdown")]} />
+            <ButtonGroup isConnected={this.props.isConnected} title="Climate" reference="climate" buttons={["Air Out"]} buttonFunctions={[() => SendCommand("windows/popdown")]} />
 
-          <ButtonGroup isConnected={this.props.isConnected} title="Hazards" reference="hazards" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("hazards/on"), () => SendCommand("hazards/off")]} />
+            <ButtonGroup isConnected={this.props.isConnected} title="Hazards" reference="hazards" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("hazards/on"), () => SendCommand("hazards/off")]} />
 
-          <ButtonGroup isConnected={this.props.isConnected} title="Flashers" reference="flashers" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("flashers/on"), () => SendCommand("flashers/off")]} />
+            <ButtonGroup isConnected={this.props.isConnected} title="Flashers" reference="flashers" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("flashers/on"), () => SendCommand("flashers/off")]} />
 
-    		</View>
-      </View>
+          </View>
+        </View>
+      </ScrollView>
 		);
   	}
 }

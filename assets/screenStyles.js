@@ -83,7 +83,6 @@ reloadStyles = function(isVertical = false, isConnected = false) {
     auxText: {
       color: !isConnected ? '#777' : '#fff',
       fontFamily: "orbitron-medium",
-      textAlign: 'left',
       fontSize: isVertical ? 20 : 14,
       marginBottom: 20,
     },
@@ -92,7 +91,10 @@ reloadStyles = function(isVertical = false, isConnected = false) {
       height: isVertical ? hp("50%") : hp("30%"),
       marginLeft: isVertical ? wp("5%") : 0,
       marginBottom: hp("5%")
-    }
+    },
+    textRight : {
+      'textAlign': 'right',
+    },
   });
 
   return styles;

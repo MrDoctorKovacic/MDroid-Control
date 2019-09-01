@@ -3,7 +3,9 @@ import {
   Text,
   View,
   ToastAndroid,
-  Dimensions
+  Dimensions,
+  ScrollView,
+  RefreshControl
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -34,7 +36,8 @@ export default class SettingsScreen extends React.Component {
 				sentryMode: "AUTO",
 				exhaustNoise: "AUTO",
 				variableSpeedVolume: "ON",
-				toasted: 0
+				toasted: 0,
+				refreshing: false
 			};
 		} else {
 			this.state = {
@@ -42,7 +45,8 @@ export default class SettingsScreen extends React.Component {
 				sentryMode: "N/A",
 				exhaustNoise: "N/A",
 				variableSpeedVolume: "N/A",
-				toasted: 0
+				toasted: 0,
+				refreshing: false
 			};
 
 			// Continously get sensor data from controller
@@ -50,6 +54,13 @@ export default class SettingsScreen extends React.Component {
 				this._refreshSettingsData();
 			}, 500);
 		}
+	}
+
+	_onRefreshSettings = () => {
+		this.setState({refreshing: true});
+		this._refreshSettingsData(this).then(() => {
+			this.setState({refreshing: false});
+		});
 	}
 
 	// Sends a GET request to fetch settings data
@@ -102,6 +113,12 @@ export default class SettingsScreen extends React.Component {
 		var styles = reloadStyles(height < width, this.props.isConnected);
 
 		return (
+		<ScrollView 
+					refreshControl={<RefreshControl 
+					refreshing={this.state.refreshing} 
+					onRefresh={this._onRefreshSettings} />} 
+					removeClippedSubviews={true} 
+				>
 		<View>
 			<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
 				<Text style={styles.mainTitleText}>Settings</Text>
@@ -158,6 +175,7 @@ export default class SettingsScreen extends React.Component {
 					buttonFunctions={[() => SendCommand("restart")]} />
 			</View>
 		</View>
+		</ScrollView>
 		);
   	}
 }
