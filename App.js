@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StatusBar, StyleSheet, View, ScrollView, Image, RefreshControl} from 'react-native';
+import {Dimensions, StatusBar, StyleSheet, View, Image} from 'react-native';
 import {
 	widthPercentageToDP as wp,
 	heightPercentageToDP as hp,
@@ -15,10 +15,11 @@ import { PingHost } from './actions/MDroidActions.js';
 // Screens
 import ControlsScreen from './ui/screens/ControlsScreen.js';
 import SettingsScreen from './ui/screens/SettingsScreen.js';
+import GpsScreen from './ui/screens/GpsScreen.js';
 import SystemScreen from './ui/screens/SystemScreen.js';
-import {serverHost} from './config.json';
 
 // Config
+import {serverHost} from './config.json';
 global.SERVER_HOST = serverHost;
 global.demoMode = false;
 
@@ -58,16 +59,9 @@ export default class App extends React.Component {
 
 		this.state = {
 			isConnected: false,
-			refreshing: false,
 		};
 	}
-	
-	_onRefresh = () => {
-		this.setState({refreshing: true});
-		PingHost(this).then(() => {
-			this.setState({refreshing: false});
-		});
-	}
+
 
 	render() {
 		changeNavigationBarColor('#000000', false);
@@ -130,21 +124,14 @@ export default class App extends React.Component {
 					opacity={this.state.isConnected ? 1 : 0.7}
 					dotColor='rgba(255,255,255,.2)'
 					activeDotColor='rgba(255,255,255,1)'>
-					<ScrollView 
-						removeClippedSubviews={true} 
-						style={styles.mainContainer}>
-						<ControlsScreen isConnected={this.state.isConnected} />
-					</ScrollView>
-						<SystemScreen isConnected={this.state.isConnected} />
 					
-					<ScrollView 
-						refreshControl={<RefreshControl 
-						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true} 
-						style={styles.mainContainer}>
-						<SettingsScreen isConnected={this.state.isConnected} />
-					</ScrollView>
+					<ControlsScreen isConnected={this.state.isConnected} />
+					
+					<GpsScreen isConnected={this.state.isConnected} />
+
+					<SystemScreen isConnected={this.state.isConnected} />
+					
+					<SettingsScreen isConnected={this.state.isConnected} />
 				</Swiper>
 				<View style={styles.viewBlocker} />
 			</View>

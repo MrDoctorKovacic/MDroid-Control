@@ -7,9 +7,6 @@ import {
   View,
   ToastAndroid,
   Dimensions,
-  TouchableOpacity,
-  Platform,
-  Linking
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -19,44 +16,24 @@ import {
 } from 'react-native-responsive-screen';
 import styles from '../../assets/screenStyles.js';
 
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import MapStyle, { LATITUDE, LONGITUDE, LATITUDE_DELTA, LONGITUDE_DELTA } from '../constants/MapStyle.js'
+import DataRow from '../components/DataRow.js';
 
 export default class SystemScreen extends React.Component {
 
-  _refreshSensorData() {
+  _refreshSystemData() {
     try {
       componentHandler = this;
-      return fetch("http://"+global.SERVER_HOST+"/session/gps")
+      return fetch("http://"+global.SERVER_HOST+"/session")
       .then(function(response) {
         return response.json();
       })
       .then(function(sessionObject) {
         console.log(sessionObject);
-        componentHandler.setState({
-          region: {
-            latitude: "latitude" in sessionObject ? parseFloat(sessionObject["latitude"]) : "N/A",
-            longitude: "longitude" in sessionObject ? parseFloat(sessionObject["longitude"]) : "N/A",
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          },
-          coordinate: {
-            latitude: "latitude" in sessionObject ? parseFloat(sessionObject["latitude"]) : "N/A",
-            longitude: "longitude" in sessionObject ? parseFloat(sessionObject["longitude"]) : "N/A",
-          },
-          gps: {
-            time: "time" in sessionObject ? sessionObject["time"] : "N/A",
-            altitude: "altitude" in sessionObject ? sessionObject["altitude"] : "N/A",
-            climb: "climb" in sessionObject ? sessionObject["climb"] : "N/A",
-            speed: "speed" in sessionObject ? sessionObject["speed"] : "N/A"
+        Object.keys(componentHandler.state).map((item) => {
+          if (item != "refreshing") {
+            componentHandler.setState({ [item]: item in sessionObject ? sessionObject[item]["value"] : "N/A" })
           }
         });
-      }).catch((error) => {
-        console.log(error);
-        if(!this.state.toasted) {
-          this.setState({toasted: 1});
-          ToastAndroid.show("Failed to fetch vehicle data.", ToastAndroid.SHORT);
-        }
       });
     }
     catch (error) {
@@ -70,16 +47,16 @@ export default class SystemScreen extends React.Component {
 
   componentDidMount() {
     loc(this);
-    this._refreshSensorData();
+    this._refreshSystemData();
   }
 
   componentWillUnMount() {
     rol();
   }
 
-  _onRefresh = () => {
+  _onRefreshSystem = () => {
 		this.setState({refreshing: true});
-		this._refreshSensorData(this).then(() => {
+		this._refreshSystemData(this).then(() => {
 			this.setState({refreshing: false});
 		});
 	}
@@ -89,37 +66,17 @@ export default class SystemScreen extends React.Component {
 
     this.state = {
       refreshing: false,
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      coordinate: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-      },
-      gps: {
-        time: "N/A",
-        altitude: "N/A",
-        climb: "N/A",
-        speed: "N/A"
-      }
+      AUX_VOLTAGE: "N/A",
+      AUX_CURRENT: "N/A",
+      ACC_POWER: "N/A",
+      BOARD_POWER: "N/A",
+      TABLET_POWER: "N/A",
+      KEY_DETECTED: "N/A",
+      KEY_STATE: "N/A",
+      DOORS_OPEN: "N/A",
+      OUTSIDE_TEMP: "N/A",
     };
 	}
-
-  openInMaps(lat, lng) {
-    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
-    const latLng = `${lat},${lng}`;
-    const label = 'Car';
-    const url = Platform.select({
-      ios: `${scheme}${label}@${latLng}`,
-      android: `${scheme}${latLng}(${label})`
-    });
-
-
-    Linking.openURL(url);
-  }
 
   render() {
     // Responsive styling
@@ -130,35 +87,24 @@ export default class SystemScreen extends React.Component {
       <ScrollView 
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
+						onRefresh={this._onRefreshSystem} />} 
 						removeClippedSubviews={true} 
 					>
         <View>
     			<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
-    				<Text style={styles.mainTitleText}>Location</Text>
+    				<Text style={styles.mainTitleText}>System</Text>
     			</View>
-    			<View style={[styles.largeContainer, styles.colContainer]}>
-
-          <View pointerEvents="auto">
-            <TouchableOpacity onPress={() => this.openInMaps(this.state.region.latitude, this.state.region.longitude)}>
-                <MapView
-                  provider={PROVIDER_GOOGLE}
-                  initialRegion={this.state.region}
-                  customMapStyle={MapStyle}
-                  style={styles.map}>
-                 <Marker coordinate={this.state.region} />
-                </MapView>
-              </TouchableOpacity>
-            </View>
-
-            <View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.colContainer]}>
-              <Text style={styles.auxText}>GPS Fix: {this.state.region.latitude}, {this.state.region.longitude}</Text>
-              <Text style={styles.auxText}>Time Fixed: {this.state.gps.time}</Text>
-              <Text style={styles.auxText}>Altitude: {this.state.gps.altitude}</Text>
-              <Text style={styles.auxText}>Climb: {this.state.gps.climb}</Text>
-              <Text style={styles.auxText}>Speed: {this.state.gps.speed}</Text>
-            </View>
-    			</View>
+          <View style={[styles.containerPadding]}>
+          {
+            Object.keys(this.state).map((item) => {
+              if (item != "refreshing" && item != "orientation") {
+                return (
+                  <DataRow title={item} value={this.state[item]} />
+                );
+              }
+            })
+          }
+          </View>
         </View>
       </ScrollView>
 		);
