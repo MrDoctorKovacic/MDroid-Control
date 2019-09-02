@@ -99,7 +99,7 @@ export default class SystemScreen extends React.Component {
             Object.keys(this.state).map((item) => {
               if (item != "refreshing" && item != "orientation") {
                 return (
-                  <DataRow title={item} value={this.state[item]} />
+                  <DataRow isConnected={this.props.isConnected} title={item} value={this.state[item]} />
                 );
               }
             })

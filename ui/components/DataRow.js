@@ -12,7 +12,7 @@ export default class DataRow extends React.Component {
 
 		// Responsive styling
     	var {height, width} = Dimensions.get('window');
-		var styles = reloadStyles(height < width);
+		var styles = reloadStyles(height < width, this.props.isConnected);
 
 		return (
 			<View style={{ flex: 1, flexDirection: 'row' }}>
