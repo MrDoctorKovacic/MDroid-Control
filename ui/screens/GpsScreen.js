@@ -26,7 +26,7 @@ export default class GpsScreen extends React.Component {
 
   _refreshGpsData() {
     try {
-      componentHandler = this;
+      var componentHandler = this;
       return fetch("http://"+global.SERVER_HOST+"/session/gps")
       .then(function(response) {
         return response.json();

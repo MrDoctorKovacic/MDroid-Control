@@ -22,7 +22,7 @@ export default class SystemScreen extends React.Component {
 
   _refreshSystemData() {
     try {
-      componentHandler = this;
+      var componentHandler = this;
       return fetch("http://"+global.SERVER_HOST+"/session")
       .then(function(response) {
         return response.json();
@@ -97,7 +97,7 @@ export default class SystemScreen extends React.Component {
           <View style={[styles.containerPadding]}>
           {
             Object.keys(this.state).map((item) => {
-              if (item != "refreshing" && item != "orientation") {
+              if (typeof this.state[item] == "string" && item != "refreshing" && item != "orientation") {
                 return (
                   <DataRow isConnected={this.props.isConnected} title={item} value={this.state[item]} />
                 );
