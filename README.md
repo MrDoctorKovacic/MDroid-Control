@@ -8,8 +8,4 @@ Only tested on Android, iOS likely won't build.
 
 Screenshots:
 
-![Controls](https://quinncasey.com/wp-content/uploads/2019/09/Screenshot_1565035997.png "Screenshot 1")
-
-![Location](https://quinncasey.com/wp-content/uploads/2019/09/Screenshot_20190831-112934.jpg "Screenshot 2")
-
-![Settings](https://quinncasey.com/wp-content/uploads/2019/09/Screenshot_1565036024.png "Screenshot 3")
+![Controls](https://quinncasey.com/wp-content/uploads/2019/09/MDroidDemo.png "Screenshot 1")
