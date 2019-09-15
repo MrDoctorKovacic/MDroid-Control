@@ -21,6 +21,7 @@ import { UpdateSetting, SendCommand } from '../../actions/MDroidActions.js';
 export default class SettingsScreen extends React.Component {
 	componentDidMount() {
 		loc(this);
+		this._refreshSettingsData();
 	}
 
 	componentWillUnMount() {
@@ -51,10 +52,6 @@ export default class SettingsScreen extends React.Component {
 				refreshing: false
 			};
 
-			// Continously get sensor data from controller
-			this.interval = setInterval(() => {
-				this._refreshSettingsData();
-			}, 500);
 		}
 	}
 
@@ -88,6 +85,7 @@ export default class SettingsScreen extends React.Component {
 					this.setState({toasted: 1});
 					ToastAndroid.show("Failed to fetch settings data.", ToastAndroid.SHORT);
 				}
+				componentHandler._refreshPowerData();
 			});
 		}
 		catch (error) {
@@ -96,6 +94,7 @@ export default class SettingsScreen extends React.Component {
 				this.setState({toasted: 1});
 				ToastAndroid.show("Failed to fetch settings data.", ToastAndroid.SHORT);
 			}
+			this._refreshPowerData();
 		}
 	}
 
@@ -122,73 +121,73 @@ export default class SettingsScreen extends React.Component {
 					onRefresh={this._onRefreshSettings} />} 
 					removeClippedSubviews={true} 
 				>
-		<View>
-			<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
-				<Text style={styles.mainTitleText}>Settings</Text>
+			<View>
+				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
+					<Text style={styles.mainTitleText}>Settings</Text>
+				</View>
+				<View style={[styles.largeContainer, styles.colContainer]}>
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						title="Angel Eyes" 
+						reference="angelEyes" 
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "OFF", "angelEyes"), 
+							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "AUTO", "angelEyes"), 
+							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON", "angelEyes")]} 
+						status={this.state.angelEyes} />
+
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						title="Sentry Mode" 
+						reference="sentryMode" 
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "OFF", "sentryMode"), 
+							() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "AUTO", "sentryMode"), 
+							() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "ON", "sentryMode")]} 
+						status={this.state.sentryMode} />
+
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						title="Wireless LTE" 
+						reference="wireless" 
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("BRIGHTWING", "LTE", "OFF", "wireless"), 
+							() => this._requestUpdate("BRIGHTWING", "LTE", "AUTO", "wireless"), 
+							() => this._requestUpdate("BRIGHTWING", "LTE", "ON", "wireless")]} 
+						status={this.state.sentryMode} />
+
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						title="Pipe In Exhaust" 
+						reference="exhaustNoise" 
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF", "exhaustNoise"), 
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "AUTO", "exhaustNoise"), 
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON", "exhaustNoise")]} 
+						status={this.state.exhaustNoise} />
+
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						title="Variable Speed Volume" 
+						reference="variableSpeedVolume" 
+						buttons={["Off", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("JAINA", "VSV", "OFF", "variableSpeedVolume"), 
+							() => this._requestUpdate("JAINA", "VSV", "ON", "variableSpeedVolume")]} 
+						status={this.state.variableSpeedVolume} />
+
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						title="Restart Board" 
+						reference="restartBoard" 
+						buttons={["Restart Board"]} 
+						buttonFunctions={[() => SendCommand("restart")]} />
+				</View>
 			</View>
-			<View style={[styles.largeContainer, styles.colContainer]}>
-				<ButtonGroup 
-					isConnected={this.props.isConnected} 
-					title="Angel Eyes" 
-					reference="angelEyes" 
-					buttons={["Off", "Auto", "On"]} 
-					buttonFunctions={[
-						() => this._requestUpdate("VARIAN", "ANGEL_EYES", "OFF", "angelEyes"), 
-						() => this._requestUpdate("VARIAN", "ANGEL_EYES", "AUTO", "angelEyes"), 
-						() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON", "angelEyes")]} 
-					status={this.state.angelEyes} />
-
-				<ButtonGroup 
-					isConnected={this.props.isConnected} 
-					title="Sentry Mode" 
-					reference="sentryMode" 
-					buttons={["Off", "Auto", "On"]} 
-					buttonFunctions={[
-						() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "OFF", "sentryMode"), 
-						() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "AUTO", "sentryMode"), 
-						() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "ON", "sentryMode")]} 
-					status={this.state.sentryMode} />
-
-				<ButtonGroup 
-					isConnected={this.props.isConnected} 
-					title="Wireless LTE" 
-					reference="wireless" 
-					buttons={["Off", "Auto", "On"]} 
-					buttonFunctions={[
-						() => this._requestUpdate("BRIGHTWING", "LTE", "OFF", "wireless"), 
-						() => this._requestUpdate("BRIGHTWING", "LTE", "AUTO", "wireless"), 
-						() => this._requestUpdate("BRIGHTWING", "LTE", "ON", "wireless")]} 
-					status={this.state.sentryMode} />
-
-				<ButtonGroup 
-					isConnected={this.props.isConnected} 
-					title="Pipe In Exhaust" 
-					reference="exhaustNoise" 
-					buttons={["Off", "Auto", "On"]} 
-					buttonFunctions={[
-						() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF", "exhaustNoise"), 
-						() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "AUTO", "exhaustNoise"), 
-						() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON", "exhaustNoise")]} 
-					status={this.state.exhaustNoise} />
-
-				<ButtonGroup 
-					isConnected={this.props.isConnected} 
-					title="Variable Speed Volume" 
-					reference="variableSpeedVolume" 
-					buttons={["Off", "On"]} 
-					buttonFunctions={[
-						() => this._requestUpdate("JAINA", "VSV", "OFF", "variableSpeedVolume"), 
-						() => this._requestUpdate("JAINA", "VSV", "ON", "variableSpeedVolume")]} 
-					status={this.state.variableSpeedVolume} />
-
-				<ButtonGroup 
-					isConnected={this.props.isConnected} 
-					title="Restart Board" 
-					reference="restartBoard" 
-					buttons={["Restart Board"]} 
-					buttonFunctions={[() => SendCommand("restart")]} />
-			</View>
-		</View>
 		</ScrollView>
 		);
   	}
