@@ -29,28 +29,31 @@ export default class GpsScreen extends React.Component {
       var componentHandler = this;
       return fetch("http://"+global.SERVER_HOST+"/session/gps")
       .then(function(response) {
-        return response.json();
+        return response;
       })
       .then(function(sessionObject) {
-        console.log(sessionObject);
-        componentHandler.setState({
-          region: {
-            latitude: "latitude" in sessionObject ? parseFloat(sessionObject["latitude"]) : "N/A",
-            longitude: "longitude" in sessionObject ? parseFloat(sessionObject["longitude"]) : "N/A",
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          },
-          coordinate: {
-            latitude: "latitude" in sessionObject ? parseFloat(sessionObject["latitude"]) : "N/A",
-            longitude: "longitude" in sessionObject ? parseFloat(sessionObject["longitude"]) : "N/A",
-          },
-          gps: {
-            time: "time" in sessionObject ? sessionObject["time"] : "N/A",
-            altitude: "altitude" in sessionObject ? sessionObject["altitude"] : "N/A",
-            climb: "climb" in sessionObject ? sessionObject["climb"] : "N/A",
-            speed: "speed" in sessionObject ? sessionObject["speed"] : "N/A"
-          }
-        });
+        if(sessionObject != "{}") {
+          jsonResponse = sessionObject.json();
+          console.log(jsonResponse);
+          componentHandler.setState({
+            region: {
+              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : "N/A",
+              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : "N/A",
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            },
+            coordinate: {
+              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : "N/A",
+              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : "N/A",
+            },
+            gps: {
+              time: "time" in jsonResponse ? jsonResponse["time"] : "N/A",
+              altitude: "altitude" in jsonResponse ? jsonResponse["altitude"] : "N/A",
+              climb: "climb" in jsonResponse ? jsonResponse["climb"] : "N/A",
+              speed: "speed" in jsonResponse ? jsonResponse["speed"] : "N/A"
+            }
+          });
+        }
       }).catch((error) => {
         console.log(error);
         if(!this.state.toasted) {
