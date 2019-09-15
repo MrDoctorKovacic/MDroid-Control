@@ -37,14 +37,14 @@ export default class GpsScreen extends React.Component {
           console.log(jsonResponse);
           componentHandler.setState({
             region: {
-              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : "N/A",
-              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : "N/A",
+              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : LATITUDE,
+              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : LONGITUDE,
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,
             },
             coordinate: {
-              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : "N/A",
-              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : "N/A",
+              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : LATITUDE,
+              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : LONGITUDE,
             },
             gps: {
               time: "time" in jsonResponse ? jsonResponse["time"] : "N/A",
