@@ -36,6 +36,7 @@ export default class SettingsScreen extends React.Component {
 				sentryMode: "AUTO",
 				exhaustNoise: "AUTO",
 				variableSpeedVolume: "ON",
+				wireless: "AUTO",
 				toasted: 0,
 				refreshing: false
 			};
@@ -45,6 +46,7 @@ export default class SettingsScreen extends React.Component {
 				sentryMode: "N/A",
 				exhaustNoise: "N/A",
 				variableSpeedVolume: "N/A",
+				wireless: "N/A",
 				toasted: 0,
 				refreshing: false
 			};
@@ -74,6 +76,7 @@ export default class SettingsScreen extends React.Component {
 			.then(function(sessionObject) {
 				console.log(sessionObject);
 				componentHandler.setState({
+					wireless: ("BRIGHTWING" in sessionObject && "POWER" in sessionObject["BRIGHTWING"]) ? sessionObject["BRIGHTWING"]["LTE"] : "N/A",
 					angelEyes: ("VARIAN" in sessionObject && "ANGEL_EYES" in sessionObject["VARIAN"]) ? sessionObject["VARIAN"]["ANGEL_EYES"] : "N/A",
 					sentryMode: ("ARTANIS" in sessionObject && "SENTRY_MODE" in sessionObject["ARTANIS"]) ? sessionObject["ARTANIS"]["SENTRY_MODE"] : "N/A",
 					exhaustNoise: ("JAINA" in sessionObject && "EXHAUST_NOISE" in sessionObject["JAINA"]) ? sessionObject["JAINA"]["EXHAUST_NOISE"] : "N/A",
@@ -144,6 +147,17 @@ export default class SettingsScreen extends React.Component {
 						() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "OFF", "sentryMode"), 
 						() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "AUTO", "sentryMode"), 
 						() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "ON", "sentryMode")]} 
+					status={this.state.sentryMode} />
+
+				<ButtonGroup 
+					isConnected={this.props.isConnected} 
+					title="Wireless LTE" 
+					reference="wireless" 
+					buttons={["Off", "Auto", "On"]} 
+					buttonFunctions={[
+						() => this._requestUpdate("BRIGHTWING", "LTE", "OFF", "wireless"), 
+						() => this._requestUpdate("BRIGHTWING", "LTE", "AUTO", "wireless"), 
+						() => this._requestUpdate("BRIGHTWING", "LTE", "ON", "wireless")]} 
 					status={this.state.sentryMode} />
 
 				<ButtonGroup 
