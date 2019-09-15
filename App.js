@@ -17,6 +17,7 @@ import ControlsScreen from './ui/screens/ControlsScreen.js';
 import SettingsScreen from './ui/screens/SettingsScreen.js';
 import GpsScreen from './ui/screens/GpsScreen.js';
 import SystemScreen from './ui/screens/SystemScreen.js';
+import PowerScreen from './ui/screens/PowerScreen.js';
 
 // Config
 import {serverHost} from './config.json';
@@ -132,6 +133,8 @@ export default class App extends React.Component {
 					<SystemScreen isConnected={this.state.isConnected} />
 					
 					<SettingsScreen isConnected={this.state.isConnected} />
+
+					<PowerScreen isConnected={this.state.isConnected} />
 				</Swiper>
 				<View style={styles.viewBlocker} />
 			</View>
