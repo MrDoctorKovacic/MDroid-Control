@@ -119,7 +119,7 @@ export default class PowerScreen extends React.Component {
 				<View style={[styles.largeContainer, styles.colContainer]}>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Artanis" 
+						title="Artanis / Jaina" 
 						reference="artanisPower" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
