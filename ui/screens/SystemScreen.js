@@ -22,25 +22,32 @@ export default class SystemScreen extends React.Component {
 
   _refreshSystemData() {
     try {
-      var componentHandler = this;
       return fetch("http://"+global.SERVER_HOST+"/session")
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(sessionObject) {
-        console.log(sessionObject);
-        Object.keys(componentHandler.state).map((item) => {
-          if (item != "refreshing") {
-            componentHandler.setState({ [item]: item in sessionObject ? sessionObject[item]["value"] : "N/A" })
+			.then((response) => response.json())
+			.then((sessionObject) => {
+				Object.keys(this.state).map((item) => {
+          if (item != "refreshing" && item != "fails") {
+            this.setState({ [item]: item in sessionObject ? sessionObject[item]["value"] : "N/A" })
           }
         });
+			})
+			.catch((error) => {
+        console.log(error);
+        this.setState({
+					fails: this.state.fails + 1
+        });
+        if(this.state.fails > 4) {
+					this.setState({toasted: 1});
+          ToastAndroid.show("Failed to fetch system data.", ToastAndroid.SHORT);
+        }
+        this._refreshSystemData();
       });
     }
     catch (error) {
       console.log(error);
       if(!this.state.toasted) {
         this.setState({toasted: 1});
-        ToastAndroid.show("Failed to fetch vehicle data.", ToastAndroid.SHORT);
+        ToastAndroid.show("Failed to fetch system data.", ToastAndroid.SHORT);
       }
     }
   }
@@ -66,6 +73,7 @@ export default class SystemScreen extends React.Component {
 
     this.state = {
       refreshing: false,
+      fails: 0,
       AUX_VOLTAGE: "N/A",
       AUX_CURRENT: "N/A",
       ACC_POWER: "N/A",
@@ -97,7 +105,7 @@ export default class SystemScreen extends React.Component {
           <View style={[styles.containerPadding]}>
           {
             Object.keys(this.state).map((item) => {
-              if (typeof this.state[item] == "string" && item != "refreshing" && item != "orientation") {
+              if (typeof this.state[item] == "string" && item != "refreshing" && item != "fails" && item != "orientation") {
                 return (
                   <DataRow isConnected={this.props.isConnected} title={item} value={this.state[item]} />
                 );

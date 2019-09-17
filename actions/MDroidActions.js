@@ -24,7 +24,12 @@ export const PingHost = async (componentHandler) => {
                     isConnected: false
                 });
             }
-            ToastAndroid.show("Disconnected", ToastAndroid.SHORT);
+            componentHandler.setState({
+                fails: this.state.fails + 1
+            });
+            if(componentHandler.state.fails > 4) {
+                ToastAndroid.show("Disconnected", ToastAndroid.SHORT);
+            }
         });
     }
     catch (error) {

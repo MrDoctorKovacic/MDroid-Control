@@ -43,9 +43,11 @@ export default class PowerScreen extends React.Component {
 				artanisPower: "N/A",
 				brightwingPower: "N/A",
 				toasted: 0,
-				refreshing: false
+				refreshing: false,
+				fails: 0
 			};
 		}
+		this._refreshPowerData = this._refreshPowerData.bind(this);
 	}
 
 	_onRefreshPower = () => {
@@ -58,25 +60,27 @@ export default class PowerScreen extends React.Component {
 	// Sends a GET request to fetch power data
 	_refreshPowerData() {
 		try {
-			componentHandler = this;
 			return fetch("http://"+global.SERVER_HOST+"/settings")
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(sessionObject) {
-				console.log(sessionObject);
-				componentHandler.setState({
+			.then((response) => response.json())
+			.then((sessionObject) => {
+				this.setState({
 					brightwingPower: ("BRIGHTWING" in sessionObject && "POWER" in sessionObject["BRIGHTWING"]) ? sessionObject["BRIGHTWING"]["POWER"] : "N/A",
 					artanisPower: ("ARTANIS" in sessionObject && "POWER" in sessionObject["ARTANIS"]) ? sessionObject["ARTANIS"]["POWER"] : "N/A",
 					raynorPower: ("RAYNOR" in sessionObject && "POWER" in sessionObject["RAYNOR"]) ? sessionObject["RAYNOR"]["POWER"] : "N/A",
+				}, function(){
+		
 				});
-			}).catch((error) => {
+			})
+			.catch((error) => {
 				console.log(error);
-				if(!this.state.toasted) {
+				this.setState({
+					fails: this.state.fails + 1
+				});
+				if(this.state.fails > 4 && !this.state.toasted) {
 					this.setState({toasted: 1});
-					ToastAndroid.show("Failed to fetch settings data.", ToastAndroid.SHORT);
+					ToastAndroid.show("Failed to fetch power data.", ToastAndroid.SHORT);
 				}
-				componentHandler._refreshPowerData();
+				this._refreshPowerData();
 			});
 		}
 		catch (error) {
@@ -149,6 +153,13 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("RAYNOR", "POWER", "AUTO", "raynorPower"), 
 							() => this._requestUpdatePower("RAYNOR", "POWER", "ON", "raynorPower")]} 
 						status={this.state.raynorPower} />
+
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						title="Restart Board" 
+						reference="restartBoard" 
+						buttons={["Restart Board"]} 
+						buttonFunctions={[() => SendCommand("restart")]} />
 				</View>
 			</View>
 		</ScrollView>

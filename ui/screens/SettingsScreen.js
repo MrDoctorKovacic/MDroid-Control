@@ -49,7 +49,8 @@ export default class SettingsScreen extends React.Component {
 				variableSpeedVolume: "N/A",
 				wireless: "N/A",
 				toasted: 0,
-				refreshing: false
+				refreshing: false,
+				fails: 0
 			};
 
 		}
@@ -65,27 +66,29 @@ export default class SettingsScreen extends React.Component {
 	// Sends a GET request to fetch settings data
 	_refreshSettingsData() {
 		try {
-			componentHandler = this;
 			return fetch("http://"+global.SERVER_HOST+"/settings")
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(sessionObject) {
-				console.log(sessionObject);
-				componentHandler.setState({
+			.then((response) => response.json())
+			.then((sessionObject) => {
+				this.setState({
 					wireless: ("BRIGHTWING" in sessionObject && "POWER" in sessionObject["BRIGHTWING"]) ? sessionObject["BRIGHTWING"]["LTE"] : "N/A",
 					angelEyes: ("VARIAN" in sessionObject && "ANGEL_EYES" in sessionObject["VARIAN"]) ? sessionObject["VARIAN"]["ANGEL_EYES"] : "N/A",
 					sentryMode: ("ARTANIS" in sessionObject && "SENTRY_MODE" in sessionObject["ARTANIS"]) ? sessionObject["ARTANIS"]["SENTRY_MODE"] : "N/A",
 					exhaustNoise: ("JAINA" in sessionObject && "EXHAUST_NOISE" in sessionObject["JAINA"]) ? sessionObject["JAINA"]["EXHAUST_NOISE"] : "N/A",
 					variableSpeedVolume: ("JAINA" in sessionObject && "VSV" in sessionObject["JAINA"]) ? sessionObject["JAINA"]["VSV"] : "N/A",
+				}, function(){
+		
 				});
-			}).catch((error) => {
+			})
+			.catch((error) => {
+				this.setState({
+					fails: this.state.fails + 1
+				});
 				console.log(error);
-				if(!this.state.toasted) {
+				if(this.state.fails > 4 && !this.state.toasted) {
 					this.setState({toasted: 1});
 					ToastAndroid.show("Failed to fetch settings data.", ToastAndroid.SHORT);
 				}
-				componentHandler._refreshPowerData();
+				this._refreshSettingsData();
 			});
 		}
 		catch (error) {
@@ -179,13 +182,6 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("JAINA", "VSV", "OFF", "variableSpeedVolume"), 
 							() => this._requestUpdate("JAINA", "VSV", "ON", "variableSpeedVolume")]} 
 						status={this.state.variableSpeedVolume} />
-
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						title="Restart Board" 
-						reference="restartBoard" 
-						buttons={["Restart Board"]} 
-						buttonFunctions={[() => SendCommand("restart")]} />
 				</View>
 			</View>
 		</ScrollView>

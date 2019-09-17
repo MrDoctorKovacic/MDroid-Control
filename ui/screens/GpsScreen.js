@@ -26,16 +26,11 @@ export default class GpsScreen extends React.Component {
 
   _refreshGpsData() {
     try {
-      var componentHandler = this;
       return fetch("http://"+global.SERVER_HOST+"/session/gps")
-      .then(function(response) {
-        return response;
-      })
-      .then(function(sessionObject) {
-        if(sessionObject != "{}") {
-          jsonResponse = sessionObject.json();
-          console.log(jsonResponse);
-          componentHandler.setState({
+			.then((response) => response.json())
+			.then((jsonResponse) => {
+        if(jsonResponse != "{}") {
+          this.setState({
             region: {
               latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : LATITUDE,
               longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : LONGITUDE,
@@ -52,14 +47,20 @@ export default class GpsScreen extends React.Component {
               climb: "climb" in jsonResponse ? jsonResponse["climb"] : "N/A",
               speed: "speed" in jsonResponse ? jsonResponse["speed"] : "N/A"
             }
+          }, function(){
+      
           });
         }
-      }).catch((error) => {
+			})
+			.catch((error) => {
         console.log(error);
-        if(!this.state.toasted) {
-          this.setState({toasted: 1});
-          ToastAndroid.show("Failed to fetch vehicle data.", ToastAndroid.SHORT);
-        }
+        this.setState({
+					fails: this.state.fails + 1
+        });
+				if(this.state.fails > 4 && !this.state.toasted) {
+					this.setState({toasted: 1});
+					ToastAndroid.show("Failed to fetch GPS data.", ToastAndroid.SHORT);
+				}
       });
     }
     catch (error) {
@@ -107,7 +108,8 @@ export default class GpsScreen extends React.Component {
         altitude: "N/A",
         climb: "N/A",
         speed: "N/A"
-      }
+      },
+      fails: 0
     };
 	}
 
