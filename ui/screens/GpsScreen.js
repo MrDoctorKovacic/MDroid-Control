@@ -43,8 +43,7 @@ export default class GpsScreen extends React.Component {
             },
             gps: {
               time: "time" in jsonResponse ? jsonResponse["time"] : "N/A",
-              altitude: "altitude" in jsonResponse ? jsonResponse["altitude"] : "N/A",
-              climb: "climb" in jsonResponse ? jsonResponse["climb"] : "N/A",
+              course: "course" in jsonResponse ? jsonResponse["course"] : "N/A",
               speed: "speed" in jsonResponse ? jsonResponse["speed"] : "N/A"
             }
           }, function(){
@@ -105,8 +104,7 @@ export default class GpsScreen extends React.Component {
       },
       gps: {
         time: "N/A",
-        altitude: "N/A",
-        climb: "N/A",
+        course: "N/A",
         speed: "N/A"
       },
       fails: 0
@@ -156,11 +154,11 @@ export default class GpsScreen extends React.Component {
             </View>
 
             <View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.colContainer]}>
-              <Text style={styles.auxText}>Fix: {this.state.region.latitude}, {this.state.region.longitude}</Text>
+              <Text style={styles.auxText}>Latitude: {this.state.region.latitude}</Text>
+              <Text style={styles.auxText}>Longitude: {this.state.region.longitude}</Text>
               <Text style={styles.auxText}>Time: {this.state.gps.time}</Text>
-              <Text style={styles.auxText}>Altitude: {this.state.gps.altitude}</Text>
-              <Text style={styles.auxText}>Climb: {this.state.gps.climb}</Text>
               <Text style={styles.auxText}>Speed: {this.state.gps.speed}</Text>
+              <Text style={styles.auxText}>Course: {this.state.gps.course}</Text>
             </View>
     			</View>
         </View>
