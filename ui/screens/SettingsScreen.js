@@ -74,7 +74,7 @@ export default class SettingsScreen extends React.Component {
 					this.setState({
 						wireless: ("BRIGHTWING" in jsonData && "POWER" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["LTE"] : "N/A",
 						angelEyes: ("VARIAN" in jsonData && "ANGEL_EYES" in jsonData["VARIAN"]) ? jsonData["VARIAN"]["ANGEL_EYES"] : "N/A",
-						sentryMode: ("ARTANIS" in jsonData && "SENTRY_MODE" in jsonData["ARTANIS"]) ? jsonData["ARTANIS"]["SENTRY_MODE"] : "N/A",
+						videoRecording: ("LUCIO" in jsonData && "VIDEO_RECORDING" in jsonData["LUCIO"]) ? jsonData["LUCIO"]["VIDEO_RECORDING"] : "N/A",
 						exhaustNoise: ("JAINA" in jsonData && "EXHAUST_NOISE" in jsonData["JAINA"]) ? jsonData["JAINA"]["EXHAUST_NOISE"] : "N/A",
 						variableSpeedVolume: ("JAINA" in jsonData && "VSV" in jsonData["JAINA"]) ? jsonData["JAINA"]["VSV"] : "N/A",
 					}, function(){
@@ -143,16 +143,16 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON", "angelEyes")]} 
 						status={this.state.angelEyes} />
 
-					<ButtonGroupTitle title="Sentry Mode"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Video Recording"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="sentryMode" 
+						reference="videoRecording" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "OFF", "sentryMode"), 
-							() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "AUTO", "sentryMode"), 
-							() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "ON", "sentryMode")]} 
-						status={this.state.sentryMode} />
+							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "OFF", "videoRecording"), 
+							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "AUTO", "videoRecording"), 
+							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "ON", "videoRecording")]} 
+						status={this.state.videoRecording} />
 
 					<ButtonGroupTitle title="Wireless LTE"></ButtonGroupTitle>
 					<ButtonGroup 
