@@ -25,11 +25,14 @@ export default class SystemScreen extends React.Component {
       return fetch("http://"+global.SERVER_HOST+"/session")
 			.then((response) => response.json())
 			.then((sessionObject) => {
-				Object.keys(this.state).map((item) => {
-          if (item != "refreshing" && item != "fails") {
-            this.setState({ [item]: item in sessionObject ? sessionObject[item]["value"] : "N/A" })
-          }
-        });
+        if(sessionObject["ok"]) {
+					jsonData = sessionObject["output"];
+          Object.keys(this.state).map((item) => {
+            if (item != "refreshing" && item != "fails") {
+              this.setState({ [item]: item in jsonData ? jsonData[item]["value"] : "N/A" })
+            }
+          })
+        }
 			})
 			.catch((error) => {
         console.log(error);

@@ -69,15 +69,18 @@ export default class SettingsScreen extends React.Component {
 			return fetch("http://"+global.SERVER_HOST+"/settings")
 			.then((response) => response.json())
 			.then((sessionObject) => {
-				this.setState({
-					wireless: ("BRIGHTWING" in sessionObject && "POWER" in sessionObject["BRIGHTWING"]) ? sessionObject["BRIGHTWING"]["LTE"] : "N/A",
-					angelEyes: ("VARIAN" in sessionObject && "ANGEL_EYES" in sessionObject["VARIAN"]) ? sessionObject["VARIAN"]["ANGEL_EYES"] : "N/A",
-					sentryMode: ("ARTANIS" in sessionObject && "SENTRY_MODE" in sessionObject["ARTANIS"]) ? sessionObject["ARTANIS"]["SENTRY_MODE"] : "N/A",
-					exhaustNoise: ("JAINA" in sessionObject && "EXHAUST_NOISE" in sessionObject["JAINA"]) ? sessionObject["JAINA"]["EXHAUST_NOISE"] : "N/A",
-					variableSpeedVolume: ("JAINA" in sessionObject && "VSV" in sessionObject["JAINA"]) ? sessionObject["JAINA"]["VSV"] : "N/A",
-				}, function(){
-		
-				});
+				if(sessionObject["ok"]) {
+					jsonData = sessionObject["output"];
+					this.setState({
+						wireless: ("BRIGHTWING" in jsonData && "POWER" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["LTE"] : "N/A",
+						angelEyes: ("VARIAN" in jsonData && "ANGEL_EYES" in jsonData["VARIAN"]) ? jsonData["VARIAN"]["ANGEL_EYES"] : "N/A",
+						sentryMode: ("ARTANIS" in jsonData && "SENTRY_MODE" in jsonData["ARTANIS"]) ? jsonData["ARTANIS"]["SENTRY_MODE"] : "N/A",
+						exhaustNoise: ("JAINA" in jsonData && "EXHAUST_NOISE" in jsonData["JAINA"]) ? jsonData["JAINA"]["EXHAUST_NOISE"] : "N/A",
+						variableSpeedVolume: ("JAINA" in jsonData && "VSV" in jsonData["JAINA"]) ? jsonData["JAINA"]["VSV"] : "N/A",
+					}, function(){
+			
+					});
+				}
 			})
 			.catch((error) => {
 				this.setState({

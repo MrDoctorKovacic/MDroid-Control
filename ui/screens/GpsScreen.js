@@ -30,25 +30,28 @@ export default class GpsScreen extends React.Component {
 			.then((response) => response.json())
 			.then((jsonResponse) => {
         if(jsonResponse != "{}") {
-          this.setState({
-            region: {
-              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : LATITUDE,
-              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : LONGITUDE,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA,
-            },
-            coordinate: {
-              latitude: "latitude" in jsonResponse ? parseFloat(jsonResponse["latitude"]) : LATITUDE,
-              longitude: "longitude" in jsonResponse ? parseFloat(jsonResponse["longitude"]) : LONGITUDE,
-            },
-            gps: {
-              time: "time" in jsonResponse ? jsonResponse["time"] : "N/A",
-              course: "course" in jsonResponse ? jsonResponse["course"] : "N/A",
-              speed: "speed" in jsonResponse ? jsonResponse["speed"] : "N/A"
-            }
-          }, function(){
-      
-          });
+          if(jsonResponse["ok"]) {
+            jsonData = jsonResponse["output"];
+            this.setState({
+              region: {
+                latitude: "latitude" in jsonData ? parseFloat(jsonData["latitude"]) : LATITUDE,
+                longitude: "longitude" in jsonData ? parseFloat(jsonData["longitude"]) : LONGITUDE,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
+              },
+              coordinate: {
+                latitude: "latitude" in jsonData ? parseFloat(jsonData["latitude"]) : LATITUDE,
+                longitude: "longitude" in jsonData ? parseFloat(jsonData["longitude"]) : LONGITUDE,
+              },
+              gps: {
+                time: "time" in jsonData ? jsonData["time"] : "N/A",
+                course: "course" in jsonData ? jsonData["course"] : "N/A",
+                speed: "speed" in jsonData ? jsonData["speed"] : "N/A"
+              }
+            }, function(){
+        
+            });
+          }
         }
 			})
 			.catch((error) => {
