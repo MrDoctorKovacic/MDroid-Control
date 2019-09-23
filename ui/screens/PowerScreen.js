@@ -5,7 +5,8 @@ import {
   ToastAndroid,
   Dimensions,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  Alert
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -63,13 +64,16 @@ export default class PowerScreen extends React.Component {
 			return fetch("http://"+global.SERVER_HOST+"/settings")
 			.then((response) => response.json())
 			.then((sessionObject) => {
-				this.setState({
-					brightwingPower: ("BRIGHTWING" in sessionObject && "POWER" in sessionObject["BRIGHTWING"]) ? sessionObject["BRIGHTWING"]["POWER"] : "N/A",
-					artanisPower: ("ARTANIS" in sessionObject && "POWER" in sessionObject["ARTANIS"]) ? sessionObject["ARTANIS"]["POWER"] : "N/A",
-					raynorPower: ("RAYNOR" in sessionObject && "POWER" in sessionObject["RAYNOR"]) ? sessionObject["RAYNOR"]["POWER"] : "N/A",
-				}, function(){
-		
-				});
+				if(sessionObject["ok"]) {
+					jsonData = sessionObject["output"];
+					this.setState({
+						brightwingPower: ("BRIGHTWING" in jsonData && "POWER" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["POWER"] : "N/A",
+						artanisPower: ("ARTANIS" in jsonData && "POWER" in jsonData["ARTANIS"]) ? jsonData["ARTANIS"]["POWER"] : "N/A",
+						raynorPower: ("RAYNOR" in jsonData && "POWER" in jsonData["RAYNOR"]) ? jsonData["RAYNOR"]["POWER"] : "N/A",
+					}, function(){
+			
+					});
+				}
 			})
 			.catch((error) => {
 				console.log(error);
@@ -102,6 +106,22 @@ export default class PowerScreen extends React.Component {
 		} else {
 			ToastAndroid.show(httpStatus, ToastAndroid.SHORT);
 		}
+	}
+
+	_confirmRestart() {
+		Alert.alert(
+			'Confirm Restart',
+			'Are you sure you want to restart the board?',
+			[
+			  {
+				text: 'Cancel',
+				onPress: () => console.log('Cancel Pressed'),
+				style: 'cancel',
+			  },
+			  {text: 'OK', onPress: () => SendCommand("restart")},
+			],
+			{cancelable: true},
+		);
 	}
 
   	render() {
@@ -159,7 +179,7 @@ export default class PowerScreen extends React.Component {
 						title="Restart Board" 
 						reference="restartBoard" 
 						buttons={["Restart Board"]} 
-						buttonFunctions={[() => SendCommand("restart")]} />
+						buttonFunctions={[() => this._confirmRestart()]} />
 				</View>
 			</View>
 		</ScrollView>
