@@ -93,7 +93,7 @@ export const UpdateSetting = async (component, setting, value) => {
         })
         .then(function(sessionObject) {
             console.log(sessionObject);
-            return sessionObject.json()["ok"];
+            return "Updated "+setting;
         }).catch((error) => {
             console.log(error);
             ToastAndroid.show("Failed to update setting.", ToastAndroid.SHORT);

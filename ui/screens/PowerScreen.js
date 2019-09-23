@@ -16,6 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 import styles from '../../assets/screenStyles.js';
 import ButtonGroup from '../components/ButtonGroup.js';
+import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 
 import { UpdateSetting, SendCommand, SendRestart } from '../../actions/MDroidActions.js'; 
 
@@ -141,7 +142,7 @@ export default class PowerScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle title="Lucio / ETC"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Lucio / ETC"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="lucioPower" 
@@ -154,15 +155,10 @@ export default class PowerScreen extends React.Component {
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="restartBoard" 
-						buttons={["Restart Lucio"]} 
-						buttonFunctions={[() => this._confirmRestart("lucio")]} />
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						reference="restartBoard" 
-						buttons={["Restart ETC"]} 
-						buttonFunctions={[() => this._confirmRestart("etc")]} />
+						buttons={["Restart Lucio", "Restart ETC"]} 
+						buttonFunctions={[() => this._confirmRestart("lucio"), () => this._confirmRestart("etc")]} />
 
-					<ButtonGroupTitle title="Brightwing"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Brightwing"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="brightwingPower" 
@@ -178,7 +174,7 @@ export default class PowerScreen extends React.Component {
 						buttons={["Restart Brightwing"]} 
 						buttonFunctions={[() => this._confirmRestart("brightwing")]} />
 
-					<ButtonGroupTitle title="Raynor"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Raynor"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="raynorPower" 
@@ -189,7 +185,7 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("RAYNOR", "POWER", "ON", "raynorPower")]} 
 						status={this.state.raynorPower} />
 
-					<ButtonGroupTitle title="Restart Board"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Board"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="restartBoard" 

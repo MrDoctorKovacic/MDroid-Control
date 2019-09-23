@@ -15,6 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import styles from '../../assets/screenStyles.js';
 import ButtonGroup from '../components/ButtonGroup.js';
+import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 
 import { UpdateSetting, SendCommand } from '../../actions/MDroidActions.js'; 
 
@@ -71,8 +72,9 @@ export default class SettingsScreen extends React.Component {
 			.then((sessionObject) => {
 				if(sessionObject["ok"]) {
 					jsonData = sessionObject["output"];
+					console.log(jsonData);
 					this.setState({
-						wireless: ("BRIGHTWING" in jsonData && "POWER" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["LTE"] : "N/A",
+						wireless: ("BRIGHTWING" in jsonData && "LTE" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["LTE"] : "N/A",
 						angelEyes: ("VARIAN" in jsonData && "ANGEL_EYES" in jsonData["VARIAN"]) ? jsonData["VARIAN"]["ANGEL_EYES"] : "N/A",
 						videoRecording: ("LUCIO" in jsonData && "VIDEO_RECORDING" in jsonData["LUCIO"]) ? jsonData["LUCIO"]["VIDEO_RECORDING"] : "N/A",
 						exhaustNoise: ("JAINA" in jsonData && "EXHAUST_NOISE" in jsonData["JAINA"]) ? jsonData["JAINA"]["EXHAUST_NOISE"] : "N/A",
@@ -132,7 +134,7 @@ export default class SettingsScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Settings</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle title="Angel Eyes"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Angel Eyes"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="angelEyes" 
@@ -143,7 +145,7 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON", "angelEyes")]} 
 						status={this.state.angelEyes} />
 
-					<ButtonGroupTitle title="Video Recording"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Recording"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="videoRecording" 
@@ -154,7 +156,7 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "ON", "videoRecording")]} 
 						status={this.state.videoRecording} />
 
-					<ButtonGroupTitle title="Wireless LTE"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Wireless LTE"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="wireless" 
@@ -163,9 +165,9 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("BRIGHTWING", "LTE", "OFF", "wireless"), 
 							() => this._requestUpdate("BRIGHTWING", "LTE", "AUTO", "wireless"), 
 							() => this._requestUpdate("BRIGHTWING", "LTE", "ON", "wireless")]} 
-						status={this.state.sentryMode} />
+						status={this.state.wireless} />
 
-					<ButtonGroupTitle title="Pipe In Exhaust"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Pipe In Exhaust"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="exhaustNoise" 
@@ -176,7 +178,7 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON", "exhaustNoise")]} 
 						status={this.state.exhaustNoise} />
 
-					<ButtonGroupTitle title="Variable Speed Volume"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Variable Speed Volume"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						reference="variableSpeedVolume" 
