@@ -58,7 +58,6 @@ export default class ButtonGroup extends React.Component {
 			return (
         <View style={[styles.container, styles.rowContainer]}>
           <View style={[styles.container, styles.containerPadding, styles.colContainer]}>
-            <Text style={styles.secondaryTitleText}>{this.props.title}</Text>
             <View style={styles.buttonsWrapper}>
               <View style={[styles.buttonsContainer, customStyles.buttonOne]}>
                 <Button
