@@ -63,6 +63,27 @@ export const SendCommand = async (command) => {
     }
 }
 
+// Sends a GET request to restart a board
+export const SendRestart = async (device) => {
+    try {
+        address = device == "local" ? "http://"+global.SERVER_HOST+"/restart" : "http://"+global.SERVER_HOST+"/"+device+"/restart"
+        return fetch(address)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(sessionObject) {
+            console.log(sessionObject);
+        }).catch((error) => {
+            console.log(error);
+            ToastAndroid.show("Failed to restart "+device, ToastAndroid.SHORT);
+        });
+    }
+    catch (error) {
+        console.log(error);
+        ToastAndroid.show("Failed to restart "+device, ToastAndroid.SHORT);
+    }
+}
+
 export const UpdateSetting = async (component, setting, value) => {
     console.log("Setting "+setting+" of "+component+" to "+value);
     try {

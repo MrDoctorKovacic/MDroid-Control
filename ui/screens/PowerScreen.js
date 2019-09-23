@@ -17,7 +17,7 @@ import {
 import styles from '../../assets/screenStyles.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 
-import { UpdateSetting, SendCommand } from '../../actions/MDroidActions.js'; 
+import { UpdateSetting, SendCommand, SendRestart } from '../../actions/MDroidActions.js'; 
 
 export default class PowerScreen extends React.Component {
 	componentDidMount() {
@@ -108,17 +108,17 @@ export default class PowerScreen extends React.Component {
 		}
 	}
 
-	_confirmRestart() {
+	_confirmRestart(target) {
 		Alert.alert(
 			'Confirm Restart',
-			'Are you sure you want to restart the board?',
+			'Are you sure you want to restart '+target+'?',
 			[
 			  {
 				text: 'Cancel',
 				onPress: () => console.log('Cancel Pressed'),
 				style: 'cancel',
 			  },
-			  {text: 'OK', onPress: () => SendCommand("restart")},
+			  {text: 'OK', onPress: () => SendRestart(target)},
 			],
 			{cancelable: true},
 		);
@@ -151,6 +151,16 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("LUCIO", "POWER", "AUTO", "lucioPower"), 
 							() => this._requestUpdatePower("LUCIO", "POWER", "ON", "lucioPower")]} 
 						status={this.state.lucioPower} />
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						reference="restartBoard" 
+						buttons={["Restart Lucio"]} 
+						buttonFunctions={[() => this._confirmRestart("lucio")]} />
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						reference="restartBoard" 
+						buttons={["Restart ETC"]} 
+						buttonFunctions={[() => this._confirmRestart("etc")]} />
 
 					<ButtonGroupTitle title="Brightwing"></ButtonGroupTitle>
 					<ButtonGroup 
@@ -162,6 +172,11 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("BRIGHTWING", "POWER", "AUTO", "brightwingPower"), 
 							() => this._requestUpdatePower("BRIGHTWING", "POWER", "ON", "brightwingPower")]} 
 						status={this.state.brightwingPower} />
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						reference="restartBoard" 
+						buttons={["Restart Brightwing"]} 
+						buttonFunctions={[() => this._confirmRestart("brightwing")]} />
 
 					<ButtonGroupTitle title="Raynor"></ButtonGroupTitle>
 					<ButtonGroup 
@@ -179,7 +194,7 @@ export default class PowerScreen extends React.Component {
 						isConnected={this.props.isConnected} 
 						reference="restartBoard" 
 						buttons={["Restart Board"]} 
-						buttonFunctions={[() => this._confirmRestart()]} />
+						buttonFunctions={[() => this._confirmRestart("local")]} />
 				</View>
 			</View>
 		</ScrollView>
