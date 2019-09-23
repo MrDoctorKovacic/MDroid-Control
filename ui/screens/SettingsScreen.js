@@ -132,9 +132,9 @@ export default class SettingsScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Settings</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
+					<ButtonGroupTitle title="Angel Eyes"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Angel Eyes" 
 						reference="angelEyes" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
@@ -143,9 +143,9 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON", "angelEyes")]} 
 						status={this.state.angelEyes} />
 
+					<ButtonGroupTitle title="Sentry Mode"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Sentry Mode" 
 						reference="sentryMode" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
@@ -154,9 +154,9 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("ARTANIS", "SENTRY_MODE", "ON", "sentryMode")]} 
 						status={this.state.sentryMode} />
 
+					<ButtonGroupTitle title="Wireless LTE"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Wireless LTE" 
 						reference="wireless" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
@@ -165,9 +165,9 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("BRIGHTWING", "LTE", "ON", "wireless")]} 
 						status={this.state.sentryMode} />
 
+					<ButtonGroupTitle title="Pipe In Exhaust"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Pipe In Exhaust" 
 						reference="exhaustNoise" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
@@ -176,9 +176,9 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON", "exhaustNoise")]} 
 						status={this.state.exhaustNoise} />
 
+					<ButtonGroupTitle title="Variable Speed Volume"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Variable Speed Volume" 
 						reference="variableSpeedVolume" 
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
