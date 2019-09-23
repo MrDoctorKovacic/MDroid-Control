@@ -35,13 +35,13 @@ export default class PowerScreen extends React.Component {
 		if (global.demoMode) {
 			this.state = {
 				raynorPower: "AUTO",
-				artanisPower: "AUTO",
+				lucioPower: "AUTO",
 				brightwingPower: "AUTO",
 			};
 		} else {
 			this.state = {
 				raynorPower: "N/A",
-				artanisPower: "N/A",
+				lucioPower: "N/A",
 				brightwingPower: "N/A",
 				toasted: 0,
 				refreshing: false,
@@ -68,7 +68,7 @@ export default class PowerScreen extends React.Component {
 					jsonData = sessionObject["output"];
 					this.setState({
 						brightwingPower: ("BRIGHTWING" in jsonData && "POWER" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["POWER"] : "N/A",
-						artanisPower: ("ARTANIS" in jsonData && "POWER" in jsonData["ARTANIS"]) ? jsonData["ARTANIS"]["POWER"] : "N/A",
+						lucioPower: ("LUCIO" in jsonData && "POWER" in jsonData["LUCIO"]) ? jsonData["LUCIO"]["POWER"] : "N/A",
 						raynorPower: ("RAYNOR" in jsonData && "POWER" in jsonData["RAYNOR"]) ? jsonData["RAYNOR"]["POWER"] : "N/A",
 					}, function(){
 			
@@ -141,20 +141,20 @@ export default class PowerScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
+					<ButtonGroupTitle title="Lucio / ETC"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Artanis / Jaina" 
-						reference="artanisPower" 
+						reference="lucioPower" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("ARTANIS", "POWER", "OFF", "artanisPower"), 
-							() => this._requestUpdatePower("ARTANIS", "POWER", "AUTO", "artanisPower"), 
-							() => this._requestUpdatePower("ARTANIS", "POWER", "ON", "artanisPower")]} 
-						status={this.state.artanisPower} />
+							() => this._requestUpdatePower("LUCIO", "POWER", "OFF", "lucioPower"), 
+							() => this._requestUpdatePower("LUCIO", "POWER", "AUTO", "lucioPower"), 
+							() => this._requestUpdatePower("LUCIO", "POWER", "ON", "lucioPower")]} 
+						status={this.state.lucioPower} />
 
+					<ButtonGroupTitle title="Brightwing"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Brightwing" 
 						reference="brightwingPower" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
@@ -163,9 +163,9 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("BRIGHTWING", "POWER", "ON", "brightwingPower")]} 
 						status={this.state.brightwingPower} />
 
+					<ButtonGroupTitle title="Raynor"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Raynor" 
 						reference="raynorPower" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
@@ -174,9 +174,9 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("RAYNOR", "POWER", "ON", "raynorPower")]} 
 						status={this.state.raynorPower} />
 
+					<ButtonGroupTitle title="Restart Board"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						title="Restart Board" 
 						reference="restartBoard" 
 						buttons={["Restart Board"]} 
 						buttonFunctions={[() => this._confirmRestart()]} />
