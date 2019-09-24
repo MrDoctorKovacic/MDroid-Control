@@ -50,6 +50,7 @@ export default class PowerScreen extends React.Component {
 			};
 		}
 		this._refreshPowerData = this._refreshPowerData.bind(this);
+		this._requestUpdatePower = this._requestUpdatePower.bind(this);
 	}
 
 	_onRefreshPower = () => {
@@ -99,14 +100,9 @@ export default class PowerScreen extends React.Component {
 	}
 
 	// Handler for update
-	_requestUpdatePower = async (component, setting, value, reference) => {
+	_requestUpdatePower = async (component, setting, value) => {
 		const httpStatus = await UpdateSetting(component, setting, value);
-		if(httpStatus == "200") {
-			ToastAndroid.show("Updated.", ToastAndroid.SHORT);
-			this.setState({ [reference]:value });
-		} else {
-			ToastAndroid.show(httpStatus, ToastAndroid.SHORT);
-		}
+		this._refreshPowerData();
 	}
 
 	_confirmRestart(target) {
@@ -145,50 +141,44 @@ export default class PowerScreen extends React.Component {
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Lucio / ETC"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="lucioPower" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("LUCIO", "POWER", "OFF", "lucioPower"), 
-							() => this._requestUpdatePower("LUCIO", "POWER", "AUTO", "lucioPower"), 
-							() => this._requestUpdatePower("LUCIO", "POWER", "ON", "lucioPower")]} 
+							() => this._requestUpdatePower("LUCIO", "POWER", "OFF"), 
+							() => this._requestUpdatePower("LUCIO", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("LUCIO", "POWER", "ON")]} 
 						status={this.state.lucioPower} />
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="restartBoard" 
 						buttons={["Restart Lucio", "Restart ETC"]} 
 						buttonFunctions={[() => this._confirmRestart("lucio"), () => this._confirmRestart("etc")]} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Brightwing"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="brightwingPower" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("BRIGHTWING", "POWER", "OFF", "brightwingPower"), 
-							() => this._requestUpdatePower("BRIGHTWING", "POWER", "AUTO", "brightwingPower"), 
-							() => this._requestUpdatePower("BRIGHTWING", "POWER", "ON", "brightwingPower")]} 
+							() => this._requestUpdatePower("BRIGHTWING", "POWER", "OFF"), 
+							() => this._requestUpdatePower("BRIGHTWING", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("BRIGHTWING", "POWER", "ON")]} 
 						status={this.state.brightwingPower} />
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="restartBoard" 
 						buttons={["Restart Brightwing"]} 
 						buttonFunctions={[() => this._confirmRestart("brightwing")]} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Raynor"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="raynorPower" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("RAYNOR", "POWER", "OFF", "raynorPower"), 
-							() => this._requestUpdatePower("RAYNOR", "POWER", "AUTO", "raynorPower"), 
-							() => this._requestUpdatePower("RAYNOR", "POWER", "ON", "raynorPower")]} 
+							() => this._requestUpdatePower("RAYNOR", "POWER", "OFF"), 
+							() => this._requestUpdatePower("RAYNOR", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("RAYNOR", "POWER", "ON")]} 
 						status={this.state.raynorPower} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Board"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="restartBoard" 
 						buttons={["Restart Board"]} 
 						buttonFunctions={[() => this._confirmRestart("local")]} />
 				</View>

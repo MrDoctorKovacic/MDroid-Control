@@ -55,6 +55,8 @@ export default class SettingsScreen extends React.Component {
 			};
 
 		}
+
+		this._requestUpdate = this._requestUpdate.bind(this);
 	}
 
 	_onRefreshSettings = () => {
@@ -107,14 +109,9 @@ export default class SettingsScreen extends React.Component {
 	}
 
 	// Handler for update
-	_requestUpdate = async (component, setting, value, reference) => {
+	_requestUpdate = async (component, setting, value) => {
 		const httpStatus = await UpdateSetting(component, setting, value);
-		if(httpStatus == "200") {
-			ToastAndroid.show("Updated.", ToastAndroid.SHORT);
-			this.setState({ [reference]:value });
-		} else {
-			ToastAndroid.show(httpStatus, ToastAndroid.SHORT);
-		}
+		this._refreshSettingsData();
 	}
 
   	render() {
@@ -134,58 +131,51 @@ export default class SettingsScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Settings</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Angel Eyes"></ButtonGroupTitle>
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						reference="angelEyes" 
-						buttons={["Off", "Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "OFF", "angelEyes"), 
-							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "AUTO", "angelEyes"), 
-							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON", "angelEyes")]} 
-						status={this.state.angelEyes} />
-
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Recording"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="videoRecording" 
-						buttons={["Off", "Auto", "On"]} 
+						buttons={["Off", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "OFF", "videoRecording"), 
-							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "AUTO", "videoRecording"), 
-							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "ON", "videoRecording")]} 
+							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "OFF"), 
+							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "ON")]} 
 						status={this.state.videoRecording} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Wireless LTE"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="wireless" 
-						buttons={["Off", "Auto", "On"]} 
+						buttons={["Off", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("BRIGHTWING", "LTE", "OFF", "wireless"), 
-							() => this._requestUpdate("BRIGHTWING", "LTE", "AUTO", "wireless"), 
-							() => this._requestUpdate("BRIGHTWING", "LTE", "ON", "wireless")]} 
+							() => this._requestUpdate("BRIGHTWING", "LTE", "OFF"),
+							() => this._requestUpdate("BRIGHTWING", "LTE", "ON")]} 
 						status={this.state.wireless} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Pipe In Exhaust"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="exhaustNoise" 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF", "exhaustNoise"), 
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "AUTO", "exhaustNoise"), 
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON", "exhaustNoise")]} 
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF"), 
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "AUTO"), 
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON")]} 
 						status={this.state.exhaustNoise} />
+
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Angel Eyes"></ButtonGroupTitle>
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "OFF"), 
+							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "AUTO"), 
+							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON")]} 
+						status={this.state.angelEyes} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Variable Speed Volume"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						reference="variableSpeedVolume" 
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("JAINA", "VSV", "OFF", "variableSpeedVolume"), 
-							() => this._requestUpdate("JAINA", "VSV", "ON", "variableSpeedVolume")]} 
+							() => this._requestUpdate("JAINA", "VSV", "OFF"), 
+							() => this._requestUpdate("JAINA", "VSV", "ON")]} 
 						status={this.state.variableSpeedVolume} />
 				</View>
 			</View>
