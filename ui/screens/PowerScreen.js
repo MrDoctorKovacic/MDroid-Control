@@ -2,10 +2,7 @@ import React from 'react';
 import {
   Text,
   View,
-  ToastAndroid,
   Dimensions,
-  ScrollView,
-  RefreshControl,
   Alert
 } from 'react-native';
 import {
@@ -23,7 +20,18 @@ import { UpdateSetting, SendCommand, SendRestart } from '../../actions/MDroidAct
 export default class PowerScreen extends React.Component {
 	componentDidMount() {
 		loc(this);
-		this._refreshPowerData();
+	}
+
+	componentDidUpdate(prevProps){
+		if(prevProps.settings !== this.props.settings){
+			if (this.props.settings != undefined) {
+				this.setState({
+					brightwingPower: ("BRIGHTWING" in this.props.settings && "POWER" in this.props.settings["BRIGHTWING"]) ? this.props.settings["BRIGHTWING"]["POWER"] : "N/A",
+					lucioPower: ("LUCIO" in this.props.settings && "POWER" in this.props.settings["LUCIO"]) ? this.props.settings["LUCIO"]["POWER"] : "N/A",
+					raynorPower: ("RAYNOR" in this.props.settings && "POWER" in this.props.settings["RAYNOR"]) ? this.props.settings["RAYNOR"]["POWER"] : "N/A",
+				});
+			}
+		}
 	}
 
 	componentWillUnMount() {
@@ -49,63 +57,15 @@ export default class PowerScreen extends React.Component {
 				fails: 0
 			};
 		}
-		this._refreshPowerData = this._refreshPowerData.bind(this);
-		this._requestUpdatePower = this._requestUpdatePower.bind(this);
-	}
-
-	_onRefreshPower = () => {
-		this.setState({refreshing: true});
-		this._refreshPowerData(this).then(() => {
-			this.setState({refreshing: false});
-		});
-	}
-
-	// Sends a GET request to fetch power data
-	_refreshPowerData() {
-		try {
-			return fetch("http://"+global.SERVER_HOST+"/settings")
-			.then((response) => response.json())
-			.then((sessionObject) => {
-				if(sessionObject["ok"]) {
-					jsonData = sessionObject["output"];
-					this.setState({
-						brightwingPower: ("BRIGHTWING" in jsonData && "POWER" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["POWER"] : "N/A",
-						lucioPower: ("LUCIO" in jsonData && "POWER" in jsonData["LUCIO"]) ? jsonData["LUCIO"]["POWER"] : "N/A",
-						raynorPower: ("RAYNOR" in jsonData && "POWER" in jsonData["RAYNOR"]) ? jsonData["RAYNOR"]["POWER"] : "N/A",
-					}, function(){
-			
-					});
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-				this.setState({
-					fails: this.state.fails + 1
-				});
-				if(this.state.fails > 4 && !this.state.toasted) {
-					this.setState({toasted: 1});
-					ToastAndroid.show("Failed to fetch power data.", ToastAndroid.SHORT);
-				}
-				this._refreshPowerData();
-			});
-		}
-		catch (error) {
-			console.log(error);
-			if(!this.state.toasted) {
-				this.setState({toasted: 1});
-				ToastAndroid.show("Failed to fetch settings data.", ToastAndroid.SHORT);
-			}
-			this._refreshPowerData();
-		}
 	}
 
 	// Handler for update
 	_requestUpdatePower = async (component, setting, value) => {
-		const httpStatus = await UpdateSetting(component, setting, value);
-		this._refreshPowerData();
+		this.props.postRequest("/settings/"+component+"/"+setting+"/"+value, "");
 	}
 
 	_confirmRestart(target) {
+		address = target == "local" ? "/restart" : "/"+target+"/restart";
 		Alert.alert(
 			'Confirm Restart',
 			'Are you sure you want to restart '+target+'?',
@@ -115,7 +75,7 @@ export default class PowerScreen extends React.Component {
 				onPress: () => console.log('Cancel Pressed'),
 				style: 'cancel',
 			  },
-			  {text: 'OK', onPress: () => SendRestart(target)},
+			  {text: 'OK', onPress: () => this.props.getRequest(address) },
 			],
 			{cancelable: true},
 		);
@@ -127,12 +87,6 @@ export default class PowerScreen extends React.Component {
 		var styles = reloadStyles(height < width, this.props.isConnected);
 
 		return (
-		<ScrollView 
-					refreshControl={<RefreshControl 
-					refreshing={this.state.refreshing} 
-					onRefresh={this._onRefreshPower} />} 
-					removeClippedSubviews={true} 
-				>
 			<View>
 				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
 					<Text style={styles.mainTitleText}>Power</Text>
@@ -183,7 +137,6 @@ export default class PowerScreen extends React.Component {
 						buttonFunctions={[() => this._confirmRestart("local")]} />
 				</View>
 			</View>
-		</ScrollView>
 		);
   	}
 }

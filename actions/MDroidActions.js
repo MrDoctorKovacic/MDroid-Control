@@ -63,25 +63,22 @@ export const SendCommand = async (command) => {
     }
 }
 
-// Sends a GET request to restart a board
-export const SendRestart = async (device) => {
-    try {
-        address = device == "local" ? "http://"+global.SERVER_HOST+"/restart" : "http://"+global.SERVER_HOST+"/"+device+"/restart"
-        return fetch(address)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(sessionObject) {
-            console.log(sessionObject);
-        }).catch((error) => {
-            console.log(error);
-            ToastAndroid.show("Failed to restart "+device, ToastAndroid.SHORT);
-        });
-    }
-    catch (error) {
-        console.log(error);
-        ToastAndroid.show("Failed to restart "+device, ToastAndroid.SHORT);
-    }
+export const CreateSocket = () => {
+    ws = new WebSocket('ws://'+global.SERVER_HOST+'/ws/'+global.TOKEN);
+
+    return ws;
+}
+
+export const SendToSocket = async (ws, method, path, data) => {
+    obj = {"output": method+";"+path+";"+data, "method":"request"}
+    ws.send(JSON.stringify(obj));
+}
+
+export const postRequest = (path, values) => {
+    SendToSocket(global.ws, "POST", path, values)
+}
+export const getRequest = (path) => {
+    SendToSocket(global.ws, "GET", path, "")
 }
 
 export const UpdateSetting = async (component, setting, value) => {

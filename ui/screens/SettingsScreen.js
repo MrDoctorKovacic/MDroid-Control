@@ -2,10 +2,7 @@ import React from 'react';
 import {
   Text,
   View,
-  ToastAndroid,
   Dimensions,
-  ScrollView,
-  RefreshControl
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -17,12 +14,24 @@ import styles from '../../assets/screenStyles.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 
-import { UpdateSetting, SendCommand } from '../../actions/MDroidActions.js'; 
+import { UpdateSetting, SendCommand, SendToSocket } from '../../actions/MDroidActions.js'; 
 
 export default class SettingsScreen extends React.Component {
 	componentDidMount() {
 		loc(this);
-		this._refreshSettingsData();
+	}
+
+	componentDidUpdate(prevProps){
+		if(prevProps.settings !== this.props.settings && this.props.settings != undefined){
+			console.log("updating props");
+			this.setState({
+				wireless: ("BRIGHTWING" in this.props.settings && "LTE" in this.props.settings["BRIGHTWING"]) ? this.props.settings["BRIGHTWING"]["LTE"] : "N/A",
+				angelEyes: ("VARIAN" in this.props.settings && "ANGEL_EYES" in this.props.settings["VARIAN"]) ? this.props.settings["VARIAN"]["ANGEL_EYES"] : "N/A",
+				videoRecording: ("LUCIO" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["LUCIO"]) ? this.props.settings["LUCIO"]["VIDEO_RECORDING"] : "N/A",
+				exhaustNoise: ("JAINA" in this.props.settings && "EXHAUST_NOISE" in this.props.settings["JAINA"]) ? this.props.settings["JAINA"]["EXHAUST_NOISE"] : "N/A",
+				variableSpeedVolume: ("JAINA" in this.props.settings && "VSV" in this.props.settings["JAINA"]) ? this.props.settings["JAINA"]["VSV"] : "N/A",
+			});
+		}
 	}
 
 	componentWillUnMount() {
@@ -40,7 +49,6 @@ export default class SettingsScreen extends React.Component {
 				variableSpeedVolume: "ON",
 				wireless: "AUTO",
 				toasted: 0,
-				refreshing: false
 			};
 		} else {
 			this.state = {
@@ -50,68 +58,15 @@ export default class SettingsScreen extends React.Component {
 				variableSpeedVolume: "N/A",
 				wireless: "N/A",
 				toasted: 0,
-				refreshing: false,
 				fails: 0
 			};
 
-		}
-
-		this._requestUpdate = this._requestUpdate.bind(this);
-	}
-
-	_onRefreshSettings = () => {
-		this.setState({refreshing: true});
-		this._refreshSettingsData(this).then(() => {
-			this.setState({refreshing: false});
-		});
-	}
-
-	// Sends a GET request to fetch settings data
-	_refreshSettingsData() {
-		try {
-			return fetch("http://"+global.SERVER_HOST+"/settings")
-			.then((response) => response.json())
-			.then((sessionObject) => {
-				if(sessionObject["ok"]) {
-					jsonData = sessionObject["output"];
-					console.log(jsonData);
-					this.setState({
-						wireless: ("BRIGHTWING" in jsonData && "LTE" in jsonData["BRIGHTWING"]) ? jsonData["BRIGHTWING"]["LTE"] : "N/A",
-						angelEyes: ("VARIAN" in jsonData && "ANGEL_EYES" in jsonData["VARIAN"]) ? jsonData["VARIAN"]["ANGEL_EYES"] : "N/A",
-						videoRecording: ("LUCIO" in jsonData && "VIDEO_RECORDING" in jsonData["LUCIO"]) ? jsonData["LUCIO"]["VIDEO_RECORDING"] : "N/A",
-						exhaustNoise: ("JAINA" in jsonData && "EXHAUST_NOISE" in jsonData["JAINA"]) ? jsonData["JAINA"]["EXHAUST_NOISE"] : "N/A",
-						variableSpeedVolume: ("JAINA" in jsonData && "VSV" in jsonData["JAINA"]) ? jsonData["JAINA"]["VSV"] : "N/A",
-					}, function(){
-			
-					});
-				}
-			})
-			.catch((error) => {
-				this.setState({
-					fails: this.state.fails + 1
-				});
-				console.log(error);
-				if(this.state.fails > 4 && !this.state.toasted) {
-					this.setState({toasted: 1});
-					ToastAndroid.show("Failed to fetch settings data.", ToastAndroid.SHORT);
-				}
-				this._refreshSettingsData();
-			});
-		}
-		catch (error) {
-			console.log(error);
-			if(!this.state.toasted) {
-				this.setState({toasted: 1});
-				ToastAndroid.show("Failed to fetch settings data.", ToastAndroid.SHORT);
-			}
-			this._refreshPowerData();
 		}
 	}
 
 	// Handler for update
 	_requestUpdate = async (component, setting, value) => {
-		const httpStatus = await UpdateSetting(component, setting, value);
-		this._refreshSettingsData();
+		this.props.postRequest("/settings/"+component+"/"+setting+"/"+value, "");
 	}
 
   	render() {
@@ -120,12 +75,6 @@ export default class SettingsScreen extends React.Component {
 		var styles = reloadStyles(height < width, this.props.isConnected);
 
 		return (
-		<ScrollView 
-					refreshControl={<RefreshControl 
-					refreshing={this.state.refreshing} 
-					onRefresh={this._onRefreshSettings} />} 
-					removeClippedSubviews={true} 
-				>
 			<View>
 				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
 					<Text style={styles.mainTitleText}>Settings</Text>
@@ -179,7 +128,6 @@ export default class SettingsScreen extends React.Component {
 						status={this.state.variableSpeedVolume} />
 				</View>
 			</View>
-		</ScrollView>
 		);
   	}
 }
