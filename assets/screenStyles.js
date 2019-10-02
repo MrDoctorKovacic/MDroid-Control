@@ -33,6 +33,9 @@ reloadStyles = function(isVertical = false, isConnected = false) {
     containerPaddingRight: {
       paddingRight: 30
     },
+    containerPaddingBottom: {
+      paddingBottom: 30
+    },
     alignTop: {
       justifyContent: 'flex-start',
       alignItems: 'flex-start',
@@ -88,9 +91,10 @@ reloadStyles = function(isVertical = false, isConnected = false) {
     },
     map: {
       width: isVertical ? wp("60%") : wp("100%"),
-      height: isVertical ? hp("50%") : hp("30%"),
+      height: isVertical ? hp("50%") : hp("65%"),
       marginLeft: isVertical ? wp("5%") : 0,
-      marginBottom: hp("5%")
+      marginBottom: hp("5%"),
+      borderRadius: 50
     },
     textRight : {
       'textAlign': 'right',

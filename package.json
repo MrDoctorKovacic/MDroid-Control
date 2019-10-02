@@ -13,6 +13,7 @@
     "react-native-maps": "^0.24.2",
     "react-native-navigation-bar-color": "0.0.9",
     "react-native-responsive-screen": "^1.2.2",
+    "react-native-svg": "^9.10.2",
     "react-native-swiper": "^1.5.14",
     "toggle-switch-react-native": "^2.0.2"
   },

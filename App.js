@@ -19,7 +19,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Swiper from 'react-native-swiper';
 
 // Actions
-import { PingHost, CreateSocket, SendToSocket, postRequest, getRequest } from './actions/MDroidActions.js';
+import { CreateSocket, SendToSocket, postRequest, getRequest } from './actions/MDroidActions.js';
 
 // Screens
 import ControlsScreen from './ui/screens/ControlsScreen.js';
@@ -27,6 +27,7 @@ import SettingsScreen from './ui/screens/SettingsScreen.js';
 import GpsScreen from './ui/screens/GpsScreen.js';
 import SystemScreen from './ui/screens/SystemScreen.js';
 import PowerScreen from './ui/screens/PowerScreen.js';
+import IconRow from './ui/components/IconRow.js'
 
 // Config
 import {serverHost, token} from './config.json';
@@ -147,20 +148,6 @@ export default class App extends React.Component {
 			});
 		} else {
 			this.checkQueue();
-			//PingHost(this);
-
-			// We check less frequently if we're already connected
-			/*var pingHostInvervalDuration = this.state.isConnected ? 10000 : 2000 
-
-			// Clear interval first, to make sure we're not creating duplicate loops
-			if (this.interval) {
-				clearInterval(this.interval);
-			}
-
-			// Continously get sensor data from controller
-			this.interval = setInterval(() => {
-				PingHost(this);
-			}, pingHostInvervalDuration);*/
 		}
 	}
 
@@ -209,7 +196,8 @@ export default class App extends React.Component {
 			imageContainer: {
 				width: isVertical ? wp('80%') : wp('30%'),
 				height: isVertical ? 'auto' : hp('80%'),
-				marginTop: isVertical ? hp('5%') : hp('15%'),
+				marginTop: isVertical ? hp('3%') : hp('15%'),
+				marginBottom: isVertical ? hp('3%') : hp('0%'),
 				marginLeft: isVertical ? wp('10%') : 0,
 				color: "#FFF",
 				flexDirection: 'row',
@@ -238,9 +226,10 @@ export default class App extends React.Component {
 		return (
 			<View style={[styles.container]} onLayout={this._onLayout}>
 				<StatusBar barStyle="dark-content" backgroundColor="#000000" translucent={true} />
-				<View style={styles.imageContainer}>
+				<View style={[styles.imageContainer]}>
 					<Image style={styles.mainLeftImage} source={image} />
 				</View>
+				<View><IconRow isConnected={this.state.isConnected} session={this.state.session} settings={this.state.settings} ></IconRow></View>
 				<Swiper
 					index={0}
 					style={styles.swiperContainer}
@@ -249,7 +238,7 @@ export default class App extends React.Component {
 					dotColor='rgba(255,255,255,.2)'
 					activeDotColor='rgba(255,255,255,1)'>
 					
-					<ControlsScreen postRequest={postRequest} getRequest={getRequest} isConnected={this.state.isConnected} />
+					<ControlsScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} settings={this.state.settings} isConnected={this.state.isConnected} />
 					
 					<ScrollView 
 						refreshControl={<RefreshControl 

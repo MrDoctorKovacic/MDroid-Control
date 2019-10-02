@@ -4,7 +4,7 @@ import {
 	Text,
 	View,
 	Dimensions,
-	TouchableOpacity,
+	TouchableWithoutFeedback,
 	Platform,
 	Linking
 } from 'react-native';
@@ -99,20 +99,21 @@ export default class GpsScreen extends React.Component {
 						<Text style={styles.mainTitleText}>Location</Text>
 					</View>
 					<View style={[styles.largeContainer, styles.colContainer]}>
-
-					<View pointerEvents="auto">
-						<TouchableOpacity onPress={() => this.openInMaps(this.state.region.latitude, this.state.region.longitude)}>
+						<View pointerEvents="auto">
+							<TouchableWithoutFeedback onPress={() => this.openInMaps(this.state.region.latitude, this.state.region.longitude)}>
 								<MapView
 									provider={PROVIDER_GOOGLE}
 									initialRegion={this.state.region}
 									customMapStyle={MapStyle}
-									style={styles.map}>
-								 <Marker coordinate={this.state.region} />
+									style={styles.map}
+									showsUserLocation={true}
+									scrollEnabled={false}>
+									<Marker coordinate={this.state.region} />
 								</MapView>
-							</TouchableOpacity>
+							</TouchableWithoutFeedback>
 						</View>
 
-						<View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.colContainer]}>
+						<View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.containerPaddingBottom, styles.colContainer]}>
 							<Text style={styles.auxText}>Latitude: {this.state.region.latitude}</Text>
 							<Text style={styles.auxText}>Longitude: {this.state.region.longitude}</Text>
 							<Text style={styles.auxText}>Time: {this.state.gps.time}</Text>
