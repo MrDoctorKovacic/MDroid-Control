@@ -45,12 +45,12 @@ export default class DataRow extends React.Component {
 
 		if(prevProps.session !== this.props.session && this.props.session != undefined){
 			this.setState({
-				ACC_POWER: ("ACC_POWER" in this.props.session) ? this.props.session["ACC_POWER"] == "TRUE" : false,
-				LUCIO_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"] == "TRUE" : false,
-				ETC_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"] == "TRUE" : false,
-				RAYNOR_ON: ("TABLET_POWER" in this.props.session) ? this.props.session["TABLET_POWER"] == "TRUE" : false,
-				LTE_ON: ("LTE_ON" in this.props.session) ? this.props.session["LTE_ON"] == "TRUE" : false,
-				WIRELESS_ON: ("WIRELESS_POWER" in this.props.session) ? this.props.session["WIRELESS_POWER"] == "TRUE" : false,
+				ACC_POWER: ("ACC_POWER" in this.props.session) ? this.props.session["ACC_POWER"]["value"] == "TRUE" : false,
+				LUCIO_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
+				ETC_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
+				RAYNOR_ON: ("TABLET_POWER" in this.props.session) ? this.props.session["TABLET_POWER"]["value"] == "TRUE" : false,
+				LTE_ON: ("LTE_ON" in this.props.session) ? this.props.session["LTE_ON"]["value"] == "TRUE" : false,
+				WIRELESS_ON: ("WIRELESS_POWER" in this.props.session) ? this.props.session["WIRELESS_POWER"]["value"] == "TRUE" : false,
 			});
 		}
 	}
