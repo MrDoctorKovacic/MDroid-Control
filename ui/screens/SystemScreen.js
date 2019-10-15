@@ -42,15 +42,22 @@ export default class SystemScreen extends React.Component {
 
 		this.state = {
 			fails: 0,
+			MAIN_VOLTAGE: "N/A",
 			AUX_VOLTAGE: "N/A",
 			AUX_CURRENT: "N/A",
 			ACC_POWER: "N/A",
+			ANGEL_EYES_POWER: "N/A",
 			BOARD_POWER: "N/A",
 			TABLET_POWER: "N/A",
+			WIRELESS_POWER: "N/A",
+			WIFI_CONNECTED: "N/A",
+			LTE_ON: "N/A",
 			KEY_DETECTED: "N/A",
 			KEY_STATE: "N/A",
 			DOORS_OPEN: "N/A",
 			OUTSIDE_TEMP: "N/A",
+			INTERIOR_TEMPERATURE: "N/A",
+			INTERIOR_HUMIDITY: "N/A",
 		};
 	}
 
