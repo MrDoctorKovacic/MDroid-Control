@@ -17,7 +17,7 @@ import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 import IconRow from '../components/IconRow.js';
 
-import { SendCommand } from '../../actions/MDroidActions.js';
+import { SendCommand, getRequest } from '../../actions/MDroidActions.js';
 
 export default class ControlsScreen extends React.Component {
   componentDidMount() {
@@ -49,19 +49,19 @@ export default class ControlsScreen extends React.Component {
           </View>
           <View style={[styles.largeContainer, styles.colContainer]}>
             <ButtonGroupTitle isConnected={this.props.isConnected} title="Doors"></ButtonGroupTitle>
-            <ButtonGroup isConnected={this.props.isConnected} reference="doors" buttons={["Lock", "Unlock"]} buttonFunctions={[() => SendCommand("doors/lock"), () => SendCommand("doors/unlock")]} />
+            <ButtonGroup isConnected={this.props.isConnected} reference="doors" buttons={["Lock", "Unlock"]} buttonFunctions={[() => this.props.getRequest("/doors/lock"), () => this.props.getRequest("/doors/unlock")]} />
 
             <ButtonGroupTitle isConnected={this.props.isConnected} title="Windows"></ButtonGroupTitle>
-            <ButtonGroup isConnected={this.props.isConnected} reference="windows" buttons={["Open", "Close"]} buttonFunctions={[() => SendCommand("windows/down"), () => SendCommand("windows/up")]} />
+            <ButtonGroup isConnected={this.props.isConnected} reference="windows" buttons={["Open", "Close"]} buttonFunctions={[() => this.props.getRequest("/windows/down"), () => this.props.getRequest("/windows/up")]} />
 
             <ButtonGroupTitle isConnected={this.props.isConnected} title="Trunk"></ButtonGroupTitle>
-            <ButtonGroup isConnected={this.props.isConnected} reference="trunk" buttons={["Open"]} buttonFunctions={[() => SendCommand("trunk/open")]} />
+            <ButtonGroup isConnected={this.props.isConnected} reference="trunk" buttons={["Open"]} buttonFunctions={[() => this.props.getRequest("/trunk/open")]} />
 
             <ButtonGroupTitle isConnected={this.props.isConnected} title="Hazards"></ButtonGroupTitle>
-            <ButtonGroup isConnected={this.props.isConnected} reference="hazards" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("hazards/on"), () => SendCommand("hazards/off")]} />
+            <ButtonGroup isConnected={this.props.isConnected} reference="hazards" buttons={["On", "Off"]} buttonFunctions={[() => this.props.getRequest("/hazards/on"), () => this.props.getRequest("/hazards/off")]} />
 
             <ButtonGroupTitle isConnected={this.props.isConnected} title="Flashers"></ButtonGroupTitle>
-            <ButtonGroup isConnected={this.props.isConnected} reference="flashers" buttons={["On", "Off"]} buttonFunctions={[() => SendCommand("flashers/on"), () => SendCommand("flashers/off")]} />
+            <ButtonGroup isConnected={this.props.isConnected} reference="flashers" buttons={["On", "Off"]} buttonFunctions={[() => this.props.getRequest("/flashers/on"), () => this.props.getRequest("/flashers/off")]} />
 
           </View>
         </View>
