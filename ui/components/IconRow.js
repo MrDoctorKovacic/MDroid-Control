@@ -23,8 +23,8 @@ export default class DataRow extends React.Component {
 		this.state = {
 			ACC_POWER: false,
 			BOARDS_ENABLED: true,
-			LUCIO_ON: false,
-			ETC_ON: false,
+			BOARD_ON: false,
+			VIDEO_ON: false,
 			videoRecording: false,
 			TABLET_ENABLED: true,
 			WIRELESS_ON: false,
@@ -36,18 +36,18 @@ export default class DataRow extends React.Component {
 	componentDidUpdate(prevProps){
 		if(prevProps.settings !== this.props.settings && this.props.settings != undefined){
 			this.setState({
-				BOARDS_ENABLED: ("LUCIO" in this.props.settings && "POWER" in this.props.settings["LUCIO"]) ? this.props.settings["LUCIO"]["POWER"] == "ON" || this.props.settings["LUCIO"]["POWER"] == "AUTO" : false,
-				TABLET_ENABLED: ("RAYNOR" in this.props.settings && "POWER" in this.props.settings["RAYNOR"]) ? this.props.settings["RAYNOR"]["POWER"] == "ON" || this.props.settings["RAYNOR"]["POWER"] == "AUTO" : false,
-				WIRELESS_ENABLED: ("BRIGHTWING" in this.props.settings && "LTE" in this.props.settings["BRIGHTWING"]) ? this.props.settings["BRIGHTWING"]["LTE"] == "ON" || this.props.settings["BRIGHTWING"]["LTE"] == "AUTO" : false,
-				videoRecording: ("LUCIO" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["LUCIO"]) ? this.props.settings["LUCIO"]["POWER"] == "ON" || this.props.settings["LUCIO"]["POWER"] == "AUTO" : false,
+				BOARDS_ENABLED: ("BOARD" in this.props.settings && "POWER" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] == "ON" || this.props.settings["BOARD"]["POWER"] == "AUTO" : false,
+				TABLET_ENABLED: ("TABLET" in this.props.settings && "POWER" in this.props.settings["TABLET"]) ? this.props.settings["TABLET"]["POWER"] == "ON" || this.props.settings["TABLET"]["POWER"] == "AUTO" : false,
+				WIRELESS_ENABLED: ("LTE" in this.props.settings && "LTE" in this.props.settings["LTE"]) ? this.props.settings["LTE"]["LTE"] == "ON" || this.props.settings["LTE"]["LTE"] == "AUTO" : false,
+				videoRecording: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] == "ON" || this.props.settings["BOARD"]["POWER"] == "AUTO" : false,
 			});
 		}
 
 		if(prevProps.session !== this.props.session && this.props.session != undefined){
 			this.setState({
 				ACC_POWER: ("ACC_POWER" in this.props.session) ? this.props.session["ACC_POWER"]["value"] == "TRUE" : false,
-				LUCIO_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
-				ETC_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
+				BOARD_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
+				VIDEO_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
 				RAYNOR_ON: ("TABLET_POWER" in this.props.session) ? this.props.session["TABLET_POWER"]["value"] == "TRUE" : false,
 				LTE_ON: ("LTE_ON" in this.props.session) ? this.props.session["LTE_ON"]["value"] == "TRUE" : false,
 				WIRELESS_ON: ("WIRELESS_POWER" in this.props.session) ? this.props.session["WIRELESS_POWER"]["value"] == "TRUE" : false,
@@ -75,11 +75,11 @@ export default class DataRow extends React.Component {
 			etcColor = Colors.buttonColorDisabled;
 			lucioColor = Colors.buttonColorDisabled;
 		} else {
-			if(this.state.LUCIO_ON) {
+			if(this.state.BOARD_ON) {
 				lucioColor = Colors.buttonColorOn;
 				videoColor = Colors.buttonColorOn;
 			}
-			if(this.state.ETC_ON) {
+			if(this.state.VIDEO_ON) {
 				etcColor = Colors.buttonColorOn;
 			}
 		}
