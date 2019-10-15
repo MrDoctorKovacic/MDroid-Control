@@ -16,8 +16,8 @@ export default class DataRow extends React.Component {
 
 		return (
 			<View style={{ flex: 1, flexDirection: 'row' }}>
-				<View style={{ flex: 1, }}><Text style={styles.auxText}>{this.props.title}</Text></View>
-				<View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.auxText}>{this.props.value}</Text></View>
+				<View style={{ flex: 1, }}><Text style={styles.normalText}>{this.props.title}</Text></View>
+				<View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.normalText}>{this.props.value}</Text></View>
 			</View>
 		);
 	}

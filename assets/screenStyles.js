@@ -89,6 +89,12 @@ reloadStyles = function(isVertical = false, isConnected = false) {
       fontSize: isVertical ? 20 : 14,
       marginBottom: 20,
     },
+    normalText: {
+      color: !isConnected ? '#777' : '#fff',
+      fontFamily: "Roboto",
+      fontSize: isVertical ? 20 : 14,
+      marginBottom: 20,
+    },
     map: {
       width: isVertical ? wp("60%") : wp("100%"),
       height: isVertical ? hp("50%") : hp("65%"),
