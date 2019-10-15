@@ -79,6 +79,26 @@ export default class SettingsScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Settings</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Angel Eyes"></ButtonGroupTitle>
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("ANGEL_EYES", "POWER", "OFF"), 
+							() => this._requestUpdate("ANGEL_EYES", "POWER", "AUTO"), 
+							() => this._requestUpdate("ANGEL_EYES", "POWER", "ON")]} 
+						status={this.state.angelEyes} />
+
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Pipe In Exhaust"></ButtonGroupTitle>
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF"), 
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "AUTO"), 
+							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON")]} 
+						status={this.state.exhaustNoise} />
+
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Recording"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
@@ -96,26 +116,6 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("LTE", "LTE", "OFF"),
 							() => this._requestUpdate("LTE", "LTE", "ON")]} 
 						status={this.state.wireless} />
-
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Pipe In Exhaust"></ButtonGroupTitle>
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						buttons={["Off", "Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF"), 
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "AUTO"), 
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON")]} 
-						status={this.state.exhaustNoise} />
-
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Angel Eyes"></ButtonGroupTitle>
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						buttons={["Off", "Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdate("ANGEL_EYES", "POWER", "OFF"), 
-							() => this._requestUpdate("ANGEL_EYES", "POWER", "AUTO"), 
-							() => this._requestUpdate("ANGEL_EYES", "POWER", "ON")]} 
-						status={this.state.angelEyes} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Variable Speed Volume"></ButtonGroupTitle>
 					<ButtonGroup 

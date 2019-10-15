@@ -92,6 +92,15 @@ export default class PowerScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdatePower("LTE", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("LTE", "POWER", "ON")]} 
+						status={this.state.ltePower} />
+
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Boards"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
@@ -101,23 +110,6 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("BOARD", "POWER", "AUTO"), 
 							() => this._requestUpdatePower("BOARD", "POWER", "ON")]} 
 						status={this.state.boardPower} />
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						buttons={["Restart Board", "Restart Video"]} 
-						buttonFunctions={[() => this._confirmRestart("board"), () => this._confirmRestart("video")]} />
-
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						buttons={["Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdatePower("LTE", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("LTE", "POWER", "ON")]} 
-						status={this.state.ltePower} />
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						buttons={["Restart LTE"]} 
-						buttonFunctions={[() => this._confirmRestart("lte")]} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Tablet"></ButtonGroupTitle>
 					<ButtonGroup 
@@ -129,11 +121,24 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("TABLET", "POWER", "ON")]} 
 						status={this.state.tabletPower} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Board"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Boards"></ButtonGroupTitle>
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Restart MDroid"]} 
+						buttonFunctions={[() => this._confirmRestart("local")]} />
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Restart LTE"]} 
+						buttonFunctions={[() => this._confirmRestart("lte")]} />
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Restart Board"]} 
-						buttonFunctions={[() => this._confirmRestart("local")]} />
+						buttonFunctions={[() => this._confirmRestart("board")]} />
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Restart Video"]} 
+						buttonFunctions={[() => this._confirmRestart("video")]} />
+
 				</View>
 			</View>
 		);
