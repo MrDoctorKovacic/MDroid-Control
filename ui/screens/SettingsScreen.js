@@ -23,11 +23,10 @@ export default class SettingsScreen extends React.Component {
 
 	componentDidUpdate(prevProps){
 		if(prevProps.settings !== this.props.settings && this.props.settings != undefined){
-			console.log("updating props");
 			this.setState({
-				wireless: ("BRIGHTWING" in this.props.settings && "LTE" in this.props.settings["BRIGHTWING"]) ? this.props.settings["BRIGHTWING"]["LTE"] : "N/A",
-				angelEyes: ("VARIAN" in this.props.settings && "ANGEL_EYES" in this.props.settings["VARIAN"]) ? this.props.settings["VARIAN"]["ANGEL_EYES"] : "N/A",
-				videoRecording: ("LUCIO" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["LUCIO"]) ? this.props.settings["LUCIO"]["VIDEO_RECORDING"] : "N/A",
+				wireless: ("LTE" in this.props.settings && "LTE" in this.props.settings["LTE"]) ? this.props.settings["LTE"]["LTE"] : "N/A",
+				angelEyes: ("ANGEL_EYES" in this.props.settings && "POWER" in this.props.settings["ANGEL_EYES"]) ? this.props.settings["ANGEL_EYES"]["POWER"] : "N/A",
+				videoRecording: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["VIDEO_RECORDING"] : "N/A",
 				exhaustNoise: ("JAINA" in this.props.settings && "EXHAUST_NOISE" in this.props.settings["JAINA"]) ? this.props.settings["JAINA"]["EXHAUST_NOISE"] : "N/A",
 				variableSpeedVolume: ("JAINA" in this.props.settings && "VSV" in this.props.settings["JAINA"]) ? this.props.settings["JAINA"]["VSV"] : "N/A",
 			});
@@ -85,8 +84,8 @@ export default class SettingsScreen extends React.Component {
 						isConnected={this.props.isConnected} 
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "OFF"), 
-							() => this._requestUpdate("LUCIO", "VIDEO_RECORDING", "ON")]} 
+							() => this._requestUpdate("BOARD", "VIDEO_RECORDING", "OFF"), 
+							() => this._requestUpdate("BOARD", "VIDEO_RECORDING", "ON")]} 
 						status={this.state.videoRecording} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Wireless LTE"></ButtonGroupTitle>
@@ -94,8 +93,8 @@ export default class SettingsScreen extends React.Component {
 						isConnected={this.props.isConnected} 
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("BRIGHTWING", "LTE", "OFF"),
-							() => this._requestUpdate("BRIGHTWING", "LTE", "ON")]} 
+							() => this._requestUpdate("LTE", "LTE", "OFF"),
+							() => this._requestUpdate("LTE", "LTE", "ON")]} 
 						status={this.state.wireless} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Pipe In Exhaust"></ButtonGroupTitle>
@@ -113,9 +112,9 @@ export default class SettingsScreen extends React.Component {
 						isConnected={this.props.isConnected} 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "OFF"), 
-							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "AUTO"), 
-							() => this._requestUpdate("VARIAN", "ANGEL_EYES", "ON")]} 
+							() => this._requestUpdate("ANGEL_EYES", "POWER", "OFF"), 
+							() => this._requestUpdate("ANGEL_EYES", "POWER", "AUTO"), 
+							() => this._requestUpdate("ANGEL_EYES", "POWER", "ON")]} 
 						status={this.state.angelEyes} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Variable Speed Volume"></ButtonGroupTitle>
