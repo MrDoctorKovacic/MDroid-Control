@@ -92,15 +92,6 @@ export default class PowerScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
-					<ButtonGroup 
-						isConnected={this.props.isConnected} 
-						buttons={["Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdatePower("LTE", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("LTE", "POWER", "ON")]} 
-						status={this.state.ltePower} />
-
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Boards"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
@@ -120,6 +111,15 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("TABLET", "POWER", "AUTO"), 
 							() => this._requestUpdatePower("TABLET", "POWER", "ON")]} 
 						status={this.state.tabletPower} />
+
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
+					<ButtonGroup 
+						isConnected={this.props.isConnected} 
+						buttons={["Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdatePower("LTE", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("LTE", "POWER", "ON")]} 
+						status={this.state.ltePower} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Boards"></ButtonGroupTitle>
 					<ButtonGroup 
