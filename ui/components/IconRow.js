@@ -62,7 +62,7 @@ export default class DataRow extends React.Component {
     	var {height, width} = Dimensions.get('window');
 		var styles = reloadStyles(height < width, this.props.isConnected);
 
-		var defaultColor = this.props.isConnected ? "#FFF" : Colors.buttonColorDisabled;
+		var defaultColor = this.props.isConnected ? Colors.buttonColorDisabled : "#8b0000";
 
 		var etcColor = defaultColor;
 		var lucioColor = defaultColor;

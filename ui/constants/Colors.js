@@ -12,7 +12,7 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
-  buttonColorDisabled: "#777777",
+  buttonColorDisabled: "#383838",
   buttonColorOn: mdroidOrange,
   buttonColorOff: "#000",
 };
