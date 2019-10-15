@@ -89,7 +89,7 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("ANGEL_EYES", "POWER", "ON")]} 
 						status={this.state.angelEyes} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Pipe In Exhaust"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Enhanced Exhaust"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Off", "Auto", "On"]} 
