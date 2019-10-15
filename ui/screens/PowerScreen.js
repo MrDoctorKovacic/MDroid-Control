@@ -26,9 +26,9 @@ export default class PowerScreen extends React.Component {
 		if(prevProps.settings !== this.props.settings){
 			if (this.props.settings != undefined) {
 				this.setState({
-					brightwingPower: ("BRIGHTWING" in this.props.settings && "POWER" in this.props.settings["BRIGHTWING"]) ? this.props.settings["BRIGHTWING"]["POWER"] : "N/A",
-					lucioPower: ("LUCIO" in this.props.settings && "POWER" in this.props.settings["LUCIO"]) ? this.props.settings["LUCIO"]["POWER"] : "N/A",
-					raynorPower: ("RAYNOR" in this.props.settings && "POWER" in this.props.settings["RAYNOR"]) ? this.props.settings["RAYNOR"]["POWER"] : "N/A",
+					ltePower: ("LTE" in this.props.settings && "POWER" in this.props.settings["LTE"]) ? this.props.settings["LTE"]["POWER"] : "N/A",
+					boardPower: ("BOARD" in this.props.settings && "POWER" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] : "N/A",
+					tabletPower: ("TABLET" in this.props.settings && "POWER" in this.props.settings["TABLET"]) ? this.props.settings["TABLET"]["POWER"] : "N/A",
 				});
 			}
 		}
@@ -43,15 +43,15 @@ export default class PowerScreen extends React.Component {
 
 		if (global.demoMode) {
 			this.state = {
-				raynorPower: "AUTO",
-				lucioPower: "AUTO",
-				brightwingPower: "AUTO",
+				tabletPower: "AUTO",
+				boardPower: "AUTO",
+				ltePower: "AUTO",
 			};
 		} else {
 			this.state = {
-				raynorPower: "N/A",
-				lucioPower: "N/A",
-				brightwingPower: "N/A",
+				tabletPower: "N/A",
+				boardPower: "N/A",
+				ltePower: "N/A",
 				toasted: 0,
 				refreshing: false,
 				fails: 0
@@ -92,43 +92,42 @@ export default class PowerScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Lucio / ETC"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Boards"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("LUCIO", "POWER", "OFF"), 
-							() => this._requestUpdatePower("LUCIO", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("LUCIO", "POWER", "ON")]} 
-						status={this.state.lucioPower} />
+							() => this._requestUpdatePower("BOARD", "POWER", "OFF"), 
+							() => this._requestUpdatePower("BOARD", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("BOARD", "POWER", "ON")]} 
+						status={this.state.boardPower} />
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						buttons={["Restart Lucio", "Restart ETC"]} 
-						buttonFunctions={[() => this._confirmRestart("lucio"), () => this._confirmRestart("etc")]} />
+						buttons={["Restart Board", "Restart Video"]} 
+						buttonFunctions={[() => this._confirmRestart("board"), () => this._confirmRestart("video")]} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Brightwing"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						buttons={["Off", "Auto", "On"]} 
+						buttons={["Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("BRIGHTWING", "POWER", "OFF"), 
-							() => this._requestUpdatePower("BRIGHTWING", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("BRIGHTWING", "POWER", "ON")]} 
-						status={this.state.brightwingPower} />
+							() => this._requestUpdatePower("LTE", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("LTE", "POWER", "ON")]} 
+						status={this.state.ltePower} />
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						buttons={["Restart Brightwing"]} 
-						buttonFunctions={[() => this._confirmRestart("brightwing")]} />
+						buttons={["Restart LTE"]} 
+						buttonFunctions={[() => this._confirmRestart("lte")]} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Raynor"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Tablet"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("RAYNOR", "POWER", "OFF"), 
-							() => this._requestUpdatePower("RAYNOR", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("RAYNOR", "POWER", "ON")]} 
-						status={this.state.raynorPower} />
+							() => this._requestUpdatePower("TABLET", "POWER", "OFF"), 
+							() => this._requestUpdatePower("TABLET", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("TABLET", "POWER", "ON")]} 
+						status={this.state.tabletPower} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Board"></ButtonGroupTitle>
 					<ButtonGroup 
