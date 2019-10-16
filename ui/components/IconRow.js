@@ -38,7 +38,7 @@ export default class DataRow extends React.Component {
 			this.setState({
 				BOARDS_ENABLED: ("BOARD" in this.props.settings && "POWER" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] == "ON" || this.props.settings["BOARD"]["POWER"] == "AUTO" : false,
 				TABLET_ENABLED: ("TABLET" in this.props.settings && "POWER" in this.props.settings["TABLET"]) ? this.props.settings["TABLET"]["POWER"] == "ON" || this.props.settings["TABLET"]["POWER"] == "AUTO" : false,
-				WIRELESS_ENABLED: ("LTE" in this.props.settings && "LTE" in this.props.settings["LTE"]) ? this.props.settings["LTE"]["LTE"] == "ON" || this.props.settings["LTE"]["LTE"] == "AUTO" : false,
+				WIRELESS_ENABLED: ("WIRELESS" in this.props.settings && "LTE" in this.props.settings["WIRELESS"]) ? this.props.settings["WIRELESS"]["LTE"] == "ON" || this.props.settings["WIRELESS"]["LTE"] == "AUTO" : false,
 				videoRecording: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] == "ON" || this.props.settings["BOARD"]["POWER"] == "AUTO" : false,
 			});
 		}
