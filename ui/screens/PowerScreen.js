@@ -26,7 +26,7 @@ export default class PowerScreen extends React.Component {
 		if(prevProps.settings !== this.props.settings){
 			if (this.props.settings != undefined) {
 				this.setState({
-					ltePower: ("LTE" in this.props.settings && "POWER" in this.props.settings["LTE"]) ? this.props.settings["LTE"]["POWER"] : "N/A",
+					wirelessPower: ("WIRELESS" in this.props.settings && "POWER" in this.props.settings["WIRELESS"]) ? this.props.settings["WIRELESS"]["POWER"] : "N/A",
 					boardPower: ("BOARD" in this.props.settings && "POWER" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] : "N/A",
 					tabletPower: ("TABLET" in this.props.settings && "POWER" in this.props.settings["TABLET"]) ? this.props.settings["TABLET"]["POWER"] : "N/A",
 				});
@@ -45,13 +45,13 @@ export default class PowerScreen extends React.Component {
 			this.state = {
 				tabletPower: "AUTO",
 				boardPower: "AUTO",
-				ltePower: "AUTO",
+				wirelessPower: "AUTO",
 			};
 		} else {
 			this.state = {
 				tabletPower: "N/A",
 				boardPower: "N/A",
-				ltePower: "N/A",
+				wirelessPower: "N/A",
 				toasted: 0,
 				refreshing: false,
 				fails: 0
@@ -112,14 +112,14 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("TABLET", "POWER", "ON")]} 
 						status={this.state.tabletPower} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="WIRELESS"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdatePower("LTE", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("LTE", "POWER", "ON")]} 
-						status={this.state.ltePower} />
+							() => this._requestUpdatePower("WIRELESS", "POWER", "AUTO"), 
+							() => this._requestUpdatePower("WIRELESS", "POWER", "ON")]} 
+						status={this.state.wirelessPower} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Boards"></ButtonGroupTitle>
 					<ButtonGroup 
@@ -128,8 +128,8 @@ export default class PowerScreen extends React.Component {
 						buttonFunctions={[() => this._confirmRestart("local")]} />
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
-						buttons={["Restart LTE"]} 
-						buttonFunctions={[() => this._confirmRestart("lte")]} />
+						buttons={["Restart Wireless"]} 
+						buttonFunctions={[() => this._confirmRestart("wireless")]} />
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Restart Board"]} 

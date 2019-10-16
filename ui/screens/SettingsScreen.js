@@ -24,7 +24,7 @@ export default class SettingsScreen extends React.Component {
 	componentDidUpdate(prevProps){
 		if(prevProps.settings !== this.props.settings && this.props.settings != undefined){
 			this.setState({
-				wireless: ("LTE" in this.props.settings && "LTE" in this.props.settings["LTE"]) ? this.props.settings["LTE"]["LTE"] : "N/A",
+				wireless: ("WIRELESS" in this.props.settings && "LTE" in this.props.settings["WIRELESS"]) ? this.props.settings["WIRELESS"]["LTE"] : "N/A",
 				angelEyes: ("ANGEL_EYES" in this.props.settings && "POWER" in this.props.settings["ANGEL_EYES"]) ? this.props.settings["ANGEL_EYES"]["POWER"] : "N/A",
 				videoRecording: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["VIDEO_RECORDING"] : "N/A",
 				exhaustNoise: ("JAINA" in this.props.settings && "EXHAUST_NOISE" in this.props.settings["JAINA"]) ? this.props.settings["JAINA"]["EXHAUST_NOISE"] : "N/A",
@@ -108,13 +108,13 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("BOARD", "VIDEO_RECORDING", "ON")]} 
 						status={this.state.videoRecording} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Wireless LTE"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("LTE", "LTE", "OFF"),
-							() => this._requestUpdate("LTE", "LTE", "ON")]} 
+							() => this._requestUpdate("WIRELESS", "LTE", "OFF"),
+							() => this._requestUpdate("WIRELESS", "LTE", "ON")]} 
 						status={this.state.wireless} />
 
 					<ButtonGroupTitle isConnected={this.props.isConnected} title="Variable Speed Volume"></ButtonGroupTitle>
