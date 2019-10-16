@@ -112,7 +112,7 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("TABLET", "POWER", "ON")]} 
 						status={this.state.tabletPower} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="WIRELESS"></ButtonGroupTitle>
+					<ButtonGroupTitle isConnected={this.props.isConnected} title="Wireless"></ButtonGroupTitle>
 					<ButtonGroup 
 						isConnected={this.props.isConnected} 
 						buttons={["Auto", "On"]} 
