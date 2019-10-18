@@ -35,6 +35,7 @@ import {serverHost, token} from './config.json';
 global.SERVER_HOST = serverHost;
 global.TOKEN = token;
 global.ws = undefined;
+global.isConnected;
 
 export default class App extends React.Component {
 	createWebsocket() {
@@ -125,6 +126,7 @@ export default class App extends React.Component {
 	}
 
 	componentWillUpdate(nextProps, nextState) {
+		global.isConnected = nextState.isConnected;
 		if (nextState.isConnected && this.state.isConnected == false) {
 			this._requestFullUpdate();
 		}

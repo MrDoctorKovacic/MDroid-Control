@@ -59,9 +59,9 @@ export default class DataRow extends React.Component {
 
 		// Responsive styling
     	var {height, width} = Dimensions.get('window');
-		var styles = reloadStyles(height < width, this.props.isConnected);
+		var styles = reloadStyles(height < width, global.isConnected);
 
-		var defaultColor = this.props.isConnected ? Colors.buttonColorDisabled : "#8b0000";
+		var defaultColor = global.isConnected ? Colors.buttonColorDisabled : "#8b0000";
 
 		var etcColor = defaultColor;
 		var lucioColor = defaultColor;
@@ -110,7 +110,7 @@ export default class DataRow extends React.Component {
 		return (
             <View style={[styles.container, styles.containerPaddingBottom]}>
 				<View style={[styles.buttonsContainer]}>
-					<IconPower width={iconWidth} height={iconHeight} fill={this.state.ACC_POWER && this.props.isConnected ? Colors.buttonColorOn : defaultColor} />
+					<IconPower width={iconWidth} height={iconHeight} fill={this.state.ACC_POWER && global.isConnected ? Colors.buttonColorOn : defaultColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
 					<IconETC width={iconWidth} height={iconHeight} fill={etcColor} />

@@ -18,12 +18,12 @@ export default class ButtonGroup extends React.Component {
 	render() {
       // Responsive styling
       var {height, width} = Dimensions.get('window');
-      var styles = reloadStyles(height < width, this.props.isConnected);
+      var styles = reloadStyles(height < width, global.isConnected);
 
       buttonCount = this.props.buttons.length;
 
       // Change button color
-      buttonOnColor = this.props.isConnected ? Colors.buttonColorOn : Colors.buttonColorOn;
+      buttonOnColor = global.isConnected ? Colors.buttonColorOn : Colors.buttonColorOn;
 
       // Setup buttons
       buttonOneTitle = this.props.buttons[0];
@@ -63,7 +63,7 @@ export default class ButtonGroup extends React.Component {
                     style={[styles.button]}
                     onPress={buttonOneFunction}
                     title={buttonOneTitle}
-                    disabled={this.props.isConnected ? false : true}
+                    disabled={global.isConnected ? false : true}
                     color={!this.props.status || this.props.status == buttonOneTitle.toUpperCase() ? buttonOnColor : Colors.buttonColorOff}
                   />
               </View>
@@ -72,7 +72,7 @@ export default class ButtonGroup extends React.Component {
                     style={[styles.button]}
                     onPress={buttonTwoFunction}
                     title={buttonTwoTitle}
-                    disabled={this.props.isConnected ? false : true}
+                    disabled={global.isConnected ? false : true}
                     color={!this.props.status || this.props.status == buttonTwoTitle.toUpperCase() ? buttonOnColor : Colors.buttonColorOff}
                   />
               </View>
@@ -81,7 +81,7 @@ export default class ButtonGroup extends React.Component {
                     style={[styles.button]}
                     onPress={buttonThreeFunction}
                     title={buttonThreeTitle}
-                    disabled={this.props.isConnected ? false : true}
+                    disabled={global.isConnected ? false : true}
                     color={!this.props.status || this.props.status == buttonThreeTitle.toUpperCase() ? buttonOnColor : Colors.buttonColorOff}
                   />
               </View>

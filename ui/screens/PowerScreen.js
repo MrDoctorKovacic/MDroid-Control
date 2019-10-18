@@ -72,7 +72,7 @@ export default class PowerScreen extends React.Component {
   	render() {
 		// Responsive styling
 		var {height, width} = Dimensions.get('window');
-		var styles = reloadStyles(height < width, this.props.isConnected);
+		var styles = reloadStyles(height < width, global.isConnected);
 
 		return (
 			<View>
@@ -80,9 +80,9 @@ export default class PowerScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Boards"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Video Boards"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdatePower("BOARD", "POWER", "OFF"), 
@@ -90,9 +90,9 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("BOARD", "POWER", "ON")]} 
 						status={this.state.boardPower} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Tablet"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Tablet"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdatePower("TABLET", "POWER", "OFF"), 
@@ -100,30 +100,30 @@ export default class PowerScreen extends React.Component {
 							() => this._requestUpdatePower("TABLET", "POWER", "ON")]} 
 						status={this.state.tabletPower} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Wireless"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Wireless"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdatePower("WIRELESS", "POWER", "AUTO"), 
 							() => this._requestUpdatePower("WIRELESS", "POWER", "ON")]} 
 						status={this.state.wirelessPower} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Restart Boards"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Restart Boards"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Restart MDroid"]} 
 						buttonFunctions={[() => this._confirmRestart("local")]} />
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Restart Wireless"]} 
 						buttonFunctions={[() => this._confirmRestart("wireless")]} />
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Restart Board"]} 
 						buttonFunctions={[() => this._confirmRestart("board")]} />
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Restart Video"]} 
 						buttonFunctions={[() => this._confirmRestart("video")]} />
 				</View>

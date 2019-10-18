@@ -55,7 +55,7 @@ export default class SettingsScreen extends React.Component {
   	render() {
 		// Responsive styling
 		var {height, width} = Dimensions.get('window');
-		var styles = reloadStyles(height < width, this.props.isConnected);
+		var styles = reloadStyles(height < width, global.isConnected);
 
 		return (
 			<View>
@@ -63,9 +63,9 @@ export default class SettingsScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Settings</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Angel Eyes"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Angel Eyes"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdate("ANGEL_EYES", "POWER", "OFF"), 
@@ -73,9 +73,9 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("ANGEL_EYES", "POWER", "ON")]} 
 						status={this.state.angelEyes} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Enhanced Exhaust"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Enhanced Exhaust"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF"), 
@@ -83,27 +83,27 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON")]} 
 						status={this.state.exhaustNoise} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Video Recording"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Video Recording"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdate("BOARD", "VIDEO_RECORDING", "OFF"), 
 							() => this._requestUpdate("BOARD", "VIDEO_RECORDING", "ON")]} 
 						status={this.state.videoRecording} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="LTE"></ButtonGroupTitle>
+					<ButtonGroupTitle title="LTE"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdate("WIRELESS", "LTE", "OFF"),
 							() => this._requestUpdate("WIRELESS", "LTE", "ON")]} 
 						status={this.state.wireless} />
 
-					<ButtonGroupTitle isConnected={this.props.isConnected} title="Variable Speed Volume"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Variable Speed Volume"></ButtonGroupTitle>
 					<ButtonGroup 
-						isConnected={this.props.isConnected} 
+						
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdate("JAINA", "VSV", "OFF"), 

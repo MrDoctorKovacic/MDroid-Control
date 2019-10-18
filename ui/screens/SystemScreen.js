@@ -61,7 +61,7 @@ export default class SystemScreen extends React.Component {
 	render() {
 		// Responsive styling
 		var {height, width} = Dimensions.get('window');
-		var styles = reloadStyles(height < width, this.props.isConnected);
+		var styles = reloadStyles(height < width, global.isConnected);
 
 		return (
 				<View>
@@ -73,7 +73,7 @@ export default class SystemScreen extends React.Component {
 						Object.keys(this.state).map((item) => {
 							if (typeof this.state[item] == "string" && item != "refreshing" && item != "fails" && item != "orientation") {
 								return (
-									<DataRow isConnected={this.props.isConnected} title={item} value={this.state[item]} />
+									<DataRow title={item} value={this.state[item]} />
 								);
 							}
 						})

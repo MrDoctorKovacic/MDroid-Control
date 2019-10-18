@@ -16,7 +16,7 @@ export default class ButtonGroup extends React.Component {
 	render() {
       // Responsive styling
       var {height, width} = Dimensions.get('window');
-      var styles = reloadStyles(height < width, this.props.isConnected);
+      var styles = reloadStyles(height < width, global.isConnected);
 
 			return (
         <View style={[styles.container, styles.rowContainer]}>
