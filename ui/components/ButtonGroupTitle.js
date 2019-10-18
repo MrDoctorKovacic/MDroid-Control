@@ -1,13 +1,11 @@
 import React from 'react';
 import {
-	StyleSheet,
 	Text,
 	View,
-  Button,
   Dimensions
   } from 'react-native';
 
-import styles from '../../assets/screenStyles.js';
+import reloadStyles from '../styles/screen.js';
 import Colors from '../constants/Colors.js';
 
 export default class ButtonGroup extends React.Component {

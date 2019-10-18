@@ -1,16 +1,16 @@
 import React from 'react';
 import {Text,View,Dimensions} from 'react-native';
-import styles from '../../assets/screenStyles.js';
+import reloadStyles from '../styles/screen.js';
 import Colors from '../constants/Colors.js';
 
-import IconETC from '../../assets/images/icons/etc.js';
-import IconLucio from '../../assets/images/icons/lucio.js';
-import IconCore from '../../assets/images/icons/core.js';
-import IconLTE from '../../assets/images/icons/lte.js';
-import IconWireless from '../../assets/images/icons/wireless.js';
-import IconTablet from '../../assets/images/icons/tablet.js';
-import IconRecord from '../../assets/images/icons/record.js';
-import IconPower from '../../assets/images/icons/power.js';
+import IconETC from '../images/icons/etc.js';
+import IconLucio from '../images/icons/lucio.js';
+import IconCore from '../images/icons/core.js';
+import IconLTE from '../images/icons/lte.js';
+import IconWireless from '../images/icons/wireless.js';
+import IconTablet from '../images/icons/tablet.js';
+import IconRecord from '../images/icons/record.js';
+import IconPower from '../images/icons/power.js';
 
 const iconHeight = 30;
 const iconWidth = 55; 

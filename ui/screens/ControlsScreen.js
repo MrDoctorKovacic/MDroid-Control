@@ -12,7 +12,7 @@ import {
   listenOrientationChange as loc,
   removeOrientationListener as rol
 } from 'react-native-responsive-screen';
-import styles from '../../assets/screenStyles.js';
+import reloadStyles from '../styles/screen.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 

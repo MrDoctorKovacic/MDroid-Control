@@ -14,7 +14,7 @@ import {
 	listenOrientationChange as loc,
 	removeOrientationListener as rol
 } from 'react-native-responsive-screen';
-import styles from '../../assets/screenStyles.js';
+import reloadStyles from '../styles/screen.js';
 
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapStyle, { LATITUDE, LONGITUDE, LATITUDE_DELTA, LONGITUDE_DELTA } from '../constants/MapStyle.js'

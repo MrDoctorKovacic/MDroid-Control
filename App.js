@@ -19,7 +19,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Swiper from 'react-native-swiper';
 
 // Actions
-import { CreateSocket, SendToSocket, postRequest, getRequest } from './actions/MDroidActions.js';
+import { CreateSocket, SendToSocket, postRequest, getRequest } from './ui/actions/MDroidActions.js';
 
 // Screens
 import ControlsScreen from './ui/screens/ControlsScreen.js';
@@ -28,6 +28,8 @@ import GpsScreen from './ui/screens/GpsScreen.js';
 import SystemScreen from './ui/screens/SystemScreen.js';
 import PowerScreen from './ui/screens/PowerScreen.js';
 import IconRow from './ui/components/IconRow.js'
+
+import reloadStyles from '../styles/main.js';
 
 // Config
 import {serverHost, token} from './config.json';
@@ -116,6 +118,14 @@ export default class App extends React.Component {
 		}
 	}
 
+	checkQueue() {
+		if(this.socketReady && this.messageQueue.length != 0) {
+			this.socketReady = false;
+			dataArray = this.messageQueue.pop();
+			SendToSocket(global.ws, dataArray[0], dataArray[1], dataArray[2])
+		}
+	}
+
 	componentWillUpdate(nextProps, nextState) {
 		if (nextState.isConnected && this.state.isConnected == false) {
 			this._requestFullUpdate();
@@ -129,14 +139,6 @@ export default class App extends React.Component {
 		this.messageQueue.push(["GET", "/session/gps", ""])
 		//this.messageQueue.push(["POST", "/session/LTE_ON", "{\"value\": \"FALSE\"}"])
 		this.checkQueue();
-	}
-
-	checkQueue() {
-		if(this.socketReady && this.messageQueue.length != 0) {
-			this.socketReady = false;
-			dataArray = this.messageQueue.pop();
-			SendToSocket(global.ws, dataArray[0], dataArray[1], dataArray[2])
-		}
 	}
 
 	componentDidMount() {
@@ -157,11 +159,8 @@ export default class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 		this.createWebsocket();
-
 		this.messageQueue = [];
-
 		this.state = {
 			isConnected: false,
 			refreshing: false,
@@ -181,58 +180,19 @@ export default class App extends React.Component {
 		// Responsive styling
 		var {height, width} = Dimensions.get('window');
 		var isVertical = (width < height);
-		var image = isVertical ? require('./assets/images/1.png') : require('./assets/images/3-rotated.png');
-		var styles = StyleSheet.create({
-			container: {
-				backgroundColor: '#000',
-				height: hp('100%'),
-				width: wp('100%'),
-				maxHeight: isVertical ? 'auto' : 650,
-				flexDirection: isVertical ? 'column' : 'row'
-			},
-			swiperContainer: {
-				marginTop: 30,
-			},
-			imageContainer: {
-				width: isVertical ? wp('80%') : wp('30%'),
-				height: isVertical ? 'auto' : hp('80%'),
-				marginTop: isVertical ? hp('3%') : hp('15%'),
-				marginBottom: isVertical ? hp('3%') : hp('0%'),
-				marginLeft: isVertical ? wp('10%') : 0,
-				color: "#FFF",
-				flexDirection: 'row',
-				zIndex: isVertical ? 0 : 2
-			},
-			mainLeftImage: {
-				height: isVertical ? hp('20%') : hp('80%'),
-				width: isVertical ? wp("80%") : wp('20%'),
-				marginLeft: isVertical ? 0 : wp('7.5%'),
-				flexDirection: 'column',
-				resizeMode:'contain'
-			},
-			mainContainer: {
-				width: isVertical ? wp('100%') : wp('70%'),
-				height: hp('60%'),
-			},
-			viewBlocker: isVertical ? {} : {
-				backgroundColor: '#000000',
-				width: wp('30%'),
-				height: hp('100%'),
-				left: 0,
-				position: 'absolute'
-			}
-		});
+		var image = isVertical ? require('./ui/images/1.png') : require('./ui/images/3-rotated.png');
+		var mainStyles = reloadStyles(height < width, this.state.isConnected);
 
 		return (
-			<View style={[styles.container]} onLayout={this._onLayout}>
+			<View style={[mainStyles.container]} onLayout={this._onLayout}>
 				<StatusBar barStyle="dark-content" backgroundColor="#000000" translucent={true} />
-				<View style={[styles.imageContainer]}>
-					<Image style={styles.mainLeftImage} source={image} />
+				<View style={[mainStyles.imageContainer]}>
+					<Image style={mainStyles.mainLeftImage} source={image} />
 				</View>
 				<View><IconRow isConnected={this.state.isConnected} session={this.state.session} settings={this.state.settings} ></IconRow></View>
 				<Swiper
 					index={0}
-					style={styles.swiperContainer}
+					style={mainStyles.swiperContainer}
 					showsPagination={true}
 					opacity={this.state.isConnected ? 1 : 0.7}
 					dotColor='rgba(255,255,255,.2)'
@@ -276,7 +236,7 @@ export default class App extends React.Component {
 						<SystemScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.session} isConnected={this.state.isConnected} />
 					</ScrollView>
 				</Swiper>
-				<View style={styles.viewBlocker} />
+				<View style={mainStyles.viewBlocker} />
 			</View>
 		);
 	}
