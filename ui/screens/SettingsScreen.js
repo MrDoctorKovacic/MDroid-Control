@@ -5,8 +5,6 @@ import {
   Dimensions,
 } from 'react-native';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
   listenOrientationChange as loc,
   removeOrientationListener as rol
 } from 'react-native-responsive-screen';
@@ -38,27 +36,15 @@ export default class SettingsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		if (global.demoMode) {
-			this.state = {
-				angelEyes: "ON",
-				sentryMode: "AUTO",
-				exhaustNoise: "AUTO",
-				variableSpeedVolume: "ON",
-				wireless: "AUTO",
-				toasted: 0,
-			};
-		} else {
-			this.state = {
-				angelEyes: "N/A",
-				sentryMode: "N/A",
-				exhaustNoise: "N/A",
-				variableSpeedVolume: "N/A",
-				wireless: "N/A",
-				toasted: 0,
-				fails: 0
-			};
-
-		}
+		this.state = {
+			angelEyes: "N/A",
+			sentryMode: "N/A",
+			exhaustNoise: "N/A",
+			variableSpeedVolume: "N/A",
+			wireless: "N/A",
+			toasted: 0,
+			fails: 0
+		};
 	}
 
 	// Handler for update

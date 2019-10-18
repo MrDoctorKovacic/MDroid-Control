@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-	StyleSheet,
 	Text,
 	View,
 	Dimensions,
@@ -9,8 +8,6 @@ import {
 	Linking
 } from 'react-native';
 import {
-	widthPercentageToDP as wp,
-	heightPercentageToDP as hp,
 	listenOrientationChange as loc,
 	removeOrientationListener as rol
 } from 'react-native-responsive-screen';
@@ -94,34 +91,34 @@ export default class GpsScreen extends React.Component {
 		var styles = reloadStyles(height < width, this.props.isConnected);
 
 		return (
-				<View>
-					<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
-						<Text style={styles.mainTitleText}>Location</Text>
+			<View>
+				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
+					<Text style={styles.mainTitleText}>Location</Text>
+				</View>
+				<View style={[styles.largeContainer, styles.colContainer]}>
+					<View pointerEvents="auto">
+						<TouchableWithoutFeedback onPress={() => this.openInMaps(this.state.region.latitude, this.state.region.longitude)}>
+							<MapView
+								provider={PROVIDER_GOOGLE}
+								initialRegion={this.state.region}
+								customMapStyle={MapStyle}
+								style={styles.map}
+								showsUserLocation={true}
+								scrollEnabled={false}>
+								<Marker coordinate={this.state.region} />
+							</MapView>
+						</TouchableWithoutFeedback>
 					</View>
-					<View style={[styles.largeContainer, styles.colContainer]}>
-						<View pointerEvents="auto">
-							<TouchableWithoutFeedback onPress={() => this.openInMaps(this.state.region.latitude, this.state.region.longitude)}>
-								<MapView
-									provider={PROVIDER_GOOGLE}
-									initialRegion={this.state.region}
-									customMapStyle={MapStyle}
-									style={styles.map}
-									showsUserLocation={true}
-									scrollEnabled={false}>
-									<Marker coordinate={this.state.region} />
-								</MapView>
-							</TouchableWithoutFeedback>
-						</View>
 
-						<View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.containerPaddingBottom, styles.colContainer]}>
-							<Text style={styles.normalText}>Latitude: {this.state.region.latitude}</Text>
-							<Text style={styles.normalText}>Longitude: {this.state.region.longitude}</Text>
-							<Text style={styles.normalText}>Time: {this.state.gps.time}</Text>
-							<Text style={styles.normalText}>Speed: {this.state.gps.speed}</Text>
-							<Text style={styles.normalText}>Course: {this.state.gps.course}</Text>
-						</View>
+					<View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.containerPaddingBottom, styles.colContainer]}>
+						<Text style={styles.normalText}>Latitude: {this.state.region.latitude}</Text>
+						<Text style={styles.normalText}>Longitude: {this.state.region.longitude}</Text>
+						<Text style={styles.normalText}>Time: {this.state.gps.time}</Text>
+						<Text style={styles.normalText}>Speed: {this.state.gps.speed}</Text>
+						<Text style={styles.normalText}>Course: {this.state.gps.course}</Text>
 					</View>
 				</View>
+			</View>
 		);
 		}
 }

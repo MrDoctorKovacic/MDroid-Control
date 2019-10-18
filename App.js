@@ -5,7 +5,6 @@ import {
 	ToastAndroid, 
 	RefreshControl, 
 	ScrollView, 
-	StyleSheet, 
 	View, 
 	Image
 } from 'react-native';
@@ -35,7 +34,6 @@ import reloadStyles from '../styles/main.js';
 import {serverHost, token} from './config.json';
 global.SERVER_HOST = serverHost;
 global.TOKEN = token;
-global.demoMode = false;
 global.ws = undefined;
 
 export default class App extends React.Component {

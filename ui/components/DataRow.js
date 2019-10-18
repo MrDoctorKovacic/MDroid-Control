@@ -1,5 +1,9 @@
 import React from 'react';
-import {Text,View,Dimensions} from 'react-native';
+import {
+	Text,
+	View,
+	Dimensions
+} from 'react-native';
 import reloadStyles from '../styles/screen.js';
 
 export default class DataRow extends React.Component {

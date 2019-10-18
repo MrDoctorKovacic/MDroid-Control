@@ -6,7 +6,6 @@ import {
   } from 'react-native';
 
 import reloadStyles from '../styles/screen.js';
-import Colors from '../constants/Colors.js';
 
 export default class ButtonGroup extends React.Component {
 

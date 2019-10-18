@@ -1,11 +1,10 @@
 import React from 'react';
-import {Text,View,Dimensions} from 'react-native';
+import {View,Dimensions} from 'react-native';
 import reloadStyles from '../styles/screen.js';
 import Colors from '../constants/Colors.js';
 
 import IconETC from '../images/icons/etc.js';
 import IconLucio from '../images/icons/lucio.js';
-import IconCore from '../images/icons/core.js';
 import IconLTE from '../images/icons/lte.js';
 import IconWireless from '../images/icons/wireless.js';
 import IconTablet from '../images/icons/tablet.js';
@@ -133,11 +132,5 @@ export default class DataRow extends React.Component {
 				</View>
             </View>
 		);
-
-		/* For core?
-				<View style={[styles.buttonsContainer]}>
-					<IconCore width={iconWidth} height={iconHeight} fill={this.props.isConnected ? Colors.buttonColorOn : "#FFF"} />
-				</View>
-				*/
 	}
 }

@@ -6,8 +6,6 @@ import {
   Alert
 } from 'react-native';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
   listenOrientationChange as loc,
   removeOrientationListener as rol
 } from 'react-native-responsive-screen';
@@ -39,22 +37,14 @@ export default class PowerScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		if (global.demoMode) {
-			this.state = {
-				tabletPower: "AUTO",
-				boardPower: "AUTO",
-				wirelessPower: "AUTO",
-			};
-		} else {
-			this.state = {
-				tabletPower: "N/A",
-				boardPower: "N/A",
-				wirelessPower: "N/A",
-				toasted: 0,
-				refreshing: false,
-				fails: 0
-			};
-		}
+		this.state = {
+			tabletPower: "N/A",
+			boardPower: "N/A",
+			wirelessPower: "N/A",
+			toasted: 0,
+			refreshing: false,
+			fails: 0
+		};
 	}
 
 	// Handler for update
