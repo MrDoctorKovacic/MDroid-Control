@@ -84,7 +84,11 @@ export default class DataRow extends React.Component {
 		}
 
 		if(!this.state.VIDEO_ENABLED) {
-			videoColor = Colors.buttonColorDisabled;
+			videoColor = "#8b0000";
+		} else {
+			if(this.state.VIDEO_ON) {
+				videoColor = Colors.buttonColorOn;
+			}
 		}
 
 		if(!this.state.TABLET_ENABLED) {
