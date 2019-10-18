@@ -135,20 +135,12 @@ export default class App extends React.Component {
 		this.messageQueue.push(["GET", "/settings", ""])
 		this.messageQueue.push(["GET", "/session", ""])
 		this.messageQueue.push(["GET", "/session/gps", ""])
-		//this.messageQueue.push(["POST", "/session/LTE_ON", "{\"value\": \"FALSE\"}"])
 		this.checkQueue();
 	}
 
 	componentDidMount() {
 		loc(this);
-
-		if (global.demoMode) {
-			this.setState({
-				isConnected: true
-			});
-		} else {
-			this.checkQueue();
-		}
+		this.checkQueue();
 	}
 
 	componentWillUnMount() {
