@@ -5,6 +5,7 @@ import {
   listenOrientationChange as loc,
   removeOrientationListener as rol
 } from 'react-native-responsive-screen';
+import Colors from '../constants/Colors';
 
 reloadStyles = function(isVertical = false, isConnected = false) {
 
@@ -60,6 +61,10 @@ reloadStyles = function(isVertical = false, isConnected = false) {
     rowContainer: {
       flexDirection: isVertical ? 'column' : 'row',
       alignItems: 'flex-start'
+    },
+    button: { // default button colors
+      backgroundColor: Colors.buttonColorDisabled,
+      color: Colors.buttonColorDisabled
     },
     buttonsWrapper: {
       flex: 1,
