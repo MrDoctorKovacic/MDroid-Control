@@ -5,7 +5,7 @@ export const CreateSocket = () => {
 }
 
 export const SendToSocket = async (ws, method, path, data) => {
-    obj = {"output": method+";"+path+";"+data, "method":"request"}
+    obj = {"output": method+";"+path+"?min=1;"+data, "method":"request"}
     ws.send(JSON.stringify(obj));
 }
 
