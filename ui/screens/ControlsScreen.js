@@ -15,9 +15,6 @@ import {
 import styles from '../../assets/screenStyles.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
-import IconRow from '../components/IconRow.js';
-
-import { SendCommand, getRequest } from '../../actions/MDroidActions.js';
 
 export default class ControlsScreen extends React.Component {
   componentDidMount() {

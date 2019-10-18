@@ -14,8 +14,6 @@ import styles from '../../assets/screenStyles.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 
-import { UpdateSetting, SendCommand, SendToSocket } from '../../actions/MDroidActions.js'; 
-
 export default class SettingsScreen extends React.Component {
 	componentDidMount() {
 		loc(this);

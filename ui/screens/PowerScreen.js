@@ -15,8 +15,6 @@ import styles from '../../assets/screenStyles.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 
-import { UpdateSetting, SendCommand, SendRestart } from '../../actions/MDroidActions.js'; 
-
 export default class PowerScreen extends React.Component {
 	componentDidMount() {
 		loc(this);
