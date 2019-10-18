@@ -110,5 +110,4 @@ reloadStyles = function(isVertical = false, isConnected = false) {
   return styles;
 }
 
-var styles = reloadStyles();
-export default styles;
+export default reloadStyles;

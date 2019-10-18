@@ -4,7 +4,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-reloadStyles = function(isVertical = false, isConnected = false) {
+reloadMainStyles = function(isVertical = false, isConnected = false) {
   var main = StyleSheet.create({
     container: {
       backgroundColor: '#000',
@@ -49,5 +49,4 @@ reloadStyles = function(isVertical = false, isConnected = false) {
   return main;
 }
 
-var mainStyle = reloadStyles();
-export default mainStyle;
+export default reloadMainStyles;

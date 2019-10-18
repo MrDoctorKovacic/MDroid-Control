@@ -28,7 +28,7 @@ import SystemScreen from './ui/screens/SystemScreen.js';
 import PowerScreen from './ui/screens/PowerScreen.js';
 import IconRow from './ui/components/IconRow.js'
 
-import reloadStyles from './ui/styles/main.js';
+import reloadMainStyles from './ui/styles/main.js';
 
 // Config
 import {serverHost, token} from './config.json';
@@ -173,7 +173,7 @@ export default class App extends React.Component {
 		var {height, width} = Dimensions.get('window');
 		var isVertical = (width < height);
 		var image = isVertical ? require('./ui/images/1.png') : require('./ui/images/3-rotated.png');
-		var mainStyles = reloadStyles(height < width, this.state.isConnected);
+		var mainStyles = reloadMainStyles(isVertical, this.state.isConnected);
 
 		return (
 			<View style={[mainStyles.container]} onLayout={this._onLayout}>

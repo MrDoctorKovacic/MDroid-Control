@@ -24,7 +24,7 @@ export default class DataRow extends React.Component {
 			BOARDS_ENABLED: true,
 			BOARD_ON: false,
 			VIDEO_ON: false,
-			videoRecording: false,
+			VIDEO_ENABLED: false,
 			TABLET_ENABLED: true,
 			WIRELESS_ON: false,
 			WIRELESS_ENABLED: true,
@@ -38,7 +38,7 @@ export default class DataRow extends React.Component {
 				BOARDS_ENABLED: ("BOARD" in this.props.settings && "POWER" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] == "ON" || this.props.settings["BOARD"]["POWER"] == "AUTO" : false,
 				TABLET_ENABLED: ("TABLET" in this.props.settings && "POWER" in this.props.settings["TABLET"]) ? this.props.settings["TABLET"]["POWER"] == "ON" || this.props.settings["TABLET"]["POWER"] == "AUTO" : false,
 				WIRELESS_ENABLED: ("WIRELESS" in this.props.settings && "LTE" in this.props.settings["WIRELESS"]) ? this.props.settings["WIRELESS"]["LTE"] == "ON" || this.props.settings["WIRELESS"]["LTE"] == "AUTO" : false,
-				videoRecording: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] == "ON" || this.props.settings["BOARD"]["POWER"] == "AUTO" : false,
+				VIDEO_ENABLED: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["VIDEO_RECORDING"] == "ON" || this.props.settings["BOARD"]["VIDEO_RECORDING"] == "AUTO" : false,
 			});
 		}
 
@@ -83,7 +83,7 @@ export default class DataRow extends React.Component {
 			}
 		}
 
-		if(!this.state.videoRecording) {
+		if(!this.state.VIDEO_ENABLED) {
 			videoColor = Colors.buttonColorDisabled;
 		}
 
