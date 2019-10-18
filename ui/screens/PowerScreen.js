@@ -126,7 +126,6 @@ export default class PowerScreen extends React.Component {
 						isConnected={this.props.isConnected} 
 						buttons={["Restart Video"]} 
 						buttonFunctions={[() => this._confirmRestart("video")]} />
-
 				</View>
 			</View>
 		);

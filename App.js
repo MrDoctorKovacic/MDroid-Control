@@ -28,7 +28,7 @@ import SystemScreen from './ui/screens/SystemScreen.js';
 import PowerScreen from './ui/screens/PowerScreen.js';
 import IconRow from './ui/components/IconRow.js'
 
-import reloadStyles from '../styles/main.js';
+import reloadStyles from './ui/styles/main.js';
 
 // Config
 import {serverHost, token} from './config.json';
