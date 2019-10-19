@@ -117,13 +117,13 @@ export default class DataRow extends React.Component {
 					<IconPower width={iconWidth} height={iconHeight} fill={this.state.ACC_POWER && global.isConnected ? Colors.buttonColorOn : defaultColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
-					<IconETC width={iconWidth} height={iconHeight} fill={etcColor} />
-				</View>
-				<View style={[styles.buttonsContainer]}>
 					<IconLucio width={iconWidth} height={iconHeight} fill={lucioColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
 					<IconTablet width={iconWidth} height={iconHeight} fill={raynorColor} />
+				</View>
+				<View style={[styles.buttonsContainer]}>
+					<IconETC width={iconWidth} height={iconHeight} fill={etcColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
 					<IconRecord width={iconWidth} height={iconHeight} fill={videoColor} />
