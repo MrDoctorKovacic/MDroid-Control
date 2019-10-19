@@ -21,6 +21,7 @@ import Swiper from 'react-native-swiper';
 import { CreateSocket, SendToSocket, postRequest, getRequest } from './ui/actions/MDroidActions.js';
 
 // Screens
+import MainScreen from './ui/screens/MainScreen.js';
 import ControlsScreen from './ui/screens/ControlsScreen.js';
 import SettingsScreen from './ui/screens/SettingsScreen.js';
 import GpsScreen from './ui/screens/GpsScreen.js';
@@ -193,8 +194,17 @@ export default class App extends React.Component {
 					dotColor='rgba(255,255,255,.2)'
 					activeDotColor='rgba(255,255,255,1)'>
 					
+					<ScrollView 
+						refreshControl={<RefreshControl 
+						refreshing={this.state.refreshing} 
+						onRefresh={this._onRefresh} />} 
+						removeClippedSubviews={true} 
+					>
+						<MainScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} />
+					</ScrollView>
+
 					<ControlsScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} settings={this.state.settings} />
-					
+
 					<ScrollView 
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 

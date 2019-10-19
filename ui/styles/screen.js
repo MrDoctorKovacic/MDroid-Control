@@ -34,8 +34,23 @@ reloadStyles = function(isVertical = false, isConnected = false) {
     containerPaddingRight: {
       paddingRight: 30
     },
+    containerPaddingTopHalf: {
+      paddingTop: 30
+    },
+    containerPaddingLeftHalf: {
+      paddingLeft: 15
+    },
+    containerPaddingRightHalf: {
+      paddingRight: 15
+    },
+    containerPaddingTopHalf: {
+      paddingRight: 15
+    },
     containerPaddingBottom: {
       paddingBottom: 30
+    },
+    containerPaddingBottomHalf: {
+      paddingBottom: 15
     },
     alignTop: {
       justifyContent: 'flex-start',
@@ -110,6 +125,15 @@ reloadStyles = function(isVertical = false, isConnected = false) {
     textRight : {
       'textAlign': 'right',
     },
+    textLeft: {
+      'textAlign': 'left',
+    },
+    bold: {
+      'fontWeight': 'bold'
+    },
+    textLarge: {
+      'fontSize': 18
+    }
   });
 
   return styles;

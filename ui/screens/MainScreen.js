@@ -12,6 +12,17 @@ import reloadStyles from '../styles/screen.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 
+// Icons
+import IconSun from '../images/icons/sun.js';
+import IconLightning from '../images/icons/lightning';
+import IconBattery from '../images/icons/battery';
+import IconBulb from '../images/icons/bulb';
+import IconCurrent from '../images/icons/current';
+import IconOutput from '../images/icons/output';
+import Colors from '../constants/Colors.js';
+const iconHeight = 60;
+const iconWidth = 120; 
+
 export default class MainScreen extends React.Component {
 	componentDidMount() {
 		loc(this);
@@ -43,7 +54,13 @@ export default class MainScreen extends React.Component {
 			AUX_CURRENT: "N/A",
 			OUTSIDE_TEMP: "N/A",
 			INTERIOR_TEMPERATURE: "N/A",
+			ANGEL_EYES_POWER: "N/A",
+			AUX_VOLTAGE_OUTPUT: "N/A",
 		};
+	}
+
+	cToF(degree) {
+		return degree * 9 / 5 + 32;
 	}
 
   	render() {
@@ -54,17 +71,51 @@ export default class MainScreen extends React.Component {
 		return (
 			<View>
 				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
-					<Text style={styles.mainTitleText}>Settings</Text>
+					<Text style={styles.mainTitleText}>Quinn's M3</Text>
 				</View>
-				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle title="Angel Eyes"></ButtonGroupTitle>
-					<ButtonGroup 
-						buttons={["Off", "Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdate("ANGEL_EYES", "POWER", "OFF"), 
-							() => this._requestUpdate("ANGEL_EYES", "POWER", "AUTO"), 
-							() => this._requestUpdate("ANGEL_EYES", "POWER", "ON")]} 
-						status={this.state.angelEyes} />
+				<View style={[styles.largeContainer, styles.colContainer, styles.containerPaddingLeft, styles.containerPaddingBottom]}>					
+					<View style={[styles.container]}>
+						<IconSun width={iconWidth} height={iconHeight} fill={Colors.buttonColorOn} />
+						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
+							<Text style={[styles.secondaryTitleText]}>Interior Temp</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{Math.round(this.cToF(parseInt(this.state.INTERIOR_TEMPERATURE)))} F</Text>
+						</View>
+					</View>
+					<View style={[styles.container, ]}>
+						<IconBulb width={iconWidth} height={iconHeight} fill={Colors.buttonColorOn} />
+						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
+							<Text style={[styles.secondaryTitleText]}>Angel Eyes</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.ANGEL_EYES_POWER}</Text>
+						</View>
+					</View>
+					<View style={[styles.container]}>
+						<IconLightning width={iconWidth} height={iconHeight} fill={Colors.buttonColorOn} />
+						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
+							<Text style={[styles.secondaryTitleText]}>Main Voltage</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.MAIN_VOLTAGE} V</Text>
+						</View>
+					</View>
+					<View style={[styles.container, ]}>
+						<IconBattery width={iconWidth} height={iconHeight+15} fill={Colors.buttonColorOn} />
+						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
+							<Text style={[styles.secondaryTitleText]}>Aux Voltage</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.AUX_VOLTAGE} V</Text>
+						</View>
+					</View>
+					<View style={[styles.container]}>
+						<IconCurrent width={iconWidth} height={iconHeight} fill={Colors.buttonColorOn} />
+						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
+							<Text style={[styles.secondaryTitleText]}>Aux Current</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{Number.parseFloat(this.state.AUX_CURRENT).toFixed(3)} A</Text>
+						</View>
+					</View>
+					<View style={[styles.container, styles.containerPaddingBottom]}>
+						<IconOutput width={iconWidth} height={iconHeight+5} fill={Colors.buttonColorOn} />
+						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
+							<Text style={[styles.secondaryTitleText]}>Aux Output</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{Number.parseFloat(this.state.AUX_VOLTAGE_OUTPUT).toFixed(2)} V</Text>
+						</View>
+					</View>
 				</View>
 			</View>
 		);
