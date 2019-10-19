@@ -184,7 +184,7 @@ export default class App extends React.Component {
 				<View style={[mainStyles.imageContainer]}>
 					<Image style={mainStyles.mainLeftImage} source={image} />
 				</View>
-				<View><IconRow isConnected={this.state.isConnected} session={this.state.session} settings={this.state.settings} ></IconRow></View>
+				<View><IconRow session={this.state.session} settings={this.state.settings} ></IconRow></View>
 				<Swiper
 					index={0}
 					style={mainStyles.swiperContainer}
@@ -193,7 +193,7 @@ export default class App extends React.Component {
 					dotColor='rgba(255,255,255,.2)'
 					activeDotColor='rgba(255,255,255,1)'>
 					
-					<ControlsScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} settings={this.state.settings} isConnected={this.state.isConnected} />
+					<ControlsScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} settings={this.state.settings} />
 					
 					<ScrollView 
 						refreshControl={<RefreshControl 
@@ -201,7 +201,7 @@ export default class App extends React.Component {
 						onRefresh={this._onRefresh} />} 
 						removeClippedSubviews={true} 
 					>
-						<GpsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.gps} isConnected={this.state.isConnected} />
+						<GpsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.gps} />
 					</ScrollView>
 
 					<ScrollView 
@@ -210,7 +210,7 @@ export default class App extends React.Component {
 						onRefresh={this._onRefresh} />} 
 						removeClippedSubviews={true} 
 					>
-						<SettingsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} isConnected={this.state.isConnected} />
+						<SettingsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} />
 					</ScrollView>
 
 					<ScrollView 
@@ -219,7 +219,7 @@ export default class App extends React.Component {
 						onRefresh={this._onRefresh} />} 
 						removeClippedSubviews={true} 
 					>
-						<PowerScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} isConnected={this.state.isConnected} />
+						<PowerScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} />
 					</ScrollView>
 
 					<ScrollView 
@@ -228,7 +228,7 @@ export default class App extends React.Component {
 						onRefresh={this._onRefresh} />} 
 						removeClippedSubviews={true} 
 					>
-						<SystemScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} isConnected={this.state.isConnected} />
+						<SystemScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} />
 					</ScrollView>
 				</Swiper>
 				<View style={mainStyles.viewBlocker} />
