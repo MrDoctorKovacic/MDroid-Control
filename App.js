@@ -61,11 +61,14 @@ export default class App extends React.Component {
 		}
 		global.ws.onmessage = (e) => {
 			// a message was received
-			console.log(e.data);
-			try {
-				this.handleSocketMessage(JSON.parse(e.data))
-			} catch (error) {
-				console.log(error);
+			messages = e.data.split("\n");
+			console.log(messages);
+			for(i = 0; i < messages.length; i++) {
+				try {
+					this.handleSocketMessage(JSON.parse(messages[i]))
+				} catch (error) {
+					console.log(error);
+				}
 			}
 		};
 		global.ws.onerror = (e) => {
@@ -83,15 +86,15 @@ export default class App extends React.Component {
 					isConnected: true
 				});
 			} else if("status" in message && "ok" in message && message["ok"]) {
-				if (message["status"] == "/settings") {
+				if (message["status"] == "/settings?min=1") {
 					this.setState({
 						settings: message["output"]
 					});
-				} else if (message["status"] == "/session") {
+				} else if (message["status"] == "/session?min=1") {
 					this.setState({
 						session: message["output"]
 					});
-				} else if (message["status"] == "/session/gps") {
+				} else if (message["status"] == "/session/gps?min=1") {
 					this.setState({
 						gps: message["output"]
 					});
@@ -225,7 +228,7 @@ export default class App extends React.Component {
 						onRefresh={this._onRefresh} />} 
 						removeClippedSubviews={true} 
 					>
-						<SystemScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.session} isConnected={this.state.isConnected} />
+						<SystemScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} isConnected={this.state.isConnected} />
 					</ScrollView>
 				</Swiper>
 				<View style={mainStyles.viewBlocker} />

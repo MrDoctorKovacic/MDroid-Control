@@ -23,8 +23,8 @@ export default class SettingsScreen extends React.Component {
 				wireless: ("WIRELESS" in this.props.settings && "LTE" in this.props.settings["WIRELESS"]) ? this.props.settings["WIRELESS"]["LTE"] : "N/A",
 				angelEyes: ("ANGEL_EYES" in this.props.settings && "POWER" in this.props.settings["ANGEL_EYES"]) ? this.props.settings["ANGEL_EYES"]["POWER"] : "N/A",
 				videoRecording: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["VIDEO_RECORDING"] : "N/A",
-				exhaustNoise: ("JAINA" in this.props.settings && "EXHAUST_NOISE" in this.props.settings["JAINA"]) ? this.props.settings["JAINA"]["EXHAUST_NOISE"] : "N/A",
-				variableSpeedVolume: ("JAINA" in this.props.settings && "VSV" in this.props.settings["JAINA"]) ? this.props.settings["JAINA"]["VSV"] : "N/A",
+				exhaustNoise: ("SOUND" in this.props.settings && "EXHAUST_NOISE" in this.props.settings["SOUND"]) ? this.props.settings["SOUND"]["EXHAUST_NOISE"] : "N/A",
+				variableSpeedVolume: ("SOUND" in this.props.settings && "VSV" in this.props.settings["SOUND"]) ? this.props.settings["SOUND"]["VSV"] : "N/A",
 			});
 		}
 	}
@@ -78,9 +78,9 @@ export default class SettingsScreen extends React.Component {
 						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "OFF"), 
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "AUTO"), 
-							() => this._requestUpdate("JAINA", "EXHAUST_NOISE", "ON")]} 
+							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "OFF"), 
+							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "AUTO"), 
+							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "ON")]} 
 						status={this.state.exhaustNoise} />
 
 					<ButtonGroupTitle title="Video Recording"></ButtonGroupTitle>
@@ -106,8 +106,8 @@ export default class SettingsScreen extends React.Component {
 						
 						buttons={["Off", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("JAINA", "VSV", "OFF"), 
-							() => this._requestUpdate("JAINA", "VSV", "ON")]} 
+							() => this._requestUpdate("SOUND", "VSV", "OFF"), 
+							() => this._requestUpdate("SOUND", "VSV", "ON")]} 
 						status={this.state.variableSpeedVolume} />
 				</View>
 			</View>

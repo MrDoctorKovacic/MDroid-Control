@@ -15,11 +15,11 @@ import DataRow from '../components/DataRow.js';
 export default class SystemScreen extends React.Component {
 
 	componentDidUpdate(prevProps){
-		if(prevProps.settings !== this.props.settings && this.props.settings != undefined){
+		if(prevProps.session !== this.props.session && this.props.session != undefined){
 			obj = {};
 			Object.keys(this.state).map((item) => {
 				if (item != "refreshing" && item != "fails") {
-					obj[item] = item in this.props.settings ? this.props.settings[item]["value"] : "N/A";
+					obj[item] = item in this.props.session ? this.props.session[item] : "N/A";
 				}
 			})
 			this.setState(obj);
