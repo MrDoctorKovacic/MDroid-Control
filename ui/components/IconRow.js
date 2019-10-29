@@ -76,7 +76,6 @@ export default class DataRow extends React.Component {
 			boardColor = Colors.buttonColorDisabled;
 		} else if(this.state.BOARD_ON) {
 			boardColor = Colors.buttonColorOn;
-			videoColor = Colors.buttonColorOn;
 		}
 
 		if(!this.state.VIDEO_ENABLED) {
