@@ -30,13 +30,6 @@ export default class DataRow extends React.Component {
 			WIRELESS_ENABLED: true,
 			LTE_ON: false,
 		};
-
-		this.defaultColor = global.isConnected ? Colors.buttonColorDisabled : "#8b0000";
-		this.boardColor = defaultColor;
-		this.tabletColor = defaultColor;
-		this.videoColor = defaultColor;
-		this.wirelessColor = defaultColor;
-		this.lteColor = defaultColor;
 	}
 
 	componentDidUpdate(prevProps){
@@ -52,52 +45,67 @@ export default class DataRow extends React.Component {
 
 		if(prevProps.session !== this.props.session && this.props.session != undefined){
 			this.setState({
-				ACC_POWER: ("ACC_POWER" in this.props.session) ? this.props.session["ACC_POWER"]["value"] == "TRUE" : false,
-				BOARD_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
-				VIDEO_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"]["value"] == "TRUE" : false,
-				TABLET_ON: ("TABLET_POWER" in this.props.session) ? this.props.session["TABLET_POWER"]["value"] == "TRUE" : false,
-				LTE_ON: ("LTE_ON" in this.props.session) ? this.props.session["LTE_ON"]["value"] == "TRUE" : false,
-				WIRELESS_ON: ("WIRELESS_POWER" in this.props.session) ? this.props.session["WIRELESS_POWER"]["value"] == "TRUE" : false,
+				ACC_POWER: ("ACC_POWER" in this.props.session) ? this.props.session["ACC_POWER"] == "TRUE" : false,
+				BOARD_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"] == "TRUE" : false,
+				VIDEO_ON: ("BOARD_POWER" in this.props.session) ? this.props.session["BOARD_POWER"] == "TRUE" : false,
+				TABLET_ON: ("TABLET_POWER" in this.props.session) ? this.props.session["TABLET_POWER"] == "TRUE" : false,
+				LTE_ON: ("LTE_ON" in this.props.session) ? this.props.session["LTE_ON"] == "TRUE" : false,
+				WIRELESS_ON: ("WIRELESS_POWER" in this.props.session) ? this.props.session["WIRELESS_POWER"] == "TRUE" : false,
 			});
+			console.log(this.state);
+			console.log(this.props.session);
 		}
+
+		
+	}
+
+	render() {
+
+		var defaultColor = global.isConnected ? Colors.buttonColorDisabled : "#8b0000";
+		var boardColor = defaultColor;
+		var tabletColor = defaultColor;
+		var videoColor = defaultColor;
+		var wirelessColor = defaultColor;
+		var lteColor = defaultColor;
 
 		//
 		// Determine color of icons
 		//
-		this.defaultColor = global.isConnected ? Colors.buttonColorDisabled : "#8b0000";
+		defaultColor = global.isConnected ? Colors.buttonColorDisabled : "#8b0000";
 		if(!this.state.BOARDS_ENABLED) {
-			this.boardColor = Colors.buttonColorDisabled;
+			boardColor = Colors.buttonColorDisabled;
 		} else if(this.state.BOARD_ON) {
-			this.boardColor = Colors.buttonColorOn;
-			this.videoColor = Colors.buttonColorOn;
+			boardColor = Colors.buttonColorOn;
+			videoColor = Colors.buttonColorOn;
 		}
 
 		if(!this.state.VIDEO_ENABLED) {
-			this.videoColor = "#8b0000";
+			videoColor = "#8b0000";
 		} else if(this.state.VIDEO_ON) {
-			this.videoColor = Colors.buttonColorOn;
+			videoColor = Colors.buttonColorOn;
 		}
 
 		if(!this.state.TABLET_ENABLED) {
-			this.tabletColor = Colors.buttonColorDisabled;
+			tabletColor = Colors.buttonColorDisabled;
 		} else if(this.state.TABLET_ON) {
-			this.tabletColor = Colors.buttonColorOn;
+			tabletColor = Colors.buttonColorOn;
 		}
 
 		if(!this.state.WIRELESS_ENABLED) {
-			this.wirelessColor = Colors.buttonColorDisabled;
-			this.lteColor = Colors.buttonColorDisabled;
+			wirelessColor = Colors.buttonColorDisabled;
+			lteColor = Colors.buttonColorDisabled;
+			console.log("Wireless is disabled");
 		} else {
+			console.log("Wireless is enabled");
 			if(this.state.WIRELESS_ON) {
-				this.wirelessColor = Colors.buttonColorOn;
+				wirelessColor = Colors.buttonColorOn;
+				console.log("Wireless is on, color "+wirelessColor);
 			}
 			if(this.state.LTE_ON) {
-				this.lteColor = Colors.buttonColorOn;
+				lteColor = Colors.buttonColorOn;
+				console.log("LTE is on, color "+lteColor);
 			}
 		}
-	}
-	
-	render() {
 
 		// Responsive styling
     	var {height, width} = Dimensions.get('window');
@@ -109,19 +117,19 @@ export default class DataRow extends React.Component {
 					<IconPower width={iconWidth} height={iconHeight} fill={this.state.ACC_POWER && global.isConnected ? Colors.buttonColorOn : defaultColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
-					<IconLucio width={iconWidth} height={iconHeight} fill={this.boardColor} />
+					<IconLucio width={iconWidth} height={iconHeight} fill={boardColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
-					<IconTablet width={iconWidth} height={iconHeight} fill={this.tabletColor} />
+					<IconTablet width={iconWidth} height={iconHeight} fill={tabletColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
-					<IconRecord width={iconWidth} height={iconHeight} fill={this.videoColor} />
+					<IconRecord width={iconWidth} height={iconHeight} fill={videoColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
-					this.<IconWireless width={iconWidth} height={iconHeight} fill={wirelessColor} />
+					<IconWireless width={iconWidth} height={iconHeight} fill={wirelessColor} />
 				</View>
 				<View style={[styles.buttonsContainer]}>
-					<IconLTE width={iconWidth} height={iconHeight} fill={this.lteColor} />
+					<IconLTE width={iconWidth} height={iconHeight} fill={lteColor} />
 				</View>
             </View>
 		);
