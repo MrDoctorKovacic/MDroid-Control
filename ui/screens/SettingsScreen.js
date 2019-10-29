@@ -58,7 +58,7 @@ export default class SettingsScreen extends React.Component {
 		var styles = reloadStyles(height < width, global.isConnected);
 
 		return (
-			<View>
+			<View style={styles.screenView}>
 				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
 					<Text style={styles.mainTitleText}>Settings</Text>
 				</View>

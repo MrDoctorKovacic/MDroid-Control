@@ -37,7 +37,7 @@ export default class ControlsScreen extends React.Component {
 
 		return (
       <ScrollView removeClippedSubviews={true}>
-        <View>
+        <View style={styles.screenView}>
           <View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
             <Text style={styles.mainTitleText}>Controls</Text>
           </View>

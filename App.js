@@ -29,6 +29,7 @@ import SystemScreen from './ui/screens/SystemScreen.js';
 import PowerScreen from './ui/screens/PowerScreen.js';
 import IconRow from './ui/components/IconRow.js'
 
+import reloadStyles from './ui/styles/main.js';
 import reloadMainStyles from './ui/styles/main.js';
 
 // Config
@@ -178,6 +179,7 @@ export default class App extends React.Component {
 		var isVertical = (width < height);
 		var image = isVertical ? require('./ui/images/1.png') : require('./ui/images/3-rotated.png');
 		var mainStyles = reloadMainStyles(isVertical, this.state.isConnected);
+		var styles = reloadStyles(height < width, this.state.isConnected);
 
 		return (
 			<View style={[mainStyles.container]} onLayout={this._onLayout}>
@@ -198,7 +200,7 @@ export default class App extends React.Component {
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 
 						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true} 
+						removeClippedSubviews={true}
 					>
 						<MainScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} />
 					</ScrollView>
@@ -209,7 +211,7 @@ export default class App extends React.Component {
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 
 						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true} 
+						removeClippedSubviews={true}
 					>
 						<GpsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.gps} />
 					</ScrollView>
@@ -218,7 +220,7 @@ export default class App extends React.Component {
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 
 						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true} 
+						removeClippedSubviews={true}
 					>
 						<SettingsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} />
 					</ScrollView>
@@ -227,7 +229,7 @@ export default class App extends React.Component {
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 
 						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true} 
+						removeClippedSubviews={true}
 					>
 						<PowerScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} />
 					</ScrollView>
@@ -236,7 +238,7 @@ export default class App extends React.Component {
 						refreshControl={<RefreshControl 
 						refreshing={this.state.refreshing} 
 						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true} 
+						removeClippedSubviews={true}
 					>
 						<SystemScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} />
 					</ScrollView>

@@ -75,7 +75,7 @@ export default class PowerScreen extends React.Component {
 		var styles = reloadStyles(height < width, global.isConnected);
 
 		return (
-			<View>
+			<View style={styles.screenView}>
 				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>

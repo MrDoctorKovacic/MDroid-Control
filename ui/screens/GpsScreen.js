@@ -89,7 +89,7 @@ export default class GpsScreen extends React.Component {
 		var styles = reloadStyles(height < width, global.isConnected);
 
 		return (
-			<View>
+			<View style={styles.screenView}>
 				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
 					<Text style={styles.mainTitleText}>Location</Text>
 				</View>
@@ -108,7 +108,7 @@ export default class GpsScreen extends React.Component {
 						</TouchableWithoutFeedback>
 					</View>
 
-					<View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.containerPaddingBottom, styles.colContainer]}>
+					<View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.colContainer]}>
 						<Text style={styles.auxText}>Latitude: {this.state.region.latitude}</Text>
 						<Text style={styles.auxText}>Longitude: {this.state.region.longitude}</Text>
 						<Text style={styles.auxText}>Speed: {this.state.gps.speed}</Text>
