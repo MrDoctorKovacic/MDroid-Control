@@ -12,7 +12,7 @@ import IconRecord from '../images/icons/record.js';
 import IconPower from '../images/icons/power.js';
 
 const iconHeight = 30;
-const iconWidth = 55; 
+const iconWidth = 65; 
 
 export default class DataRow extends React.Component {
 
