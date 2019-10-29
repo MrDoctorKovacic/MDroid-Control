@@ -80,9 +80,8 @@ export default class PowerScreen extends React.Component {
 					<Text style={styles.mainTitleText}>Power</Text>
 				</View>
 				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle title="Video Boards"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Main Board"></ButtonGroupTitle>
 					<ButtonGroup 
-						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdatePower("BOARD", "POWER", "OFF"), 
@@ -92,7 +91,6 @@ export default class PowerScreen extends React.Component {
 
 					<ButtonGroupTitle title="Tablet"></ButtonGroupTitle>
 					<ButtonGroup 
-						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdatePower("TABLET", "POWER", "OFF"), 
@@ -102,7 +100,6 @@ export default class PowerScreen extends React.Component {
 
 					<ButtonGroupTitle title="Wireless"></ButtonGroupTitle>
 					<ButtonGroup 
-						
 						buttons={["Auto", "On"]} 
 						buttonFunctions={[
 							() => this._requestUpdatePower("WIRELESS", "POWER", "AUTO"), 
@@ -111,21 +108,14 @@ export default class PowerScreen extends React.Component {
 
 					<ButtonGroupTitle title="Restart Boards"></ButtonGroupTitle>
 					<ButtonGroup 
-						
 						buttons={["Restart MDroid"]} 
 						buttonFunctions={[() => this._confirmRestart("local")]} />
 					<ButtonGroup 
-						
 						buttons={["Restart Wireless"]} 
 						buttonFunctions={[() => this._confirmRestart("wireless")]} />
 					<ButtonGroup 
-						
 						buttons={["Restart Board"]} 
 						buttonFunctions={[() => this._confirmRestart("board")]} />
-					<ButtonGroup 
-						
-						buttons={["Restart Video"]} 
-						buttonFunctions={[() => this._confirmRestart("video")]} />
 				</View>
 			</View>
 		);
