@@ -32,7 +32,6 @@ export default class GpsScreen extends React.Component {
 					longitude: "longitude" in this.props.settings ? parseFloat(this.props.settings["longitude"]) : LONGITUDE,
 				},
 				gps: {
-					time: "time" in this.props.settings ? this.props.settings["time"] : "N/A",
 					course: "course" in this.props.settings ? this.props.settings["course"] : "N/A",
 					speed: "speed" in this.props.settings ? this.props.settings["speed"] : "N/A"
 				}
@@ -65,7 +64,6 @@ export default class GpsScreen extends React.Component {
 				longitude: LONGITUDE,
 			},
 			gps: {
-				time: "N/A",
 				course: "N/A",
 				speed: "N/A"
 			},
@@ -111,11 +109,10 @@ export default class GpsScreen extends React.Component {
 					</View>
 
 					<View style={[styles.container, styles.containerPaddingLeft, styles.containerPaddingRight, styles.containerPaddingBottom, styles.colContainer]}>
-						<Text style={styles.normalText}>Latitude: {this.state.region.latitude}</Text>
-						<Text style={styles.normalText}>Longitude: {this.state.region.longitude}</Text>
-						<Text style={styles.normalText}>Time: {this.state.gps.time}</Text>
-						<Text style={styles.normalText}>Speed: {this.state.gps.speed}</Text>
-						<Text style={styles.normalText}>Course: {this.state.gps.course}</Text>
+						<Text style={styles.auxText}>Latitude: {this.state.region.latitude}</Text>
+						<Text style={styles.auxText}>Longitude: {this.state.region.longitude}</Text>
+						<Text style={styles.auxText}>Speed: {this.state.gps.speed}</Text>
+						<Text style={styles.auxText}>Course: {this.state.gps.course}</Text>
 					</View>
 				</View>
 			</View>
