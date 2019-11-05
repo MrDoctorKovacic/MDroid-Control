@@ -35,6 +35,10 @@ export default class MainScreen extends React.Component {
 				if (item != "refreshing" && item != "fails") {
 					obj[item] = item in this.props.session ? this.props.session[item] : "N/A";
 				}
+				if("AUX_VOLTAGE" in this.props.session && "AUX_CURRENT" in this.props.session) {
+					obj["BATTERY_PERCENTAGE"] = ((parseFloat(this.props.session["AUX_VOLTAGE"]) - 11.5) * -1) / 1.3;
+					obj["BATTERY_REMAINING"] = obj["BATTERY_PERCENTAGE"] * 34;
+				}
 			})
 			this.setState(obj);
 		}
@@ -88,18 +92,25 @@ export default class MainScreen extends React.Component {
 							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.ANGEL_EYES_POWER}</Text>
 						</View>
 					</View>
-					<View style={[styles.container]}>
-						<IconLightning width={iconWidth} height={iconHeight} fill={Colors.buttonColorOn} />
+					<View style={[styles.container, styles.containerPaddingBottom]}>
+						<IconOutput width={iconWidth} height={iconHeight+5} fill={Colors.buttonColorOn} />
 						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
 							<Text style={[styles.secondaryTitleText]}>Main Voltage</Text>
 							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.MAIN_VOLTAGE} V</Text>
 						</View>
 					</View>
-					<View style={[styles.container, ]}>
-						<IconBattery width={iconWidth} height={iconHeight+15} fill={Colors.buttonColorOn} />
+					<View style={[styles.container]}>
+						<IconLightning width={iconWidth} height={iconHeight} fill={Colors.buttonColorOn} />
 						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
 							<Text style={[styles.secondaryTitleText]}>Aux Voltage</Text>
 							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.AUX_VOLTAGE} V</Text>
+						</View>
+					</View>
+					<View style={[styles.container]}>
+						<IconBattery width={iconWidth} height={iconHeight+15} fill={Colors.buttonColorOn} />
+						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
+							<Text style={[styles.secondaryTitleText]}>Battery</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>({String(this.state.BATTERY_PERCENTAGE)}%) {String(this.state.BATTERY_REMAINING)} hours left</Text>
 						</View>
 					</View>
 					<View style={[styles.container]}>
@@ -107,13 +118,6 @@ export default class MainScreen extends React.Component {
 						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
 							<Text style={[styles.secondaryTitleText]}>Aux Current</Text>
 							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{Number.parseFloat(this.state.AUX_CURRENT).toFixed(3)} A</Text>
-						</View>
-					</View>
-					<View style={[styles.container, styles.containerPaddingBottom]}>
-						<IconOutput width={iconWidth} height={iconHeight+5} fill={Colors.buttonColorOn} />
-						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
-							<Text style={[styles.secondaryTitleText]}>Aux Output</Text>
-							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{Number.parseFloat(this.state.AUX_VOLTAGE_OUTPUT).toFixed(2)} V</Text>
 						</View>
 					</View>
 				</View>
