@@ -23,6 +23,10 @@ import Colors from '../constants/Colors.js';
 const iconHeight = 60;
 const iconWidth = 120; 
 
+// Battery info
+const ampHourCapacity = 34;
+const lowestUsableVoltage = 11.2;
+
 export default class MainScreen extends React.Component {
 	componentDidMount() {
 		loc(this);
@@ -36,8 +40,13 @@ export default class MainScreen extends React.Component {
 					obj[item] = item in this.props.session ? this.props.session[item] : "N/A";
 				}
 				if("AUX_VOLTAGE" in this.props.session && "AUX_CURRENT" in this.props.session) {
-					obj["BATTERY_PERCENTAGE"] = ((parseFloat(this.props.session["AUX_VOLTAGE"]) - 11.5) * -1) / 1.3;
-					obj["BATTERY_REMAINING"] = obj["BATTERY_PERCENTAGE"] * 34;
+					obj["BATTERY_PERCENTAGE"] = (((parseFloat(this.props.session["AUX_VOLTAGE"]) - lowestUsableVoltage)) / 1.3).toFixed(2);
+					obj["BATTERY_REMAINING"] = (obj["BATTERY_PERCENTAGE"] * (ampHourCapacity/obj["AUX_CURRENT"])).toFixed(1);
+					if (obj["BATTERY_REMAINING"] > 24) {
+						obj["BATTERY_REMAINING_STRING"] = String((obj["BATTERY_REMAINING"]/24).toFixed(0)) + " days, " + String((obj["BATTERY_REMAINING"]%24).toFixed(1)) + " hours left";
+					} else {
+						obj["BATTERY_REMAINING_STRING"] = String(obj["BATTERY_REMAINING"]) + " hours left";
+					}
 				}
 			})
 			this.setState(obj);
@@ -92,7 +101,7 @@ export default class MainScreen extends React.Component {
 							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.ANGEL_EYES_POWER}</Text>
 						</View>
 					</View>
-					<View style={[styles.container, styles.containerPaddingBottom]}>
+					<View style={[styles.container]}>
 						<IconOutput width={iconWidth} height={iconHeight+5} fill={Colors.buttonColorOn} />
 						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
 							<Text style={[styles.secondaryTitleText]}>Main Voltage</Text>
@@ -109,8 +118,8 @@ export default class MainScreen extends React.Component {
 					<View style={[styles.container]}>
 						<IconBattery width={iconWidth} height={iconHeight+15} fill={Colors.buttonColorOn} />
 						<View style={[styles.colContainer, styles.containerPaddingTopHalf, styles.containerPaddingLeftHalf], {paddingTop: 17}}>
-							<Text style={[styles.secondaryTitleText]}>Battery</Text>
-							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>({String(this.state.BATTERY_PERCENTAGE)}%) {String(this.state.BATTERY_REMAINING)} hours left</Text>
+							<Text style={[styles.secondaryTitleText]}>Battery ({String(100*this.state.BATTERY_PERCENTAGE)}%)</Text>
+							<Text style={[styles.normalText, styles.bold, styles.textLarge]}>{this.state.BATTERY_REMAINING_STRING}</Text>
 						</View>
 					</View>
 					<View style={[styles.container]}>
