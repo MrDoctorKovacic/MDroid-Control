@@ -57,6 +57,8 @@ export default class ControlsScreen extends React.Component {
             <ButtonGroupTitle title="Flashers"></ButtonGroupTitle>
             <ButtonGroup reference="flashers" buttons={["On", "Off"]} buttonFunctions={[() => this.props.getRequest("/flashers/on"), () => this.props.getRequest("/flashers/off")]} />
 
+            <ButtonGroupTitle title="Radio"></ButtonGroupTitle>
+            <ButtonGroup reference="radio" buttons={["Power Toggle", "Input Toggle"]} buttonFunctions={[() => this.props.getRequest("/radio/toggle"), () => this.props.getRequest("/radio/mode")]} />
           </View>
         </View>
       </ScrollView>

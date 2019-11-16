@@ -9,7 +9,8 @@ import {
 	removeOrientationListener as rol
 } from 'react-native-responsive-screen';
 import reloadStyles from '../styles/screen.js';
-
+import CustomInput from '../components/CustomInput.js';
+import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 import DataRow from '../components/DataRow.js';
 
 export default class SystemScreen extends React.Component {
@@ -69,6 +70,8 @@ export default class SystemScreen extends React.Component {
 						<Text style={styles.mainTitleText}>System</Text>
 					</View>
 					<View style={[styles.containerPadding]}>
+						<ButtonGroupTitle title="Custom Input" />
+           				<CustomInput request={this.props.getRequest} />
 					{
 						Object.keys(this.state).map((item) => {
 							if (typeof this.state[item] == "string" && item != "refreshing" && item != "fails" && item != "orientation") {
