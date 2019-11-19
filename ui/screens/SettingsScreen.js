@@ -20,6 +20,7 @@ export default class SettingsScreen extends React.Component {
 	componentDidUpdate(prevProps){
 		if(prevProps.settings !== this.props.settings && this.props.settings != undefined){
 			this.setState({
+				autolock: ("MDROID" in this.props.settings && "AUTOLOCK" in this.props.settings["MDROID"]) ? this.props.settings["MDROID"]["AUTOLOCK"] : "N/A",
 				wireless: ("WIRELESS" in this.props.settings && "LTE" in this.props.settings["WIRELESS"]) ? this.props.settings["WIRELESS"]["LTE"] : "N/A",
 				angelEyes: ("ANGEL_EYES" in this.props.settings && "POWER" in this.props.settings["ANGEL_EYES"]) ? this.props.settings["ANGEL_EYES"]["POWER"] : "N/A",
 				videoRecording: ("BOARD" in this.props.settings && "VIDEO_RECORDING" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["VIDEO_RECORDING"] : "N/A",
@@ -42,6 +43,7 @@ export default class SettingsScreen extends React.Component {
 			exhaustNoise: "N/A",
 			variableSpeedVolume: "N/A",
 			wireless: "N/A",
+			autolock: "N/A",
 			toasted: 0,
 			fails: 0
 		};
@@ -73,15 +75,15 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("ANGEL_EYES", "POWER", "ON")]} 
 						status={this.state.angelEyes} />
 
-					<ButtonGroupTitle title="Enhanced Exhaust"></ButtonGroupTitle>
+					<ButtonGroupTitle title="Auto Locking"></ButtonGroupTitle>
 					<ButtonGroup 
 						
 						buttons={["Off", "Auto", "On"]} 
 						buttonFunctions={[
-							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "OFF"), 
-							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "AUTO"), 
-							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "ON")]} 
-						status={this.state.exhaustNoise} />
+							() => this._requestUpdate("MDROID", "AUTOLOCK", "OFF"), 
+							() => this._requestUpdate("MDROID", "AUTOLOCK", "AUTO"), 
+							() => this._requestUpdate("MDROID", "AUTOLOCK", "ON")]} 
+						status={this.state.autolock} />
 
 					<ButtonGroupTitle title="Video Recording"></ButtonGroupTitle>
 					<ButtonGroup 
@@ -100,6 +102,16 @@ export default class SettingsScreen extends React.Component {
 							() => this._requestUpdate("WIRELESS", "LTE", "OFF"),
 							() => this._requestUpdate("WIRELESS", "LTE", "ON")]} 
 						status={this.state.wireless} />
+
+					<ButtonGroupTitle title="Enhanced Exhaust"></ButtonGroupTitle>
+					<ButtonGroup 
+						
+						buttons={["Off", "Auto", "On"]} 
+						buttonFunctions={[
+							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "OFF"), 
+							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "AUTO"), 
+							() => this._requestUpdate("SOUND", "EXHAUST_NOISE", "ON")]} 
+						status={this.state.exhaustNoise} />
 
 					<ButtonGroupTitle title="Variable Speed Volume"></ButtonGroupTitle>
 					<ButtonGroup 
