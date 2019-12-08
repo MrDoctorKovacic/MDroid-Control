@@ -69,7 +69,7 @@ reloadStyles = function(isVertical = false, isConnected = false) {
     titleContainer: {
       flex: 1,
       flexDirection: isVertical ? 'column' : 'row',
-      paddingBottom: 20,
+      paddingBottom: 10,
       justifyContent: isVertical ? 'flex-start' : 'center'
     },
     colContainer: {

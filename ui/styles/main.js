@@ -10,7 +10,6 @@ reloadMainStyles = function(isVertical = false, isConnected = false) {
       backgroundColor: '#000',
       height: hp('100%'),
       width: wp('100%'),
-      maxHeight: isVertical ? 'auto' : 650,
       flexDirection: isVertical ? 'column' : 'row'
     },
     swiperContainer: {
@@ -32,10 +31,6 @@ reloadMainStyles = function(isVertical = false, isConnected = false) {
       marginLeft: isVertical ? 0 : wp('7.5%'),
       flexDirection: 'column',
       resizeMode:'contain'
-    },
-    mainContainer: {
-      width: isVertical ? wp('100%') : wp('70%'),
-      height: hp('60%'),
     },
     viewBlocker: isVertical ? {} : {
       backgroundColor: '#000000',

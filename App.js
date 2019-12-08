@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-	Dimensions, 
-	StatusBar, 
-	ToastAndroid, 
-	RefreshControl, 
-	ScrollView, 
-	View, 
-	Image
+	Dimensions,
+	StatusBar,
+	ToastAndroid,
+	RefreshControl,
+	ScrollView,
+	View,
+	Image,
+	Text,
 } from 'react-native';
 import {
 	widthPercentageToDP as wp,
@@ -16,6 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Swiper from 'react-native-swiper';
+import { Overlay } from 'react-native-elements';
 
 // Actions
 import { CreateSocket, SendToSocket, postRequest, getRequest } from './ui/actions/MDroidActions.js';
@@ -29,7 +31,7 @@ import SystemScreen from './ui/screens/SystemScreen.js';
 import PowerScreen from './ui/screens/PowerScreen.js';
 import IconRow from './ui/components/IconRow.js'
 
-import reloadStyles from './ui/styles/main.js';
+import reloadStyles from './ui/styles/screen.js';
 import reloadMainStyles from './ui/styles/main.js';
 
 // Config
@@ -47,7 +49,7 @@ export default class App extends React.Component {
 			console.log("Websocket closed. "+e.message);
 			console.log(e.code, e.reason);
 			ToastAndroid.show("Websocket closed: "+e.message, ToastAndroid.SHORT);
-		
+
 			this.setState({
 				isConnected: false
 			});
@@ -161,6 +163,7 @@ export default class App extends React.Component {
 		this.state = {
 			isConnected: false,
 			refreshing: false,
+			connectingOverlayHidden: false
 		};
 	}
 
@@ -181,13 +184,33 @@ export default class App extends React.Component {
 		var mainStyles = reloadMainStyles(isVertical, this.state.isConnected);
 		var styles = reloadStyles(height < width, this.state.isConnected);
 
+		var refeshControl = <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />;
+
+		var overlayText = "";
+		if (new Date().getHours() <= 6 || new Date().getHours() >= 19) {
+			overlayText = "Board Asleep.";
+		} else {
+			overlayText = "Connecting...";
+		}
 		return (
 			<View style={[mainStyles.container]} onLayout={this._onLayout}>
 				<StatusBar barStyle="dark-content" backgroundColor="#000000" translucent={true} />
+
+				<Overlay
+					  isVisible={!this.state.isConnected && !this.state.connectingOverlayHidden}
+						overlayBackgroundColor="rgba(0, 0, 0, 1)"
+					  width="auto"
+					  height="auto"
+					>
+		  		<Text style={[styles.mainTitleText, {color:"#FFF"}]}>{overlayText}</Text>
+				</Overlay>
+
 				<View style={[mainStyles.imageContainer]}>
 					<Image style={mainStyles.mainLeftImage} source={image} />
 				</View>
+
 				<View><IconRow session={this.state.session} settings={this.state.settings} ></IconRow></View>
+
 				<Swiper
 					index={0}
 					style={mainStyles.swiperContainer}
@@ -195,51 +218,26 @@ export default class App extends React.Component {
 					opacity={this.state.isConnected ? 1 : 0.7}
 					dotColor='rgba(255,255,255,.2)'
 					activeDotColor='rgba(255,255,255,1)'>
-					
-					<ScrollView 
-						refreshControl={<RefreshControl 
-						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true}
-					>
+
+					<ScrollView refreshControl={refeshControl} removeClippedSubviews={true}>
 						<MainScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} />
 					</ScrollView>
 
 					<ControlsScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} settings={this.state.settings} />
 
-					<ScrollView 
-						refreshControl={<RefreshControl 
-						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true}
-					>
+					<ScrollView refreshControl={refeshControl} removeClippedSubviews={true}>
 						<GpsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.gps} />
 					</ScrollView>
 
-					<ScrollView 
-						refreshControl={<RefreshControl 
-						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true}
-					>
+					<ScrollView refreshControl={refeshControl} removeClippedSubviews={true}>
 						<SettingsScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} />
 					</ScrollView>
 
-					<ScrollView 
-						refreshControl={<RefreshControl 
-						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true}
-					>
+					<ScrollView refreshControl={refeshControl} removeClippedSubviews={true}>
 						<PowerScreen postRequest={postRequest} getRequest={getRequest} settings={this.state.settings} />
 					</ScrollView>
 
-					<ScrollView 
-						refreshControl={<RefreshControl 
-						refreshing={this.state.refreshing} 
-						onRefresh={this._onRefresh} />} 
-						removeClippedSubviews={true}
-					>
+					<ScrollView refreshControl={refeshControl} removeClippedSubviews={true}>
 						<SystemScreen postRequest={postRequest} getRequest={getRequest} session={this.state.session} />
 					</ScrollView>
 				</Swiper>

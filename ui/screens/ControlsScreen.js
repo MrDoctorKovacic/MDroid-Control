@@ -46,7 +46,7 @@ export default class ControlsScreen extends React.Component {
             <ButtonGroup reference="doors" buttons={["Lock", "Unlock"]} buttonFunctions={[() => this.props.getRequest("/doors/lock"), () => this.props.getRequest("/doors/unlock")]} />
 
             <ButtonGroupTitle title="Windows"></ButtonGroupTitle>
-            <ButtonGroup reference="windows" buttons={["Open", "Close"]} buttonFunctions={[() => this.props.getRequest("/windows/down"), () => this.props.getRequest("/windows/up")]} />
+            <ButtonGroup reference="windows" buttons={["Up", "Down"]} buttonFunctions={[() => this.props.getRequest("/windows/up"), () => this.props.getRequest("/windows/down")]} />
 
             <ButtonGroupTitle title="Trunk"></ButtonGroupTitle>
             <ButtonGroup reference="trunk" buttons={["Open"]} buttonFunctions={[() => this.props.getRequest("/trunk/open")]} />
@@ -59,6 +59,8 @@ export default class ControlsScreen extends React.Component {
 
             <ButtonGroupTitle title="Radio"></ButtonGroupTitle>
             <ButtonGroup reference="radio" buttons={["Power Toggle", "Input Toggle"]} buttonFunctions={[() => this.props.getRequest("/radio/toggle"), () => this.props.getRequest("/radio/mode")]} />
+            <ButtonGroup reference="radio" buttons={["Previous", "Next"]} buttonFunctions={[() => this.props.getRequest("/radio/prev"), () => this.props.getRequest("/radio/next")]} />
+            <ButtonGroup reference="radio" buttons={["Press 1", "Press 6"]} buttonFunctions={[() => this.props.getRequest("/radio/1"), () => this.props.getRequest("/radio/6")]} />
           </View>
         </View>
       </ScrollView>
