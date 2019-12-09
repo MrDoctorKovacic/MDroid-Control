@@ -12,7 +12,7 @@ import IconRecord from '../images/icons/record.js';
 import IconPower from '../images/icons/power.js';
 
 const iconHeight = 30;
-const iconWidth = 65; 
+const iconWidth = 65;
 
 export default class DataRow extends React.Component {
 
@@ -56,7 +56,7 @@ export default class DataRow extends React.Component {
 			console.log(this.props.session);
 		}
 
-		
+
 	}
 
 	render() {
@@ -107,11 +107,11 @@ export default class DataRow extends React.Component {
 		}
 
 		// Responsive styling
-    	var {height, width} = Dimensions.get('window');
+    var {height, width} = Dimensions.get('window');
 		var styles = reloadStyles(height < width, global.isConnected);
 
 		return (
-            <View style={[styles.container, styles.containerPaddingBottom]}>
+      <View style={[styles.container, styles.containerPaddingBottom, styles.iconRowStyles]}>
 				<View style={[styles.buttonsContainer]}>
 					<IconPower width={iconWidth} height={iconHeight} fill={this.state.ACC_POWER && global.isConnected ? Colors.buttonColorOn : defaultColor} />
 				</View>
@@ -130,7 +130,7 @@ export default class DataRow extends React.Component {
 				<View style={[styles.buttonsContainer]}>
 					<IconLTE width={iconWidth} height={iconHeight} fill={lteColor} />
 				</View>
-            </View>
+      </View>
 		);
 	}
 }

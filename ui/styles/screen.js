@@ -27,6 +27,9 @@ reloadStyles = function(isVertical = false, isConnected = false) {
       color: '#fff',
       fontFamily: "orbitron-medium",
     },
+    iconRowStyles: {
+      flexDirection: isVertical ? 'column' : 'row'
+    },
     containerPadding: {
       paddingLeft: isVertical ? 30 : 15,
       paddingRight: isVertical ? 30 : 15
