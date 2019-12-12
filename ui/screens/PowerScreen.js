@@ -1,123 +1,147 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  Dimensions,
-  Alert
-} from 'react-native';
+import {Text, View, Dimensions, Alert} from 'react-native';
 import {
   listenOrientationChange as loc,
-  removeOrientationListener as rol
+  removeOrientationListener as rol,
 } from 'react-native-responsive-screen';
 import reloadStyles from '../styles/screen.js';
 import ButtonGroup from '../components/ButtonGroup.js';
 import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 
 export default class PowerScreen extends React.Component {
-	componentDidMount() {
-		loc(this);
-	}
+  componentDidMount() {
+    loc(this);
+  }
 
-	componentDidUpdate(prevProps){
-		if(prevProps.settings !== this.props.settings){
-			if (this.props.settings != undefined) {
-				this.setState({
-					wirelessPower: ("WIRELESS" in this.props.settings && "POWER" in this.props.settings["WIRELESS"]) ? this.props.settings["WIRELESS"]["POWER"] : "N/A",
-					boardPower: ("BOARD" in this.props.settings && "POWER" in this.props.settings["BOARD"]) ? this.props.settings["BOARD"]["POWER"] : "N/A",
-					tabletPower: ("TABLET" in this.props.settings && "POWER" in this.props.settings["TABLET"]) ? this.props.settings["TABLET"]["POWER"] : "N/A",
-				});
-			}
-		}
-	}
+  componentDidUpdate(prevProps) {
+    if (prevProps.settings !== this.props.settings) {
+      if (this.props.settings !== undefined) {
+        this.setState({
+          wirelessPower:
+            'WIRELESS' in this.props.settings &&
+            'POWER' in this.props.settings.WIRELESS
+              ? this.props.settings.WIRELESS.POWER
+              : 'N/A',
+          boardPower:
+            'BOARD' in this.props.settings &&
+            'POWER' in this.props.settings.BOARD
+              ? this.props.settings.BOARD.POWER
+              : 'N/A',
+          tabletPower:
+            'TABLET' in this.props.settings &&
+            'POWER' in this.props.settings.TABLET
+              ? this.props.settings.TABLET.POWER
+              : 'N/A',
+        });
+      }
+    }
+  }
 
-	componentWillUnMount() {
-		rol();
-	}
+  componentWillUnMount() {
+    rol();
+  }
 
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.state = {
-			tabletPower: "N/A",
-			boardPower: "N/A",
-			wirelessPower: "N/A",
-			toasted: 0,
-			refreshing: false,
-			fails: 0
-		};
-	}
+    this.state = {
+      tabletPower: 'N/A',
+      boardPower: 'N/A',
+      wirelessPower: 'N/A',
+      toasted: 0,
+      refreshing: false,
+      fails: 0,
+    };
+  }
 
-	// Handler for update
-	_requestUpdatePower = async (component, setting, value) => {
-		this.props.postRequest("/settings/"+component+"/"+setting+"/"+value, "");
-	}
+  // Handler for update
+  _requestUpdatePower = async (component, setting, value) => {
+    this.props.postRequest(
+      '/settings/' + component + '/' + setting + '/' + value,
+      '',
+    );
+  };
 
-	_confirmRestart(target) {
-		address = target == "local" ? "/restart" : "/"+target+"/restart";
-		Alert.alert(
-			'Confirm Restart',
-			'Are you sure you want to restart '+target+'?',
-			[
-			  {
-				text: 'Cancel',
-				onPress: () => console.log('Cancel Pressed'),
-				style: 'cancel',
-			  },
-			  {text: 'OK', onPress: () => this.props.getRequest(address) },
-			],
-			{cancelable: true},
-		);
-	}
+  _confirmRestart(target) {
+    var address = target == 'local' ? '/restart' : '/' + target + '/restart';
+    Alert.alert(
+      'Confirm Restart',
+      'Are you sure you want to restart ' + target + '?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => this.props.getRequest(address)},
+      ],
+      {cancelable: true},
+    );
+  }
 
-  	render() {
-		// Responsive styling
-		var {height, width} = Dimensions.get('window');
-		var styles = reloadStyles(height < width, global.isConnected);
+  render() {
+    // Responsive styling
+    var {height, width} = Dimensions.get('window');
+    var styles = reloadStyles(height < width, global.isConnected);
 
-		return (
-			<View style={styles.screenView}>
-				<View style={[styles.container, styles.containerPadding, styles.titleContainer]}>
-					<Text style={styles.mainTitleText}>Power</Text>
-				</View>
-				<View style={[styles.largeContainer, styles.colContainer]}>
-					<ButtonGroupTitle title="Main Board"></ButtonGroupTitle>
-					<ButtonGroup 
-						buttons={["Off", "Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdatePower("BOARD", "POWER", "OFF"), 
-							() => this._requestUpdatePower("BOARD", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("BOARD", "POWER", "ON")]} 
-						status={this.state.boardPower} />
+    return (
+      <View style={styles.screenView}>
+        <View
+          style={[
+            styles.container,
+            styles.containerPadding,
+            styles.titleContainer,
+          ]}>
+          <Text style={styles.mainTitleText}>Power</Text>
+        </View>
+        <View style={[styles.largeContainer, styles.colContainer]}>
+          <ButtonGroupTitle title="Main Board" />
+          <ButtonGroup
+            buttons={['Off', 'Auto', 'On']}
+            buttonFunctions={[
+              () => this._requestUpdatePower('BOARD', 'POWER', 'OFF'),
+              () => this._requestUpdatePower('BOARD', 'POWER', 'AUTO'),
+              () => this._requestUpdatePower('BOARD', 'POWER', 'ON'),
+            ]}
+            status={this.state.boardPower}
+          />
 
-					<ButtonGroupTitle title="Tablet"></ButtonGroupTitle>
-					<ButtonGroup 
-						buttons={["Off", "Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdatePower("TABLET", "POWER", "OFF"), 
-							() => this._requestUpdatePower("TABLET", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("TABLET", "POWER", "ON")]} 
-						status={this.state.tabletPower} />
+          <ButtonGroupTitle title="Tablet" />
+          <ButtonGroup
+            buttons={['Off', 'Auto', 'On']}
+            buttonFunctions={[
+              () => this._requestUpdatePower('TABLET', 'POWER', 'OFF'),
+              () => this._requestUpdatePower('TABLET', 'POWER', 'AUTO'),
+              () => this._requestUpdatePower('TABLET', 'POWER', 'ON'),
+            ]}
+            status={this.state.tabletPower}
+          />
 
-					<ButtonGroupTitle title="Wireless"></ButtonGroupTitle>
-					<ButtonGroup 
-						buttons={["Auto", "On"]} 
-						buttonFunctions={[
-							() => this._requestUpdatePower("WIRELESS", "POWER", "AUTO"), 
-							() => this._requestUpdatePower("WIRELESS", "POWER", "ON")]} 
-						status={this.state.wirelessPower} />
+          <ButtonGroupTitle title="Wireless" />
+          <ButtonGroup
+            buttons={['Auto', 'On']}
+            buttonFunctions={[
+              () => this._requestUpdatePower('WIRELESS', 'POWER', 'AUTO'),
+              () => this._requestUpdatePower('WIRELESS', 'POWER', 'ON'),
+            ]}
+            status={this.state.wirelessPower}
+          />
 
-					<ButtonGroupTitle title="Restart Boards"></ButtonGroupTitle>
-					<ButtonGroup 
-						buttons={["Restart MDroid"]} 
-						buttonFunctions={[() => this._confirmRestart("local")]} />
-					<ButtonGroup 
-						buttons={["Restart Wireless"]} 
-						buttonFunctions={[() => this._confirmRestart("wireless")]} />
-					<ButtonGroup 
-						buttons={["Restart Board"]} 
-						buttonFunctions={[() => this._confirmRestart("board")]} />
-				</View>
-			</View>
-		);
-  	}
+          <ButtonGroupTitle title="Restart Boards" />
+          <ButtonGroup
+            buttons={['Restart MDroid']}
+            buttonFunctions={[() => this._confirmRestart('local')]}
+          />
+          <ButtonGroup
+            buttons={['Restart Wireless']}
+            buttonFunctions={[() => this._confirmRestart('wireless')]}
+          />
+          <ButtonGroup
+            buttons={['Restart Board']}
+            buttonFunctions={[() => this._confirmRestart('board')]}
+          />
+        </View>
+      </View>
+    );
+  }
 }

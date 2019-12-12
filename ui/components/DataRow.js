@@ -1,28 +1,26 @@
 import React from 'react';
-import {
-	Text,
-	View,
-	Dimensions
-} from 'react-native';
+import {Text, View, Dimensions} from 'react-native';
 import reloadStyles from '../styles/screen.js';
 
 export default class DataRow extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-	constructor(props) {
-		super(props);
-	}
-	
-	render() {
+  render() {
+    // Responsive styling
+    var {height, width} = Dimensions.get('window');
+    var styles = reloadStyles(height < width, global.isConnected);
 
-		// Responsive styling
-    	var {height, width} = Dimensions.get('window');
-		var styles = reloadStyles(height < width, global.isConnected);
-
-		return (
-			<View style={{ flex: 1, flexDirection: 'row' }}>
-				<View style={{ flex: 1, }}><Text style={styles.normalText}>{this.props.title}</Text></View>
-				<View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.normalText}>{this.props.value}</Text></View>
-			</View>
-		);
-	}
+    return (
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{flex: 1}}>
+          <Text style={styles.normalText}>{this.props.title}</Text>
+        </View>
+        <View style={{flex: 1, alignItems: 'flex-end'}}>
+          <Text style={styles.normalText}>{this.props.value}</Text>
+        </View>
+      </View>
+    );
+  }
 }
