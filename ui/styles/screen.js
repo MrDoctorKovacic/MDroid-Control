@@ -5,7 +5,7 @@ import {
 } from 'react-native-responsive-screen';
 import Colors from '../constants/Colors';
 
-var reloadStyles = function(isVertical = false, isConnected = false) {
+var reloadStyles = function(isHorizontal = false, isConnected = false) {
   var styles = StyleSheet.create({
     screenView: {
       paddingBottom: 35,
@@ -15,7 +15,7 @@ var reloadStyles = function(isVertical = false, isConnected = false) {
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'stretch',
-      paddingTop: isVertical ? 20 : 0,
+      paddingTop: isHorizontal ? 20 : 0,
     },
     container: {
       flex: 1,
@@ -24,12 +24,20 @@ var reloadStyles = function(isVertical = false, isConnected = false) {
       color: '#fff',
       fontFamily: 'orbitron-medium',
     },
+    breakHalfContainer: {
+      flexDirection: isHorizontal ? 'column' : 'row',
+      flex: 1,
+    },
     iconRowStyles: {
-      flexDirection: isVertical ? 'column' : 'row',
+      flexDirection: isHorizontal ? 'row' : 'column',
+    },
+    iconInnerRow: {
+      flexDirection: 'row',
+      marginBottom: isHorizontal ? 40 : 0,
     },
     containerPadding: {
-      paddingLeft: isVertical ? 30 : 15,
-      paddingRight: isVertical ? 30 : 15,
+      paddingLeft: isHorizontal ? 30 : 15,
+      paddingRight: isHorizontal ? 30 : 15,
     },
     containerPaddingLeft: {
       paddingLeft: 30,
@@ -65,16 +73,16 @@ var reloadStyles = function(isVertical = false, isConnected = false) {
     },
     titleContainer: {
       flex: 1,
-      flexDirection: isVertical ? 'column' : 'row',
+      flexDirection: isHorizontal ? 'column' : 'row',
       paddingBottom: 10,
-      justifyContent: isVertical ? 'flex-start' : 'center',
+      justifyContent: isHorizontal ? 'flex-start' : 'center',
     },
     colContainer: {
       flexDirection: 'column',
       alignItems: 'flex-start',
     },
     rowContainer: {
-      flexDirection: isVertical ? 'column' : 'row',
+      flexDirection: isHorizontal ? 'column' : 'row',
       alignItems: 'flex-start',
     },
     button: {
@@ -94,32 +102,32 @@ var reloadStyles = function(isVertical = false, isConnected = false) {
       color: !isConnected ? '#777' : '#fff',
       fontFamily: 'orbitron-medium',
       textAlign: 'left',
-      fontSize: isVertical ? 16 : wp('5%'),
+      fontSize: isHorizontal ? wp('2%') : wp('5%'),
       marginBottom: 20,
     },
     mainTitleText: {
-      fontSize: isVertical ? 40 : wp('7%'),
+      fontSize: isHorizontal ? 40 : wp('7%'),
       color: !isConnected ? '#777' : '#ff5722',
       fontFamily: 'orbitron-medium',
-      textAlign: isVertical ? 'left' : 'center',
-      marginBottom: isVertical ? 0 : 25,
+      textAlign: isHorizontal ? 'left' : 'center',
+      marginBottom: 25,
     },
     auxText: {
       color: !isConnected ? '#777' : '#fff',
       fontFamily: 'orbitron-medium',
-      fontSize: isVertical ? 20 : 14,
+      fontSize: isHorizontal ? 20 : 14,
       marginBottom: 20,
     },
     normalText: {
       color: !isConnected ? '#777' : '#fff',
       fontFamily: 'Roboto',
-      fontSize: isVertical ? 20 : 14,
+      fontSize: isHorizontal ? 20 : 14,
       marginBottom: 20,
     },
     map: {
-      width: isVertical ? wp('60%') : wp('100%'),
-      height: isVertical ? hp('50%') : hp('65%'),
-      marginLeft: isVertical ? wp('5%') : 0,
+      width: isHorizontal ? wp('60%') : wp('100%'),
+      height: isHorizontal ? hp('50%') : hp('65%'),
+      marginLeft: isHorizontal ? wp('5%') : 0,
       marginBottom: hp('5%'),
       borderRadius: 50,
     },

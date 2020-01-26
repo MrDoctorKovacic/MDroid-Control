@@ -226,15 +226,17 @@ export default class App extends React.Component {
           </Text>
         </Overlay>
 
-        <View style={[mainStyles.imageContainer]}>
-          <Image style={mainStyles.mainLeftImage} source={image} />
-        </View>
-
         <View>
-          <IconRow
-            session={this.state.session}
-            settings={this.state.settings}
-          />
+          <View style={[mainStyles.imageContainer]}>
+            <Image style={mainStyles.mainLeftImage} source={image} />
+          </View>
+
+          <View style={[mainStyles.iconContainer]}>
+            <IconRow
+              session={this.state.session}
+              settings={this.state.settings}
+            />
+          </View>
         </View>
 
         <Swiper

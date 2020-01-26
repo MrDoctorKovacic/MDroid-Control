@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, ScrollView, Dimensions} from 'react-native';
+import {Text, View, ScrollView, Dimensions, Alert} from 'react-native';
 import {
   listenOrientationChange as loc,
   removeOrientationListener as rol,
@@ -25,6 +25,22 @@ export default class ControlsScreen extends React.Component {
     };
   }
 
+  confirmAction(action) {
+    Alert.alert(
+      'Send ' + action + '?',
+      '',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => this.props.getRequest(action)},
+      ],
+      {cancelable: true},
+    );
+  }
+
   render() {
     // Responsive styling
     var {height, width} = Dimensions.get('window');
@@ -47,8 +63,8 @@ export default class ControlsScreen extends React.Component {
               reference="doors"
               buttons={['Lock', 'Unlock']}
               buttonFunctions={[
-                () => this.props.getRequest('/doors/lock'),
-                () => this.props.getRequest('/doors/unlock'),
+                () => this.confirmAction('/doors/lock'),
+                () => this.confirmAction('/doors/unlock'),
               ]}
             />
 
@@ -57,8 +73,8 @@ export default class ControlsScreen extends React.Component {
               reference="windows"
               buttons={['Up', 'Down']}
               buttonFunctions={[
-                () => this.props.getRequest('/windows/up'),
-                () => this.props.getRequest('/windows/down'),
+                () => this.confirmAction('/windows/up'),
+                () => this.confirmAction('/windows/down'),
               ]}
             />
 
@@ -66,7 +82,7 @@ export default class ControlsScreen extends React.Component {
             <ButtonGroup
               reference="trunk"
               buttons={['Open']}
-              buttonFunctions={[() => this.props.getRequest('/trunk/open')]}
+              buttonFunctions={[() => this.confirmAction('/trunk/open')]}
             />
 
             <ButtonGroupTitle title="Hazards" />
@@ -74,7 +90,7 @@ export default class ControlsScreen extends React.Component {
               reference="hazards"
               buttons={['On', 'Off']}
               buttonFunctions={[
-                () => this.props.getRequest('/hazards/on'),
+                () => this.confirmAction('/hazards/on'),
                 () => this.props.getRequest('/hazards/off'),
               ]}
             />
@@ -84,7 +100,7 @@ export default class ControlsScreen extends React.Component {
               reference="flashers"
               buttons={['On', 'Off']}
               buttonFunctions={[
-                () => this.props.getRequest('/flashers/on'),
+                () => this.confirmAction('/flashers/on'),
                 () => this.props.getRequest('/flashers/off'),
               ]}
             />
