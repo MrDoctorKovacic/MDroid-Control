@@ -159,7 +159,7 @@ export default class GpsScreen extends React.Component {
               Longitude: {this.state.region.longitude}
             </Text>
             <Text style={styles.auxText}>Speed: {this.state.gps.speed}</Text>
-            <Text style={styles.auxText}>Course: {this.state.gps.course}</Text>
+            <Text style={styles.auxText}>Altitude: {this.state.gps.altitude}</Text>
           </View>
         </View>
       </View>
