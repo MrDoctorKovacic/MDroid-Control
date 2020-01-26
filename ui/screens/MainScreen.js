@@ -37,17 +37,14 @@ export default class MainScreen extends React.Component {
           obj[item] =
             item in this.props.session ? this.props.session[item] : 'N/A';
         }
-        if (
-          'AUX_VOLTAGE' in this.props.session &&
-          'AUX_CURRENT' in this.props.session
-        ) {
+        if ('AUX_VOLTAGE' in this.props.session) {
           obj.BATTERY_PERCENTAGE = (
             (parseFloat(this.props.session.AUX_VOLTAGE) - lowestUsableVoltage) /
             1.3
           ).toFixed(2);
           obj.BATTERY_REMAINING = (
             obj.BATTERY_PERCENTAGE *
-            (ampHourCapacity / obj.AUX_CURRENT)
+            (ampHourCapacity / .4)
           ).toFixed(1);
           if (obj.BATTERY_REMAINING > 24) {
             obj.BATTERY_REMAINING_STRING =
@@ -128,7 +125,7 @@ export default class MainScreen extends React.Component {
               <Text style={[styles.secondaryTitleText]}>Interior Temp</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
                 {Math.round(
-                  this.cToF(parseInt(this.state.INTERIOR_TEMPERATURE, 10)),
+                  parseInt(this.state.INTERIOR_TEMPERATURE, 10),
                 )}{' '}
                 F
               </Text>
