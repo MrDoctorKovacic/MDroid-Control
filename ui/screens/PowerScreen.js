@@ -17,11 +17,6 @@ export default class PowerScreen extends React.Component {
     if (prevProps.settings !== this.props.settings) {
       if (this.props.settings !== undefined) {
         this.setState({
-          wirelessPower:
-            'WIRELESS' in this.props.settings &&
-            'POWER' in this.props.settings.WIRELESS
-              ? this.props.settings.WIRELESS.POWER
-              : 'N/A',
           boardPower:
             'BOARD' in this.props.settings &&
             'POWER' in this.props.settings.BOARD
@@ -47,7 +42,6 @@ export default class PowerScreen extends React.Component {
     this.state = {
       tabletPower: 'N/A',
       boardPower: 'N/A',
-      wirelessPower: 'N/A',
       toasted: 0,
       refreshing: false,
       fails: 0,
@@ -117,28 +111,18 @@ export default class PowerScreen extends React.Component {
             status={this.state.tabletPower}
           />
 
-          <ButtonGroupTitle title="Wireless" />
-          <ButtonGroup
-            buttons={['Auto', 'On']}
-            buttonFunctions={[
-              () => this._requestUpdatePower('WIRELESS', 'POWER', 'AUTO'),
-              () => this._requestUpdatePower('WIRELESS', 'POWER', 'ON'),
-            ]}
-            status={this.state.wirelessPower}
-          />
-
           <ButtonGroupTitle title="Restart Boards" />
           <ButtonGroup
             buttons={['Restart MDroid']}
             buttonFunctions={[() => this._confirmRestart('local')]}
           />
           <ButtonGroup
-            buttons={['Restart Wireless']}
-            buttonFunctions={[() => this._confirmRestart('wireless')]}
-          />
-          <ButtonGroup
             buttons={['Restart Board']}
             buttonFunctions={[() => this._confirmRestart('board')]}
+          />
+          <ButtonGroup
+            buttons={['Restart Pi']}
+            buttonFunctions={[() => this._confirmRestart('pi')]}
           />
         </View>
       </View>

@@ -3,10 +3,8 @@ import {View, Dimensions} from 'react-native';
 import reloadStyles from '../styles/screen.js';
 import Colors from '../constants/Colors.js';
 
-import IconVideo from '../images/icons/etc.js';
 import IconLucio from '../images/icons/lucio.js';
 import IconLTE from '../images/icons/lte.js';
-import IconWireless from '../images/icons/wireless.js';
 import IconTablet from '../images/icons/tablet.js';
 import IconRecord from '../images/icons/record.js';
 import IconPower from '../images/icons/power.js';
@@ -25,8 +23,6 @@ export default class DataRow extends React.Component {
       VIDEO_ON: false,
       VIDEO_ENABLED: false,
       TABLET_ENABLED: true,
-      WIRELESS_ON: false,
-      WIRELESS_ENABLED: true,
       LTE_ON: false,
     };
   }
@@ -47,12 +43,6 @@ export default class DataRow extends React.Component {
           'POWER' in this.props.settings.TABLET
             ? this.props.settings.TABLET.POWER === 'ON' ||
               this.props.settings.TABLET.POWER === 'AUTO'
-            : false,
-        WIRELESS_ENABLED:
-          'WIRELESS' in this.props.settings &&
-          'POWER' in this.props.settings.WIRELESS
-            ? this.props.settings.WIRELESS.POWER === 'ON' ||
-              this.props.settings.WIRELESS.POWER === 'AUTO'
             : false,
         LTE_ENABLED:
           'WIRELESS' in this.props.settings &&
@@ -94,10 +84,6 @@ export default class DataRow extends React.Component {
           'LTE_ON' in this.props.session
             ? this.props.session.LTE_ON === 'TRUE'
             : false,
-        WIRELESS_ON:
-          'WIRELESS_POWER' in this.props.session
-            ? this.props.session.WIRELESS_POWER === 'TRUE'
-            : false,
       });
       console.log(this.state);
       console.log(this.props.session);
@@ -111,7 +97,6 @@ export default class DataRow extends React.Component {
     var boardColor = defaultColor;
     var tabletColor = defaultColor;
     var videoColor = defaultColor;
-    var wirelessColor = defaultColor;
     var lteColor = defaultColor;
 
     //
@@ -136,20 +121,9 @@ export default class DataRow extends React.Component {
       tabletColor = Colors.buttonColorOn;
     }
 
-    if (!this.state.WIRELESS_ENABLED) {
-      wirelessColor = Colors.buttonColorDisabled;
-      lteColor = Colors.buttonColorDisabled;
-      console.log('Wireless is disabled');
-    } else {
-      console.log('Wireless is enabled');
-      if (this.state.WIRELESS_ON) {
-        wirelessColor = Colors.buttonColorOn;
-        console.log('Wireless is on, color ' + wirelessColor);
-      }
-      if (this.state.LTE_ON) {
-        lteColor = Colors.buttonColorOn;
-        console.log('LTE is on, color ' + lteColor);
-      }
+    if (this.state.LTE_ON) {
+      lteColor = Colors.buttonColorOn;
+      console.log('LTE is on, color ' + lteColor);
     }
 
     // Responsive styling
@@ -198,13 +172,6 @@ export default class DataRow extends React.Component {
               width={iconWidth}
               height={iconHeight}
               fill={videoColor}
-            />
-          </View>
-          <View style={[styles.buttonsContainer]}>
-            <IconWireless
-              width={iconWidth}
-              height={iconHeight}
-              fill={wirelessColor}
             />
           </View>
           <View style={[styles.buttonsContainer]}>

@@ -46,7 +46,6 @@ export default class SystemScreen extends React.Component {
       ANGEL_EYES_POWER: 'N/A',
       BOARD_POWER: 'N/A',
       TABLET_POWER: 'N/A',
-      WIRELESS_POWER: 'N/A',
       WIFI_CONNECTED: 'N/A',
       LTE_ON: 'N/A',
       KEY_DETECTED: 'N/A',
