@@ -200,12 +200,7 @@ export default class App extends React.Component {
       />
     );
 
-    var overlayText = '';
-    if (new Date().getHours() <= 6 || new Date().getHours() >= 19) {
-      overlayText = 'Board Asleep.';
-    } else {
-      overlayText = 'Connecting...';
-    }
+    const overlayText = 'Connecting...';
     return (
       <View style={[mainStyles.container]} onLayout={this._onLayout}>
         <StatusBar
