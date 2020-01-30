@@ -35,6 +35,9 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       flexDirection: 'row',
       marginBottom: isHorizontal ? 40 : 0,
     },
+    iconInnerRowShort: {
+      paddingLeft: 35,
+    },
     containerPadding: {
       paddingLeft: isHorizontal ? 30 : 15,
       paddingRight: isHorizontal ? 30 : 15,

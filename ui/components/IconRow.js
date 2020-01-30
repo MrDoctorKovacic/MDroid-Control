@@ -130,8 +130,58 @@ export default class DataRow extends React.Component {
     var {height, width} = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
 
-    return (
-      <View
+    if (height > width) {
+      return (
+        <View
+          style={[
+            styles.container,
+            styles.containerPaddingBottom,
+            styles.iconRowStyles,
+            styles.breakHalfContainer,
+          ]}>
+          <View style={[styles.mainContainer, styles.iconInnerRow]}>
+            <View style={[styles.buttonsContainer]}>
+              <IconPower
+                width={iconWidth}
+                height={iconHeight}
+                fill={
+                  this.state.ACC_POWER && global.isConnected
+                    ? Colors.buttonColorOn
+                    : defaultColor
+                }
+              />
+            </View>
+            <View style={[styles.buttonsContainer]}>
+              <IconLucio
+                width={iconWidth}
+                height={iconHeight}
+                fill={boardColor}
+              />
+            </View>
+            <View style={[styles.buttonsContainer]}>
+              <IconTablet
+                width={iconWidth}
+                height={iconHeight}
+                fill={tabletColor}
+              />
+            </View>
+
+            <View style={[styles.buttonsContainer]}>
+              <IconRecord
+                width={iconWidth}
+                height={iconHeight}
+                fill={videoColor}
+              />
+            </View>
+            <View style={[styles.buttonsContainer]}>
+              <IconLTE width={iconWidth} height={iconHeight} fill={lteColor} />
+            </View>
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View
         style={[
           styles.container,
           styles.containerPaddingBottom,
@@ -166,7 +216,7 @@ export default class DataRow extends React.Component {
           </View>
         </View>
 
-        <View style={[styles.mainContainer, styles.iconInnerRow]}>
+        <View style={[styles.mainContainer, styles.iconInnerRow, styles.iconInnerRowShort]}>
           <View style={[styles.buttonsContainer]}>
             <IconRecord
               width={iconWidth}
@@ -174,11 +224,12 @@ export default class DataRow extends React.Component {
               fill={videoColor}
             />
           </View>
-          <View style={[styles.buttonsContainer]}>
+          <View style={[styles.buttonsContainer, { marginLeft: -30 }]}>
             <IconLTE width={iconWidth} height={iconHeight} fill={lteColor} />
           </View>
         </View>
       </View>
-    );
+      );
+    }
   }
 }
