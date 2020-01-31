@@ -91,6 +91,16 @@ export default class PowerScreen extends React.Component {
         <View style={[styles.largeContainer, styles.colContainer]}>
           <ButtonGroupTitle title="Main Board" />
           <ButtonGroup
+            buttons={['Off', 'Auto']}
+            buttonFunctions={[
+              () => this._requestUpdatePower('MDROID', 'SLEEP', 'OFF'),
+              () => this._requestUpdatePower('MDROID', 'SLEEP', 'AUTO'),
+            ]}
+            status={this.state.boardPower}
+          />
+
+          <ButtonGroupTitle title="Video Board" />
+          <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
               () => this._requestUpdatePower('BOARD', 'POWER', 'OFF'),
