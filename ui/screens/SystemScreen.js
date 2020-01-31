@@ -97,11 +97,6 @@ export default class SystemScreen extends React.Component {
         </View>
 
         <View style={[styles.containerPadding]}>
-          <ButtonGroupTitle title="Server Address" />
-          <CustomInput request={this.props.getRequest} />
-        </View>
-
-        <View style={[styles.containerPadding]}>
           <ButtonGroupTitle title="Custom Input" />
           <CustomInput request={this.props.getRequest} />
           {Object.keys(this.state).map(item => {
