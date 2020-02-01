@@ -23,6 +23,7 @@ import MapStyle, {
 
 export default class GpsScreen extends React.Component {
   componentDidUpdate(prevProps) {
+    console.log(prevProps);
     if (
       prevProps.settings !== this.props.settings &&
       this.props.settings !== undefined
@@ -52,9 +53,9 @@ export default class GpsScreen extends React.Component {
                 : LONGITUDE,
           },
           gps: {
-            course:
-              'course' in this.props.settings
-                ? this.props.settings.course
+            altitude:
+              'altitude' in this.props.settings
+                ? this.props.settings.altitude
                 : 'N/A',
             speed:
               'speed' in this.props.settings
@@ -91,6 +92,7 @@ export default class GpsScreen extends React.Component {
       },
       gps: {
         course: 'N/A',
+        altitude: 'N/A',
         speed: 'N/A',
       },
       fails: 0,

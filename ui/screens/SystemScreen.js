@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, View, Dimensions} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import {
   listenOrientationChange as loc,
   removeOrientationListener as rol,
@@ -24,28 +23,6 @@ export default class SystemScreen extends React.Component {
         }
       });
       this.setState(obj);
-    }
-  }
-
-  storeData = async (key, data) => {
-    try {
-      await AsyncStorage.setItem('@'+key, data)
-    } catch (e) {
-      // saving error
-      console.log(e)
-    }
-  }
-
-  getData = async (key) => {
-    try {
-      const value = await AsyncStorage.getItem('@'+key)
-      if(value !== null) {
-        // value previously stored
-        this.setState({key: value})
-      }
-    } catch(e) {
-      // error reading value
-      console.log(e)
     }
   }
 
