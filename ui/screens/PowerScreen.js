@@ -17,6 +17,11 @@ export default class PowerScreen extends React.Component {
     if (prevProps.settings !== this.props.settings) {
       if (this.props.settings !== undefined) {
         this.setState({
+          mainPower:
+            'MDROID' in this.props.settings &&
+            'SLEEP' in this.props.settings.MDROID
+              ? this.props.settings.MDROID.SLEEP
+              : 'N/A',
           boardPower:
             'BOARD' in this.props.settings &&
             'POWER' in this.props.settings.BOARD
@@ -42,6 +47,7 @@ export default class PowerScreen extends React.Component {
     this.state = {
       tabletPower: 'N/A',
       boardPower: 'N/A',
+      mainPower: 'N/A',
       toasted: 0,
       refreshing: false,
       fails: 0,
@@ -89,17 +95,17 @@ export default class PowerScreen extends React.Component {
           <Text style={styles.mainTitleText}>Power</Text>
         </View>
         <View style={[styles.largeContainer, styles.colContainer]}>
-          <ButtonGroupTitle title="Main Board" />
+          <ButtonGroupTitle title="Main Board - Sleep" />
           <ButtonGroup
             buttons={['Off', 'Auto']}
             buttonFunctions={[
               () => this._requestUpdatePower('MDROID', 'SLEEP', 'OFF'),
               () => this._requestUpdatePower('MDROID', 'SLEEP', 'AUTO'),
             ]}
-            status={this.state.boardPower}
+            status={this.state.mainPower}
           />
 
-          <ButtonGroupTitle title="Video Board" />
+          <ButtonGroupTitle title="Video Board Power" />
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
@@ -110,7 +116,7 @@ export default class PowerScreen extends React.Component {
             status={this.state.boardPower}
           />
 
-          <ButtonGroupTitle title="Tablet" />
+          <ButtonGroupTitle title="Tablet Power" />
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
