@@ -210,34 +210,13 @@ export default class MainScreen extends React.Component {
                 {paddingTop: 17})
               }>
               <Text style={[styles.secondaryTitleText]}>
-                Battery ({String(100 * this.state.BATTERY_PERCENTAGE)}%)
+                Battery ({String(Math.round(100 * this.state.BATTERY_PERCENTAGE))}%)
               </Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
                 {this.state.BATTERY_REMAINING_STRING}
               </Text>
             </View>
-          </View>
-          <View style={[styles.container]}>
-            <IconCurrent
-              width={iconWidth}
-              height={iconHeight}
-              fill={Colors.buttonColorOn}
-            />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>Aux Current</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {Number.parseFloat(this.state.AUX_CURRENT).toFixed(3)} A
-              </Text>
-            </View>
-          </View>
+          </View>  
         </View>
       </View>
     );
