@@ -7,6 +7,8 @@ import {
   Platform,
   Linking,
 } from 'react-native';
+import {Overlay} from 'react-native-elements';
+
 import {
   listenOrientationChange as loc,
   removeOrientationListener as rol,
@@ -111,6 +113,38 @@ export default class GpsScreen extends React.Component {
     Linking.openURL(url);
   }
 
+  renderMap(styles) {
+    if (this.state.gps.speed != "N/A") {
+      return(
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        initialRegion={this.state.region}
+        customMapStyle={MapStyle}
+        style={styles.map}
+        showsUserLocation={true}
+        scrollEnabled={false}>
+          <Marker coordinate={this.state.region} />
+      </MapView>
+      );
+    } else {
+      return(
+        <>
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        customMapStyle={MapStyle}
+        style={styles.map}
+        showsUserLocation={true}
+        scrollEnabled={false} />
+        <View style={styles.overlaidView}>
+          <Text style={[styles.mainTitleText, styles.overlaidText]}>
+            GPS Signal Lost
+          </Text>
+        </View>
+        </>
+      );
+    }
+  }
+
   render() {
     // Responsive styling
     var {height, width} = Dimensions.get('window');
@@ -129,21 +163,13 @@ export default class GpsScreen extends React.Component {
         <View style={[styles.largeContainer, styles.colContainer]}>
           <View pointerEvents="auto">
             <TouchableWithoutFeedback
-              onPress={() =>
+              onPress={() => this.state.gps.speed != "N/A" ? 
                 this.openInMaps(
                   this.state.region.latitude,
                   this.state.region.longitude,
-                )
+                ) : console.log("Invalid GPS coordinates")
               }>
-              <MapView
-                provider={PROVIDER_GOOGLE}
-                initialRegion={this.state.region}
-                customMapStyle={MapStyle}
-                style={styles.map}
-                showsUserLocation={true}
-                scrollEnabled={false}>
-                <Marker coordinate={this.state.region} />
-              </MapView>
+              {this.renderMap(styles)}
             </TouchableWithoutFeedback>
           </View>
 

@@ -186,7 +186,7 @@
         }
         ]
 
-export const LATITUDE = 33.584246;
-export const LONGITUDE = -117.106500;
+export const LATITUDE = 0;
+export const LONGITUDE = 0;
 export const LATITUDE_DELTA = 0.0092;
 export const LONGITUDE_DELTA = 0.0021;

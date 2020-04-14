@@ -134,6 +134,19 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       marginBottom: hp('5%'),
       borderRadius: 50,
     },
+    overlaidView: {
+      zIndex: 5,
+      position: "absolute",
+      top: "40%",
+      left: 0,
+      right: 0,
+      justifyContent: "center",
+      alignContent: "center"
+    },
+    overlaidText: {
+      color: "#FFF",
+      textAlign: "center"
+    },
     textRight: {
       textAlign: 'right',
     },

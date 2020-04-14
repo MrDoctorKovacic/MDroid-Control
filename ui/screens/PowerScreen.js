@@ -95,9 +95,9 @@ export default class PowerScreen extends React.Component {
           <Text style={styles.mainTitleText}>Power</Text>
         </View>
         <View style={[styles.largeContainer, styles.colContainer]}>
-          <ButtonGroupTitle title="Main Board - Sleep" />
+          <ButtonGroupTitle title="Auto Sleep" />
           <ButtonGroup
-            buttons={['Off', 'Auto']}
+            buttons={['Off', 'On']}
             buttonFunctions={[
               () => this._requestUpdatePower('MDROID', 'SLEEP', 'OFF'),
               () => this._requestUpdatePower('MDROID', 'SLEEP', 'AUTO'),
@@ -105,7 +105,7 @@ export default class PowerScreen extends React.Component {
             status={this.state.mainPower}
           />
 
-          <ButtonGroupTitle title="Video Board Power" />
+          <ButtonGroupTitle title="Video Board" />
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
@@ -116,7 +116,7 @@ export default class PowerScreen extends React.Component {
             status={this.state.boardPower}
           />
 
-          <ButtonGroupTitle title="Tablet Power" />
+          <ButtonGroupTitle title="Tablet" />
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
@@ -127,7 +127,7 @@ export default class PowerScreen extends React.Component {
             status={this.state.tabletPower}
           />
 
-          <ButtonGroupTitle title="Restart Boards" />
+          <ButtonGroupTitle title="Restart Components" />
           <ButtonGroup
             buttons={['Restart MDroid']}
             buttonFunctions={[() => this._confirmRestart('local')]}
