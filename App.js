@@ -133,7 +133,10 @@ export default class App extends React.Component {
     if (newStateTimer !== undefined) {
       clearTimeout(newStateTimer);
     }
-    newStateTimer = setTimeout(this.flushState.bind(this), 1000);
+    newStateTimer = setTimeout(
+      this.flushState.bind(this),
+      this.state.isConnected ? 0 : 1000,
+    );
   }
 
   componentWillUpdate(nextProps, nextState) {
