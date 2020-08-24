@@ -35,11 +35,8 @@ export default class SettingsScreen extends React.Component {
   }
 
   // Handler for update
-  _requestUpdate = async (component, setting, value) => {
-    this.props.postRequest(
-      '/settings/' + component + '/' + setting + '/' + value,
-      '',
-    );
+  _requestUpdate = async (setting, value) => {
+    this.props.postRequest('/settings/' + setting + '/' + value, '');
   };
 
   updateScreen() {
@@ -98,9 +95,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('ANGEL_EYES', 'POWER', 'OFF'),
-              () => this._requestUpdate('ANGEL_EYES', 'POWER', 'AUTO'),
-              () => this._requestUpdate('ANGEL_EYES', 'POWER', 'ON'),
+              () => this._requestUpdate('ANGEL_EYES.POWER', 'OFF'),
+              () => this._requestUpdate('ANGEL_EYES.POWER', 'AUTO'),
+              () => this._requestUpdate('ANGEL_EYES.POWER', 'ON'),
             ]}
             status={this.screen.angelEyes}
           />
@@ -109,9 +106,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('MDROID', 'AUTOLOCK', 'OFF'),
-              () => this._requestUpdate('MDROID', 'AUTOLOCK', 'AUTO'),
-              () => this._requestUpdate('MDROID', 'AUTOLOCK', 'ON'),
+              () => this._requestUpdate('MDROID.AUTOLOCK', 'OFF'),
+              () => this._requestUpdate('MDROID.AUTOLOCK', 'AUTO'),
+              () => this._requestUpdate('MDROID.AUTOLOCK', 'ON'),
             ]}
             status={this.screen.autolock}
           />
@@ -120,8 +117,8 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('BOARD', 'VIDEO_RECORDING', 'OFF'),
-              () => this._requestUpdate('BOARD', 'VIDEO_RECORDING', 'ON'),
+              () => this._requestUpdate('BOARD.VIDEO_RECORDING', 'OFF'),
+              () => this._requestUpdate('BOARD.VIDEO_RECORDING', 'ON'),
             ]}
             status={this.screen.videoRecording}
           />
@@ -130,8 +127,8 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('WIRELESS', 'LTE', 'OFF'),
-              () => this._requestUpdate('WIRELESS', 'LTE', 'ON'),
+              () => this._requestUpdate('WIRELESS.LTE', 'OFF'),
+              () => this._requestUpdate('WIRELESS.LTE', 'ON'),
             ]}
             status={this.screen.wireless}
           />
@@ -140,9 +137,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'OFF'),
-              () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'AUTO'),
-              () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'ON'),
+              () => this._requestUpdate('SOUND.EXHAUST_NOISE', 'OFF'),
+              () => this._requestUpdate('SOUND.EXHAUST_NOISE', 'AUTO'),
+              () => this._requestUpdate('SOUND.EXHAUST_NOISE', 'ON'),
             ]}
             status={this.screen.exhaustNoise}
           />
@@ -151,8 +148,8 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('SOUND', 'VSV', 'OFF'),
-              () => this._requestUpdate('SOUND', 'VSV', 'ON'),
+              () => this._requestUpdate('SOUND.VSV', 'OFF'),
+              () => this._requestUpdate('SOUND.VSV', 'ON'),
             ]}
             status={this.screen.variableSpeedVolume}
           />
