@@ -31,7 +31,7 @@ export default class SettingsScreen extends React.Component {
       variableSpeedVolume: 'N/A',
       wireless: 'N/A',
       autolock: 'N/A',
-    }
+    };
   }
 
   // Handler for update
@@ -44,35 +44,35 @@ export default class SettingsScreen extends React.Component {
 
   updateScreen() {
     this.screen = {
-    autolock:
-      'MDROID' in this.props.settings &&
-      'AUTOLOCK' in this.props.settings.MDROID
-        ? this.props.settings.MDROID.AUTOLOCK
-        : 'N/A',
-    wireless:
-      'WIRELESS' in this.props.settings &&
-      'LTE' in this.props.settings.WIRELESS
-        ? this.props.settings.WIRELESS.LTE
-        : 'N/A',
-    angelEyes:
-      'ANGEL_EYES' in this.props.settings &&
-      'POWER' in this.props.settings.ANGEL_EYES
-        ? this.props.settings.ANGEL_EYES.POWER
-        : 'N/A',
-    videoRecording:
-      'BOARD' in this.props.settings &&
-      'VIDEO_RECORDING' in this.props.settings.BOARD
-        ? this.props.settings.BOARD.VIDEO_RECORDING
-        : 'N/A',
-    exhaustNoise:
-      'SOUND' in this.props.settings &&
-      'EXHAUST_NOISE' in this.props.settings.SOUND
-        ? this.props.settings.SOUND.EXHAUST_NOISE
-        : 'N/A',
-    variableSpeedVolume:
-      'SOUND' in this.props.settings && 'VSV' in this.props.settings.SOUND
-        ? this.props.settings.SOUND.VSV
-        : 'N/A',
+      autolock:
+        'MDROID' in this.props.settings &&
+        'AUTOLOCK' in this.props.settings.MDROID
+          ? this.props.settings.MDROID.AUTOLOCK
+          : 'N/A',
+      wireless:
+        'WIRELESS' in this.props.settings &&
+        'LTE' in this.props.settings.WIRELESS
+          ? this.props.settings.WIRELESS.LTE
+          : 'N/A',
+      angelEyes:
+        'ANGEL_EYES' in this.props.settings &&
+        'POWER' in this.props.settings.ANGEL_EYES
+          ? this.props.settings.ANGEL_EYES.POWER
+          : 'N/A',
+      videoRecording:
+        'BOARD' in this.props.settings &&
+        'VIDEO_RECORDING' in this.props.settings.BOARD
+          ? this.props.settings.BOARD.VIDEO_RECORDING
+          : 'N/A',
+      exhaustNoise:
+        'SOUND' in this.props.settings &&
+        'EXHAUST_NOISE' in this.props.settings.SOUND
+          ? this.props.settings.SOUND.EXHAUST_NOISE
+          : 'N/A',
+      variableSpeedVolume:
+        'SOUND' in this.props.settings && 'VSV' in this.props.settings.SOUND
+          ? this.props.settings.SOUND.VSV
+          : 'N/A',
     };
   }
 
