@@ -103,7 +103,6 @@ export default class GpsScreen extends React.Component {
 
   updateScreen() {
     let session = this.props.gps;
-    console.log(session);
     this.screen = {
       ...this.screen,
       region: {
