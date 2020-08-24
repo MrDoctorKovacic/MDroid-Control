@@ -92,9 +92,8 @@ export default class App extends React.Component {
 
         global.client.on('connect', function() {
           console.log('connected');
-          global.client.subscribe('vehicle/gps/#', 0);
-          global.client.subscribe('vehicle/session/#', 0);
-          global.client.subscribe('vehicle/settings/#', 0);
+          global.client.subscribe('vehicle/session/+', 0);
+          global.client.subscribe('vehicle/settings/+', 0);
           global.client.subscribe('$SYS/broker/clients/active', 0);
         });
 
@@ -112,6 +111,7 @@ export default class App extends React.Component {
       connectingOverlayHidden: true,
       isConnected: true,
     });
+    console.log(newState);
     newState = {};
   }
 
@@ -119,23 +119,18 @@ export default class App extends React.Component {
     // Create new state
     newState = {...this.state, ...newState};
 
-    const parsedTopic = msg.topic.replace(`vehicle/`, '').split('/');
-    if (['gps', 'session'].includes(parsedTopic[0])) {
+    const parsedTopic = msg.topic.replace('vehicle/', '').split('/');
+    if (['session', 'settings'].includes(parsedTopic[0])) {
       newState[parsedTopic[0]][parsedTopic[1]] = msg.data;
-    } else if (parsedTopic[0] == 'settings') {
-      if (newState[parsedTopic[0]][parsedTopic[1]] == undefined) {
-        newState[parsedTopic[0]][parsedTopic[1]] = {};
-      }
-      newState[parsedTopic[0]][parsedTopic[1]][parsedTopic[2]] = msg.data;
-    } else if (parsedTopic[0] == '$SYS') {
-      global.isConnectedToDevice = msg.data == 2;
+    } else if (parsedTopic[0] === '$SYS') {
+      global.isConnectedToDevice = msg.data === 2;
     } else {
       console.log(msg);
-      console.warn(`No action found for topic`);
+      console.warn('No action found for topic');
       return;
     }
 
-    if (newStateTimer != undefined) {
+    if (newStateTimer !== undefined) {
       clearTimeout(newStateTimer);
     }
     newStateTimer = setTimeout(this.flushState.bind(this), 1000);
@@ -252,7 +247,7 @@ export default class App extends React.Component {
             <GpsScreen
               postRequest={postRequest}
               getRequest={getRequest}
-              gps={this.state.gps}
+              gps={this.state.session}
             />
           </ScrollView>
 
