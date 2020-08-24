@@ -16,7 +16,7 @@ export default class DataRow extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.screen = {
       ACC_POWER: false,
       BOARD_ON: false,
       BOARDS_ENABLED: true,
@@ -27,12 +27,8 @@ export default class DataRow extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.settings !== this.props.settings &&
-      this.props.settings !== undefined
-    ) {
-      this.setState({
+  updateScreen() {
+      this.screen = {
         BOARDS_ENABLED:
           'BOARD' in this.props.settings && 'POWER' in this.props.settings.BOARD
             ? this.props.settings.BOARD.POWER === 'ON' ||
@@ -56,14 +52,6 @@ export default class DataRow extends React.Component {
             ? this.props.settings.BOARD.VIDEO_RECORDING === 'ON' ||
               this.props.settings.BOARD.VIDEO_RECORDING === 'AUTO'
             : false,
-      });
-    }
-
-    if (
-      prevProps.session !== this.props.session &&
-      this.props.session !== undefined
-    ) {
-      this.setState({
         ACC_POWER:
           'ACC_POWER' in this.props.session
             ? this.props.session.ACC_POWER === 'TRUE'
@@ -81,16 +69,15 @@ export default class DataRow extends React.Component {
             ? this.props.session.TABLET_POWER === 'TRUE'
             : false,
         LTE_ON:
-          'LTE_ON' in this.props.session
-            ? this.props.session.LTE_ON === 'TRUE'
+          global.isConnectedToDevice && ('LTE_ON' in this.props.session || 'WIFI_CONNECTED' in this.props.session)
+            ? this.props.session.LTE_ON === 'TRUE' || this.props.session.WIFI_CONNECTED == 'TRUE'
             : false,
-      });
-      console.log(this.state);
-      console.log(this.props.session);
-    }
+      };
   }
 
   render() {
+    this.updateScreen();
+
     var defaultColor = global.isConnected
       ? Colors.buttonColorDisabled
       : '#8b0000';
@@ -103,25 +90,25 @@ export default class DataRow extends React.Component {
     // Determine color of icons
     //
     defaultColor = global.isConnected ? Colors.buttonColorDisabled : '#8b0000';
-    if (!this.state.BOARDS_ENABLED) {
+    if (!this.screen.BOARDS_ENABLED) {
       boardColor = Colors.buttonColorDisabled;
-    } else if (this.state.BOARD_ON) {
+    } else if (this.screen.BOARD_ON) {
       boardColor = Colors.buttonColorOn;
     }
 
-    if (!this.state.VIDEO_ENABLED) {
+    if (!this.screen.VIDEO_ENABLED) {
       videoColor = '#8b0000';
-    } else if (this.state.VIDEO_ON) {
+    } else if (this.screen.VIDEO_ON) {
       videoColor = Colors.buttonColorOn;
     }
 
-    if (!this.state.TABLET_ENABLED) {
+    if (!this.screen.TABLET_ENABLED) {
       tabletColor = Colors.buttonColorDisabled;
-    } else if (this.state.TABLET_ON) {
+    } else if (this.screen.TABLET_ON) {
       tabletColor = Colors.buttonColorOn;
     }
 
-    if (this.state.LTE_ON) {
+    if (this.screen.LTE_ON) {
       lteColor = Colors.buttonColorOn;
       console.log('LTE is on, color ' + lteColor);
     }
@@ -145,7 +132,7 @@ export default class DataRow extends React.Component {
                 width={iconWidth}
                 height={iconHeight}
                 fill={
-                  this.state.ACC_POWER && global.isConnected
+                  this.screen.ACC_POWER && global.isConnected
                     ? Colors.buttonColorOn
                     : defaultColor
                 }
@@ -194,7 +181,7 @@ export default class DataRow extends React.Component {
               width={iconWidth}
               height={iconHeight}
               fill={
-                this.state.ACC_POWER && global.isConnected
+                this.screen.ACC_POWER && global.isConnected
                   ? Colors.buttonColorOn
                   : defaultColor
               }

@@ -26,42 +26,6 @@ export default class MainScreen extends React.Component {
     loc(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.session !== this.props.session &&
-      this.props.session !== undefined
-    ) {
-      var obj = {};
-      Object.keys(this.state).map(item => {
-        if (item !== 'refreshing' && item !== 'fails') {
-          obj[item] =
-            item in this.props.session ? this.props.session[item] : 'N/A';
-        }
-        if ('AUX_VOLTAGE' in this.props.session) {
-          obj.BATTERY_PERCENTAGE = (
-            (parseFloat(this.props.session.AUX_VOLTAGE) - lowestUsableVoltage) /
-            1.3
-          ).toFixed(2);
-          obj.BATTERY_REMAINING = (
-            obj.BATTERY_PERCENTAGE *
-            (ampHourCapacity / .4)
-          ).toFixed(1);
-          if (obj.BATTERY_REMAINING > 24) {
-            obj.BATTERY_REMAINING_STRING =
-              String((obj.BATTERY_REMAINING / 24).toFixed(0)) +
-              ' days, ' +
-              String((obj.BATTERY_REMAINING % 24).toFixed(1)) +
-              ' hours left';
-          } else {
-            obj.BATTERY_REMAINING_STRING =
-              String(obj.BATTERY_REMAINING) + ' hours left';
-          }
-        }
-      });
-      this.setState(obj);
-    }
-  }
-
   componentWillUnMount() {
     rol();
   }
@@ -71,6 +35,9 @@ export default class MainScreen extends React.Component {
 
     this.state = {
       fails: 0,
+      refreshing: false,
+    };
+    this.screen = {
       MAIN_VOLTAGE: 'N/A',
       AUX_VOLTAGE: 'N/A',
       AUX_CURRENT: 'N/A',
@@ -85,13 +52,43 @@ export default class MainScreen extends React.Component {
     return (degree * 9) / 5 + 32;
   }
 
+  updateScreen() {
+    var obj = {};
+    Object.keys(this.screen).map(item => {
+      obj[item] = item in this.props.session ? this.props.session[item] : 'N/A';
+      if ('AUX_VOLTAGE' in this.props.session) {
+        obj.BATTERY_PERCENTAGE = (
+          (parseFloat(this.props.session.AUX_VOLTAGE) - lowestUsableVoltage) /
+          1.3
+        ).toFixed(2);
+        obj.BATTERY_REMAINING = (
+          obj.BATTERY_PERCENTAGE *
+          (ampHourCapacity / .3)
+        ).toFixed(1);
+        if (obj.BATTERY_REMAINING > 24) {
+          obj.BATTERY_REMAINING_STRING =
+            String((obj.BATTERY_REMAINING / 24).toFixed(0)) +
+            ' days, ' +
+            String((obj.BATTERY_REMAINING % 24).toFixed(0)) +
+            ' hours left';
+        } else {
+          obj.BATTERY_REMAINING_STRING =
+            String(obj.BATTERY_REMAINING) + ' hours left';
+        }
+      }
+    });
+    this.screen = obj;
+  }
+
   render() {
+    this.updateScreen();
+
     // Responsive styling
     var {height, width} = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
 
     return (
-      <View>
+      <View style={{paddingBottom: 30}}>
         <View
           style={[
             styles.container,
@@ -112,6 +109,7 @@ export default class MainScreen extends React.Component {
               width={iconWidth}
               height={iconHeight}
               fill={Colors.buttonColorOn}
+              style={{top: -10}}
             />
             <View
               style={
@@ -120,12 +118,12 @@ export default class MainScreen extends React.Component {
                   styles.containerPaddingTopHalf,
                   styles.containerPaddingLeftHalf,
                 ],
-                {paddingTop: 17})
+                {paddingTop: 0})
               }>
-              <Text style={[styles.secondaryTitleText]}>Interior Temp</Text>
+              <Text style={[styles.secondaryTitleText]}>Interior</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
                 {Math.round(
-                  parseInt(this.state.INTERIOR_TEMPERATURE, 10),
+                  parseInt(this.screen.INTERIOR_TEMPERATURE, 10),
                 )}{' '}
                 F
               </Text>
@@ -148,7 +146,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Angel Eyes</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.state.ANGEL_EYES_POWER}
+                {this.screen.ANGEL_EYES_POWER == "TRUE" ? "ON" : "OFF"}
               </Text>
             </View>
           </View>
@@ -169,7 +167,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Main Voltage</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.state.MAIN_VOLTAGE} V
+                {this.screen.MAIN_VOLTAGE} V
               </Text>
             </View>
           </View>
@@ -190,7 +188,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Aux Voltage</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.state.AUX_VOLTAGE} V
+                {this.screen.AUX_VOLTAGE} V
               </Text>
             </View>
           </View>
@@ -210,10 +208,10 @@ export default class MainScreen extends React.Component {
                 {paddingTop: 17})
               }>
               <Text style={[styles.secondaryTitleText]}>
-                Battery ({String(Math.round(100 * this.state.BATTERY_PERCENTAGE))}%)
+                Battery ({String(Math.round(100 * this.screen.BATTERY_PERCENTAGE))}%)
               </Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.state.BATTERY_REMAINING_STRING}
+                {this.screen.BATTERY_REMAINING_STRING}
               </Text>
             </View>
           </View>  

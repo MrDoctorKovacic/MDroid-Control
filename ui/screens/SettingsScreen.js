@@ -13,45 +13,6 @@ export default class SettingsScreen extends React.Component {
     loc(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.settings !== this.props.settings &&
-      this.props.settings !== undefined
-    ) {
-      this.setState({
-        autolock:
-          'MDROID' in this.props.settings &&
-          'AUTOLOCK' in this.props.settings.MDROID
-            ? this.props.settings.MDROID.AUTOLOCK
-            : 'N/A',
-        wireless:
-          'WIRELESS' in this.props.settings &&
-          'LTE' in this.props.settings.WIRELESS
-            ? this.props.settings.WIRELESS.LTE
-            : 'N/A',
-        angelEyes:
-          'ANGEL_EYES' in this.props.settings &&
-          'POWER' in this.props.settings.ANGEL_EYES
-            ? this.props.settings.ANGEL_EYES.POWER
-            : 'N/A',
-        videoRecording:
-          'BOARD' in this.props.settings &&
-          'VIDEO_RECORDING' in this.props.settings.BOARD
-            ? this.props.settings.BOARD.VIDEO_RECORDING
-            : 'N/A',
-        exhaustNoise:
-          'SOUND' in this.props.settings &&
-          'EXHAUST_NOISE' in this.props.settings.SOUND
-            ? this.props.settings.SOUND.EXHAUST_NOISE
-            : 'N/A',
-        variableSpeedVolume:
-          'SOUND' in this.props.settings && 'VSV' in this.props.settings.SOUND
-            ? this.props.settings.SOUND.VSV
-            : 'N/A',
-      });
-    }
-  }
-
   componentWillUnMount() {
     rol();
   }
@@ -60,15 +21,17 @@ export default class SettingsScreen extends React.Component {
     super(props);
 
     this.state = {
+      toasted: 0,
+      fails: 0,
+    };
+    this.screen = {
       angelEyes: 'N/A',
       sentryMode: 'N/A',
       exhaustNoise: 'N/A',
       variableSpeedVolume: 'N/A',
       wireless: 'N/A',
       autolock: 'N/A',
-      toasted: 0,
-      fails: 0,
-    };
+    }
   }
 
   // Handler for update
@@ -79,7 +42,43 @@ export default class SettingsScreen extends React.Component {
     );
   };
 
+  updateScreen() {
+    this.screen = {
+    autolock:
+      'MDROID' in this.props.settings &&
+      'AUTOLOCK' in this.props.settings.MDROID
+        ? this.props.settings.MDROID.AUTOLOCK
+        : 'N/A',
+    wireless:
+      'WIRELESS' in this.props.settings &&
+      'LTE' in this.props.settings.WIRELESS
+        ? this.props.settings.WIRELESS.LTE
+        : 'N/A',
+    angelEyes:
+      'ANGEL_EYES' in this.props.settings &&
+      'POWER' in this.props.settings.ANGEL_EYES
+        ? this.props.settings.ANGEL_EYES.POWER
+        : 'N/A',
+    videoRecording:
+      'BOARD' in this.props.settings &&
+      'VIDEO_RECORDING' in this.props.settings.BOARD
+        ? this.props.settings.BOARD.VIDEO_RECORDING
+        : 'N/A',
+    exhaustNoise:
+      'SOUND' in this.props.settings &&
+      'EXHAUST_NOISE' in this.props.settings.SOUND
+        ? this.props.settings.SOUND.EXHAUST_NOISE
+        : 'N/A',
+    variableSpeedVolume:
+      'SOUND' in this.props.settings && 'VSV' in this.props.settings.SOUND
+        ? this.props.settings.SOUND.VSV
+        : 'N/A',
+    };
+  }
+
   render() {
+    this.updateScreen();
+
     // Responsive styling
     var {height, width} = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
@@ -103,7 +102,7 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('ANGEL_EYES', 'POWER', 'AUTO'),
               () => this._requestUpdate('ANGEL_EYES', 'POWER', 'ON'),
             ]}
-            status={this.state.angelEyes}
+            status={this.screen.angelEyes}
           />
 
           <ButtonGroupTitle title="Auto Locking" />
@@ -114,7 +113,7 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('MDROID', 'AUTOLOCK', 'AUTO'),
               () => this._requestUpdate('MDROID', 'AUTOLOCK', 'ON'),
             ]}
-            status={this.state.autolock}
+            status={this.screen.autolock}
           />
 
           <ButtonGroupTitle title="Video Recording" />
@@ -124,7 +123,7 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('BOARD', 'VIDEO_RECORDING', 'OFF'),
               () => this._requestUpdate('BOARD', 'VIDEO_RECORDING', 'ON'),
             ]}
-            status={this.state.videoRecording}
+            status={this.screen.videoRecording}
           />
 
           <ButtonGroupTitle title="LTE" />
@@ -134,7 +133,7 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('WIRELESS', 'LTE', 'OFF'),
               () => this._requestUpdate('WIRELESS', 'LTE', 'ON'),
             ]}
-            status={this.state.wireless}
+            status={this.screen.wireless}
           />
 
           <ButtonGroupTitle title="Enhanced Exhaust" />
@@ -145,7 +144,7 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'AUTO'),
               () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'ON'),
             ]}
-            status={this.state.exhaustNoise}
+            status={this.screen.exhaustNoise}
           />
 
           <ButtonGroupTitle title="Variable Speed Volume" />
@@ -155,7 +154,7 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('SOUND', 'VSV', 'OFF'),
               () => this._requestUpdate('SOUND', 'VSV', 'ON'),
             ]}
-            status={this.state.variableSpeedVolume}
+            status={this.screen.variableSpeedVolume}
           />
         </View>
       </View>

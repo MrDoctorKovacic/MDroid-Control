@@ -16,14 +16,7 @@ import {
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Swiper from 'react-native-swiper';
 import {Overlay} from 'react-native-elements';
-
-// Actions
-import {
-  CreateSocket,
-  SendToSocket,
-  postRequest,
-  getRequest,
-} from './ui/actions/MDroidActions.js';
+import MQTT from 'sp-react-native-mqtt';
 
 // Screens
 import MainScreen from './ui/screens/MainScreen.js';
@@ -38,125 +31,123 @@ import reloadStyles from './ui/styles/screen.js';
 import reloadMainStyles from './ui/styles/main.js';
 
 // Config
-import {serverHost, token} from './config.json';
+import {serverHost, token, user, pass} from './config.json';
 global.SERVER_HOST = serverHost;
 global.TOKEN = token;
-global.ws = undefined;
-global.isConnected;
+global.USER = user;
+global.PASS = pass;
+global.client = undefined;
+global.isConnected = false;
+global.isConnectedToDevice = false;
+
+export const Publish = async (method, path, data) => {
+  console.log(`Publishing ${data} to ${path} with method ${method}`);
+  global.client.publish('vehicle/requests/mdroid', `{"method": "${method}", "path": "${path}", "postData": "${data}"}`, 2, false);
+};
+
+export const postRequest = (path, values) => {
+  Publish('POST', path, values);
+};
+export const getRequest = path => {
+  Publish('GET', path, '');
+};
+
+var newState = {};
+var newStateTimer = undefined;
 
 export default class App extends React.Component {
-  createWebsocket() {
-    global.ws = CreateSocket();
-    global.ws.onclose = e => {
-      // connection closed
-      console.log('Websocket closed. ' + e.message);
-      console.log(e.code, e.reason);
-      ToastAndroid.show('Websocket closed: ' + e.message, ToastAndroid.SHORT);
 
-      this.setState({
-        isConnected: false,
+  setupMQTT() {
+    let component = this;
+    /* create mqtt client */
+    MQTT.createClient({
+      uri: global.SERVER_HOST,
+      clientId: 'mdroid-control',
+      user: global.USER,
+      pass: global.PASS,
+      auth: true,
+    }).then(function(client) {
+
+      global.client = client;
+
+      global.client.on('closed', function() {
+        console.warn('mqtt.event.closed');
+        ToastAndroid.show('MQTT connection closed, reconnecting...');
+        global.client.reconnect();
       });
 
-      // Try reconnecting
-      setTimeout(() => {
-        this.createWebsocket();
-      }, 1500);
-    };
-    global.ws.onopen = () => {
-      this.socketReady = false;
-      this.queue = [];
-    };
-    global.ws.onmessage = e => {
-      // a message was received
-      var messages = e.data.split('\n');
-      console.log(messages);
-      for (var i = 0; i < messages.length; i++) {
-        try {
-          this.handleSocketMessage(JSON.parse(messages[i]));
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
-    global.ws.onerror = e => {
-      // an error occurred
-      console.log(e.message);
-      console.log(e.reason);
-      global.ws.close();
-    };
+      global.client.on('error', function(msg) {
+        console.warn('mqtt.event.error', msg);
+        ToastAndroid.show('MQTT error: ' + msg, ToastAndroid.SHORT);
+        global.client.reconnect();
+      });
+
+      global.client.on('message', function(msg) {
+        component.handleMessage(msg);
+      });
+
+      global.client.on('connect', function() {
+        console.log('connected');
+        global.client.subscribe('vehicle/gps/#', 0);
+        global.client.subscribe('vehicle/session/#', 0);
+        global.client.subscribe('vehicle/settings/#', 0);
+        global.client.subscribe('$SYS/broker/clients/active', 0);
+      });
+
+      global.client.connect();
+    }).catch(function(err){
+      console.warn(err);
+    });
   }
 
-  handleSocketMessage(message) {
-    if (
-      'output' in message &&
-      'method' in message &&
-      message.method !== 'request'
-    ) {
-      if (!this.state.isConnected) {
-        this.setState({
-          isConnected: true,
-        });
-      } else if ('status' in message && 'ok' in message && message.ok) {
-        if (message.status === '/settings?min=1') {
-          this.setState({
-            settings: message.output,
-          });
-        } else if (message.status === '/session?min=1') {
-          this.setState({
-            session: message.output,
-          });
-        } else if (message.status === '/session/gps?min=1') {
-          this.setState({
-            gps: message.output,
-          });
-        } else if (message.status !== 'success') {
-          // Attempt to only update the changed section
-          var path = message.status.split('/');
-          if (path[1] === 'session') {
-            this.messageQueue.push(['GET', '/session', '']);
-          } else if (path[1] === 'settings') {
-            this.messageQueue.push(['GET', '/settings', '']);
-          } else {
-            this._requestFullUpdate();
-          }
-        }
+  flushState() {
+    console.log("Flushing state!");
+    this.setState({
+      ...newState,
+      connectingOverlayHidden: true,
+      isConnected: true
+    });
+    newState = {};
+  }
+
+  handleMessage(msg) {
+    // Create new state
+    newState = {...this.state, ...newState};
+
+    const parsedTopic = (msg.topic.replace(`vehicle/`, "")).split('/');
+    if ( ["gps", "session"].includes(parsedTopic[0]) ) {
+      newState[parsedTopic[0]][parsedTopic[1]] = msg.data;
+    } else if ( parsedTopic[0] == "settings" ) {
+      if (newState[parsedTopic[0]][parsedTopic[1]] == undefined) {
+        newState[parsedTopic[0]][parsedTopic[1]] = {};
       }
-    }
-    // Send next message
-    if (this.messageQueue.length > 0) {
-      var dataArray = this.messageQueue.pop();
-      SendToSocket(global.ws, dataArray[0], dataArray[1], dataArray[2]);
+      newState[parsedTopic[0]][parsedTopic[1]][parsedTopic[2]] = msg.data;
+    } else if ( parsedTopic[0] == "$SYS" ) { 
+      global.isConnectedToDevice = msg.data == 2;
     } else {
-      this.socketReady = true;
+      console.log(msg);
+      console.warn(`No action found for topic`);
+      return
     }
-  }
 
-  checkQueue() {
-    if (this.socketReady && this.messageQueue.length !== 0) {
-      this.socketReady = false;
-      var dataArray = this.messageQueue.pop();
-      SendToSocket(global.ws, dataArray[0], dataArray[1], dataArray[2]);
+    if(newStateTimer != undefined) {
+      clearTimeout(newStateTimer);
     }
+    newStateTimer = setTimeout(
+      this.flushState.bind(this),
+      1000
+    );
   }
 
   componentWillUpdate(nextProps, nextState) {
     global.isConnected = nextState.isConnected;
-    if (nextState.isConnected && this.state.isConnected === false) {
-      this._requestFullUpdate();
-    }
   }
 
-  _requestFullUpdate = async () => {
-    console.log('Requesting full update');
-    this.messageQueue.push(['GET', '/settings', '']);
-    this.messageQueue.push(['GET', '/session', '']);
-    this.messageQueue.push(['GET', '/session/gps', '']);
-    this.checkQueue();
-  };
-
   componentDidMount() {
+    StatusBar.setBarStyle('light-content',true);
+    StatusBar.setBackgroundColor("#000000");
+    StatusBar.setTranslucent(true);
     loc(this);
-    this.checkQueue();
   }
 
   componentWillUnMount() {
@@ -165,20 +156,21 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.createWebsocket();
-    this.messageQueue = [];
+    this.setupMQTT();
     this.state = {
       isConnected: false,
       refreshing: false,
       connectingOverlayHidden: false,
+
+      settings: {},
+      session: {},
+      gps: {},
     };
   }
 
-  _onRefresh = () => {
+  _onRefresh = () => {    
     this.setState({refreshing: true});
-    this._requestFullUpdate(this).then(() => {
-      this.setState({refreshing: false});
-    });
+    this.setState({refreshing: false});
   };
 
   render() {
@@ -203,12 +195,6 @@ export default class App extends React.Component {
     const overlayText = 'Connecting...';
     return (
       <View style={[mainStyles.container]} onLayout={this._onLayout}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor="#000000"
-          translucent={true}
-        />
-
         <Overlay
           isVisible={
             !this.state.isConnected && !this.state.connectingOverlayHidden
@@ -264,7 +250,7 @@ export default class App extends React.Component {
             <GpsScreen
               postRequest={postRequest}
               getRequest={getRequest}
-              settings={this.state.gps}
+              gps={this.state.gps}
             />
           </ScrollView>
 

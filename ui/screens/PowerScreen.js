@@ -13,30 +13,6 @@ export default class PowerScreen extends React.Component {
     loc(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.settings !== this.props.settings) {
-      if (this.props.settings !== undefined) {
-        this.setState({
-          mainPower:
-            'MDROID' in this.props.settings &&
-            'SLEEP' in this.props.settings.MDROID
-              ? this.props.settings.MDROID.SLEEP
-              : 'N/A',
-          boardPower:
-            'BOARD' in this.props.settings &&
-            'POWER' in this.props.settings.BOARD
-              ? this.props.settings.BOARD.POWER
-              : 'N/A',
-          tabletPower:
-            'TABLET' in this.props.settings &&
-            'POWER' in this.props.settings.TABLET
-              ? this.props.settings.TABLET.POWER
-              : 'N/A',
-        });
-      }
-    }
-  }
-
   componentWillUnMount() {
     rol();
   }
@@ -44,10 +20,12 @@ export default class PowerScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.screen = {
       tabletPower: 'N/A',
       boardPower: 'N/A',
       mainPower: 'N/A',
+    };
+    this.state = {
       toasted: 0,
       refreshing: false,
       fails: 0,
@@ -79,7 +57,28 @@ export default class PowerScreen extends React.Component {
     );
   }
 
+  updateScreen() {
+    this.screen = {
+    mainPower:
+      'MDROID' in this.props.settings &&
+      'SLEEP' in this.props.settings.MDROID
+        ? this.props.settings.MDROID.SLEEP
+        : 'N/A',
+    boardPower:
+      'BOARD' in this.props.settings &&
+      'POWER' in this.props.settings.BOARD
+        ? this.props.settings.BOARD.POWER
+        : 'N/A',
+    tabletPower:
+      'TABLET' in this.props.settings &&
+      'POWER' in this.props.settings.TABLET
+        ? this.props.settings.TABLET.POWER
+        : 'N/A',
+    }
+  }
   render() {
+    this.updateScreen();
+
     // Responsive styling
     var {height, width} = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
@@ -99,10 +98,10 @@ export default class PowerScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdatePower('MDROID', 'SLEEP', 'OFF'),
-              () => this._requestUpdatePower('MDROID', 'SLEEP', 'AUTO'),
+              () => this._requestUpdatePower('MDROID', 'AUTO_SLEEP', 'OFF'),
+              () => this._requestUpdatePower('MDROID', 'AUTO_SLEEP', 'ON'),
             ]}
-            status={this.state.mainPower}
+            status={this.screen.mainPower}
           />
 
           <ButtonGroupTitle title="Video Board" />
@@ -113,7 +112,7 @@ export default class PowerScreen extends React.Component {
               () => this._requestUpdatePower('BOARD', 'POWER', 'AUTO'),
               () => this._requestUpdatePower('BOARD', 'POWER', 'ON'),
             ]}
-            status={this.state.boardPower}
+            status={this.screen.boardPower}
           />
 
           <ButtonGroupTitle title="Tablet" />
@@ -124,7 +123,7 @@ export default class PowerScreen extends React.Component {
               () => this._requestUpdatePower('TABLET', 'POWER', 'AUTO'),
               () => this._requestUpdatePower('TABLET', 'POWER', 'ON'),
             ]}
-            status={this.state.tabletPower}
+            status={this.screen.tabletPower}
           />
 
           <ButtonGroupTitle title="Restart Components" />

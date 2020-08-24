@@ -10,22 +10,6 @@ import ButtonGroupTitle from '../components/ButtonGroupTitle.js';
 import DataRow from '../components/DataRow.js';
 
 export default class SystemScreen extends React.Component {
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.session !== this.props.session &&
-      this.props.session !== undefined
-    ) {
-      var obj = {};
-      Object.keys(this.state).map(item => {
-        if (item !== 'refreshing' && item !== 'fails') {
-          obj[item] =
-            item in this.props.session ? this.props.session[item] : 'N/A';
-        }
-      });
-      this.setState(obj);
-    }
-  }
-
   componentDidMount() {
     loc(this);
   }
@@ -39,6 +23,8 @@ export default class SystemScreen extends React.Component {
 
     this.state = {
       fails: 0,
+    };
+    this.screen = {
       MAIN_VOLTAGE: 'N/A',
       AUX_VOLTAGE: 'N/A',
       AUX_CURRENT: 'N/A',
@@ -57,7 +43,17 @@ export default class SystemScreen extends React.Component {
     };
   }
 
+  updateScreen() {
+    var obj = {};
+    Object.keys(this.screen).map(item => {
+      obj[item] = item in this.props.session ? this.props.session[item] : 'N/A';
+    });
+    this.screen = obj;
+  };
+
   render() {
+    this.updateScreen();
+
     // Responsive styling
     var {height, width} = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
@@ -76,14 +72,9 @@ export default class SystemScreen extends React.Component {
         <View style={[styles.containerPadding]}>
           <ButtonGroupTitle title="Custom Input" />
           <CustomInput request={this.props.getRequest} />
-          {Object.keys(this.state).map(item => {
-            if (
-              typeof this.state[item] === 'string' &&
-              item !== 'refreshing' &&
-              item !== 'fails' &&
-              item !== 'orientation'
-            ) {
-              return <DataRow title={item} value={this.state[item]} />;
+          {Object.keys(this.screen).map(item => {
+            if (typeof this.screen[item] === 'string') {
+              return <DataRow title={item} value={this.screen[item]} key={item} />;
             }
           })}
         </View>
