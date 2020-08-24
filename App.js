@@ -42,7 +42,12 @@ global.isConnectedToDevice = false;
 
 export const Publish = async (method, path, data) => {
   console.log(`Publishing ${data} to ${path} with method ${method}`);
-  global.client.publish('vehicle/requests/mdroid', `{"method": "${method}", "path": "${path}", "postData": "${data}"}`, 2, false);
+  global.client.publish(
+    'vehicle/requests/mdroid',
+    `{"method": "${method}", "path": "${path}", "postData": "${data}"}`,
+    2,
+    false,
+  );
 };
 
 export const postRequest = (path, values) => {
@@ -53,10 +58,9 @@ export const getRequest = path => {
 };
 
 var newState = {};
-var newStateTimer = undefined;
+var newStateTimer;
 
 export default class App extends React.Component {
-
   setupMQTT() {
     let component = this;
     /* create mqtt client */
@@ -66,46 +70,47 @@ export default class App extends React.Component {
       user: global.USER,
       pass: global.PASS,
       auth: true,
-    }).then(function(client) {
+    })
+      .then(function(client) {
+        global.client = client;
 
-      global.client = client;
+        global.client.on('closed', function() {
+          console.warn('mqtt.event.closed');
+          ToastAndroid.show('MQTT connection closed, reconnecting...');
+          global.client.reconnect();
+        });
 
-      global.client.on('closed', function() {
-        console.warn('mqtt.event.closed');
-        ToastAndroid.show('MQTT connection closed, reconnecting...');
-        global.client.reconnect();
+        global.client.on('error', function(msg) {
+          console.warn('mqtt.event.error', msg);
+          ToastAndroid.show('MQTT error: ' + msg, ToastAndroid.SHORT);
+          global.client.reconnect();
+        });
+
+        global.client.on('message', function(msg) {
+          component.handleMessage(msg);
+        });
+
+        global.client.on('connect', function() {
+          console.log('connected');
+          global.client.subscribe('vehicle/gps/#', 0);
+          global.client.subscribe('vehicle/session/#', 0);
+          global.client.subscribe('vehicle/settings/#', 0);
+          global.client.subscribe('$SYS/broker/clients/active', 0);
+        });
+
+        global.client.connect();
+      })
+      .catch(function(err) {
+        console.warn(err);
       });
-
-      global.client.on('error', function(msg) {
-        console.warn('mqtt.event.error', msg);
-        ToastAndroid.show('MQTT error: ' + msg, ToastAndroid.SHORT);
-        global.client.reconnect();
-      });
-
-      global.client.on('message', function(msg) {
-        component.handleMessage(msg);
-      });
-
-      global.client.on('connect', function() {
-        console.log('connected');
-        global.client.subscribe('vehicle/gps/#', 0);
-        global.client.subscribe('vehicle/session/#', 0);
-        global.client.subscribe('vehicle/settings/#', 0);
-        global.client.subscribe('$SYS/broker/clients/active', 0);
-      });
-
-      global.client.connect();
-    }).catch(function(err){
-      console.warn(err);
-    });
   }
 
   flushState() {
-    console.log("Flushing state!");
+    console.log('Flushing state!');
     this.setState({
       ...newState,
       connectingOverlayHidden: true,
-      isConnected: true
+      isConnected: true,
     });
     newState = {};
   }
@@ -114,29 +119,26 @@ export default class App extends React.Component {
     // Create new state
     newState = {...this.state, ...newState};
 
-    const parsedTopic = (msg.topic.replace(`vehicle/`, "")).split('/');
-    if ( ["gps", "session"].includes(parsedTopic[0]) ) {
+    const parsedTopic = msg.topic.replace(`vehicle/`, '').split('/');
+    if (['gps', 'session'].includes(parsedTopic[0])) {
       newState[parsedTopic[0]][parsedTopic[1]] = msg.data;
-    } else if ( parsedTopic[0] == "settings" ) {
+    } else if (parsedTopic[0] == 'settings') {
       if (newState[parsedTopic[0]][parsedTopic[1]] == undefined) {
         newState[parsedTopic[0]][parsedTopic[1]] = {};
       }
       newState[parsedTopic[0]][parsedTopic[1]][parsedTopic[2]] = msg.data;
-    } else if ( parsedTopic[0] == "$SYS" ) { 
+    } else if (parsedTopic[0] == '$SYS') {
       global.isConnectedToDevice = msg.data == 2;
     } else {
       console.log(msg);
       console.warn(`No action found for topic`);
-      return
+      return;
     }
 
-    if(newStateTimer != undefined) {
+    if (newStateTimer != undefined) {
       clearTimeout(newStateTimer);
     }
-    newStateTimer = setTimeout(
-      this.flushState.bind(this),
-      1000
-    );
+    newStateTimer = setTimeout(this.flushState.bind(this), 1000);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -144,8 +146,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    StatusBar.setBarStyle('light-content',true);
-    StatusBar.setBackgroundColor("#000000");
+    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBackgroundColor('#000000');
     StatusBar.setTranslucent(true);
     loc(this);
   }
@@ -168,7 +170,7 @@ export default class App extends React.Component {
     };
   }
 
-  _onRefresh = () => {    
+  _onRefresh = () => {
     this.setState({refreshing: true});
     this.setState({refreshing: false});
   };
