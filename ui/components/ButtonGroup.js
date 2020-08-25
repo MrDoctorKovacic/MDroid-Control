@@ -26,10 +26,10 @@ export default class ButtonGroup extends React.Component {
     const buttonOneFunction = this.props.buttonFunctions[0];
     const buttonTwoTitle = buttonCount > 1 ? this.props.buttons[1] : 'N/A';
     const buttonTwoFunction =
-      buttonCount > 1 ? this.props.buttonFunctions[1] : 'N/A';
+      buttonCount > 1 ? this.props.buttonFunctions[1] : () => {};
     const buttonThreeTitle = buttonCount > 2 ? this.props.buttons[2] : 'N/A';
     const buttonThreeFunction =
-      buttonCount > 2 ? this.props.buttonFunctions[2] : 'N/A';
+      buttonCount > 2 ? this.props.buttonFunctions[2] : () => {};
 
     var customStyles = StyleSheet.create({
       buttonOne: {
