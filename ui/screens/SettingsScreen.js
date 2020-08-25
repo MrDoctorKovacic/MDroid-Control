@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Dimensions} from 'react-native';
+import {Text, View, Dimensions, Alert} from 'react-native';
 import {
   listenOrientationChange as loc,
   removeOrientationListener as rol,
@@ -34,6 +34,23 @@ export default class SettingsScreen extends React.Component {
     };
   }
 
+  _confirmRestart(target) {
+    var address = target === 'local' ? '/restart' : '/' + target + '/restart';
+    Alert.alert(
+      'Confirm Restart',
+      'Are you sure you want to restart ' + target + '?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => this.props.getRequest(address)},
+      ],
+      {cancelable: true},
+    );
+  }
+
   // Handler for update
   _requestUpdate = async (setting, value) => {
     this.props.postRequest('/settings/' + setting + '/' + value, '');
@@ -45,6 +62,10 @@ export default class SettingsScreen extends React.Component {
         'mdroid.autolock' in this.props.settings
           ? this.props.settings['mdroid.autolock']
           : 'N/A',
+      auto_sleep:
+        'mdroid.autosleep' in this.props.settings
+          ? this.props.settings['mdroid.autosleep']
+          : 'N/A',
       wireless:
         'wireless.lte' in this.props.settings
           ? this.props.settings['wireless.lte']
@@ -53,9 +74,9 @@ export default class SettingsScreen extends React.Component {
         'angel_eyes.power' in this.props.settings
           ? this.props.settings['angel_eyes.power']
           : 'N/A',
-      videoRecording:
-        'board.video_recording' in this.props.settings
-          ? this.props.settings['board.video_recording']
+      fullPower:
+        'usb_hub.power' in this.props.settings
+          ? this.props.settings['usb_hub.power']
           : 'N/A',
       exhaustNoise:
         'sound.exhaust_noise' in this.props.settings
@@ -97,6 +118,27 @@ export default class SettingsScreen extends React.Component {
             status={this.screen.angelEyes}
           />
 
+          <ButtonGroupTitle title="Full Power" />
+          <ButtonGroup
+            buttons={['Off', 'Auto', 'On']}
+            buttonFunctions={[
+              () => this._requestUpdate('usb_hub.power', 'OFF'),
+              () => this._requestUpdate('usb_hub.power', 'AUTO'),
+              () => this._requestUpdate('usb_hub.power', 'ON'),
+            ]}
+            status={this.screen.fullPower}
+          />
+
+          <ButtonGroupTitle title="LTE" />
+          <ButtonGroup
+            buttons={['Off', 'On']}
+            buttonFunctions={[
+              () => this._requestUpdate('wireless.lte', 'OFF'),
+              () => this._requestUpdate('wireless.lte', 'ON'),
+            ]}
+            status={this.screen.wireless}
+          />
+
           <ButtonGroupTitle title="Auto Locking" />
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
@@ -108,24 +150,14 @@ export default class SettingsScreen extends React.Component {
             status={this.screen.autolock}
           />
 
-          <ButtonGroupTitle title="Video Recording" />
+          <ButtonGroupTitle title="Auto Sleep" />
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('board.video_recording', 'OFF'),
-              () => this._requestUpdate('board.video_recording', 'ON'),
+              () => this._requestUpdate('mdroid.auto_sleep', 'OFF'),
+              () => this._requestUpdate('mdroid.auto_sleep', 'ON'),
             ]}
-            status={this.screen.videoRecording}
-          />
-
-          <ButtonGroupTitle title="LTE" />
-          <ButtonGroup
-            buttons={['Off', 'On']}
-            buttonFunctions={[
-              () => this._requestUpdate('wireless.lte', 'OFF'),
-              () => this._requestUpdate('wireless.lte', 'ON'),
-            ]}
-            status={this.screen.wireless}
+            status={this.screen.autoSleep}
           />
 
           <ButtonGroupTitle title="Enhanced Exhaust" />
@@ -147,6 +179,16 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('sound.vsv', 'ON'),
             ]}
             status={this.screen.variableSpeedVolume}
+          />
+
+          <ButtonGroupTitle title="Restart Components" />
+          <ButtonGroup
+            buttons={['Restart MDroid']}
+            buttonFunctions={[() => this._confirmRestart('mdroid')]}
+          />
+          <ButtonGroup
+            buttons={['Restart Board']}
+            buttonFunctions={[() => this._confirmRestart('board')]}
           />
         </View>
       </View>

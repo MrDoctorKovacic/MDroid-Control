@@ -24,7 +24,6 @@ import ControlsScreen from './ui/screens/ControlsScreen.js';
 import SettingsScreen from './ui/screens/SettingsScreen.js';
 import GpsScreen from './ui/screens/GpsScreen.js';
 import SystemScreen from './ui/screens/SystemScreen.js';
-import PowerScreen from './ui/screens/PowerScreen.js';
 import IconRow from './ui/components/IconRow.js';
 
 import reloadStyles from './ui/styles/screen.js';
@@ -261,16 +260,6 @@ export default class App extends React.Component {
             refreshControl={refeshControl}
             removeClippedSubviews={true}>
             <SettingsScreen
-              postRequest={postRequest}
-              getRequest={getRequest}
-              settings={this.state.settings}
-            />
-          </ScrollView>
-
-          <ScrollView
-            refreshControl={refeshControl}
-            removeClippedSubviews={true}>
-            <PowerScreen
               postRequest={postRequest}
               getRequest={getRequest}
               settings={this.state.settings}
