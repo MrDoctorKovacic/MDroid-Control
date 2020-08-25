@@ -68,7 +68,6 @@ export default class GpsScreen extends React.Component {
 
   renderMap(styles) {
     if (this.screen.region.latitude !== 0) {
-      console.log(this.screen);
       return (
         <MapView
           provider={PROVIDER_GOOGLE}
