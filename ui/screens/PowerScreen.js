@@ -41,7 +41,7 @@ export default class PowerScreen extends React.Component {
   };
 
   _confirmRestart(target) {
-    var address = target == 'local' ? '/restart' : '/' + target + '/restart';
+    var address = target === 'local' ? '/restart' : '/' + target + '/restart';
     Alert.alert(
       'Confirm Restart',
       'Are you sure you want to restart ' + target + '?',
@@ -59,22 +59,19 @@ export default class PowerScreen extends React.Component {
 
   updateScreen() {
     this.screen = {
-    mainPower:
-      'MDROID' in this.props.settings &&
-      'SLEEP' in this.props.settings.MDROID
-        ? this.props.settings.MDROID.SLEEP
-        : 'N/A',
-    boardPower:
-      'BOARD' in this.props.settings &&
-      'POWER' in this.props.settings.BOARD
-        ? this.props.settings.BOARD.POWER
-        : 'N/A',
-    tabletPower:
-      'TABLET' in this.props.settings &&
-      'POWER' in this.props.settings.TABLET
-        ? this.props.settings.TABLET.POWER
-        : 'N/A',
-    }
+      mainPower:
+        'mdroid.sleep' in this.props.settings
+          ? this.props.settings['mdroid.sleep']
+          : 'N/A',
+      boardPower:
+        'board.power' in this.props.settings
+          ? this.props.settings['board.power']
+          : 'N/A',
+      tabletPower:
+        'tablet.power' in this.props.settings
+          ? this.props.settings['tablet.power']
+          : 'N/A',
+    };
   }
   render() {
     this.updateScreen();

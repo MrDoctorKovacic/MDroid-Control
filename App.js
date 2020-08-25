@@ -111,18 +111,21 @@ export default class App extends React.Component {
       connectingOverlayHidden: true,
       isConnected: true,
     });
-    console.log(newState);
     newState = {};
   }
 
   handleMessage(msg) {
     // Create new state
     newState = {...this.state, ...newState};
-
     const parsedTopic = msg.topic.replace('vehicle/', '').split('/');
-    if (['session', 'settings'].includes(parsedTopic[0])) {
-      newState[parsedTopic[0]][parsedTopic[1]] = msg.data;
-    } else if (parsedTopic[0] === '$SYS') {
+    const topic = parsedTopic[0];
+
+    if (['session', 'settings'].includes(topic)) {
+      const key = parsedTopic[1];
+      const value = msg.data;
+
+      newState[topic][key] = value;
+    } else if (topic === '$SYS') {
       global.isConnectedToDevice = msg.data === 2;
     } else {
       console.log(msg);

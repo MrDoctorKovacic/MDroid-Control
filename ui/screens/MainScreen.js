@@ -11,7 +11,6 @@ import IconSun from '../images/icons/sun.js';
 import IconLightning from '../images/icons/lightning';
 import IconBattery from '../images/icons/battery';
 import IconBulb from '../images/icons/bulb';
-import IconCurrent from '../images/icons/current';
 import IconOutput from '../images/icons/output';
 import Colors from '../constants/Colors.js';
 const iconHeight = 60;
@@ -38,13 +37,13 @@ export default class MainScreen extends React.Component {
       refreshing: false,
     };
     this.screen = {
-      MAIN_VOLTAGE: 'N/A',
-      AUX_VOLTAGE: 'N/A',
-      AUX_CURRENT: 'N/A',
-      OUTSIDE_TEMP: 'N/A',
-      INTERIOR_TEMPERATURE: 'N/A',
-      ANGEL_EYES_POWER: 'N/A',
-      AUX_VOLTAGE_OUTPUT: 'N/A',
+      main_voltage: 'N/A',
+      aux_voltage: 'N/A',
+      aux_current: 'N/A',
+      outside_temp: 'N/A',
+      interior_temperature: 'N/A',
+      angel_eyes_power: 'N/A',
+      aux_voltage_output: 'N/A',
     };
   }
 
@@ -56,14 +55,14 @@ export default class MainScreen extends React.Component {
     var obj = {};
     Object.keys(this.screen).map(item => {
       obj[item] = item in this.props.session ? this.props.session[item] : 'N/A';
-      if ('AUX_VOLTAGE' in this.props.session) {
+      if ('aux_voltage' in this.props.session) {
         obj.BATTERY_PERCENTAGE = (
-          (parseFloat(this.props.session.AUX_VOLTAGE) - lowestUsableVoltage) /
+          (parseFloat(this.props.session.aux_voltage) - lowestUsableVoltage) /
           1.3
         ).toFixed(2);
         obj.BATTERY_REMAINING = (
           obj.BATTERY_PERCENTAGE *
-          (ampHourCapacity / .3)
+          (ampHourCapacity / 0.3)
         ).toFixed(1);
         if (obj.BATTERY_REMAINING > 24) {
           obj.BATTERY_REMAINING_STRING =
@@ -122,10 +121,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Interior</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {Math.round(
-                  parseInt(this.screen.INTERIOR_TEMPERATURE, 10),
-                )}{' '}
-                F
+                {Math.round(parseInt(this.screen.interior_temperature, 10))} F
               </Text>
             </View>
           </View>
@@ -146,7 +142,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Angel Eyes</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.ANGEL_EYES_POWER == "TRUE" ? "ON" : "OFF"}
+                {this.screen.angel_eyes_power === 'TRUE' ? 'ON' : 'OFF'}
               </Text>
             </View>
           </View>
@@ -167,7 +163,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Main Voltage</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.MAIN_VOLTAGE} V
+                {this.screen.main_voltage} V
               </Text>
             </View>
           </View>
@@ -188,7 +184,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Aux Voltage</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.AUX_VOLTAGE} V
+                {this.screen.aux_voltage} V
               </Text>
             </View>
           </View>
@@ -208,13 +204,14 @@ export default class MainScreen extends React.Component {
                 {paddingTop: 17})
               }>
               <Text style={[styles.secondaryTitleText]}>
-                Battery ({String(Math.round(100 * this.screen.BATTERY_PERCENTAGE))}%)
+                Battery (
+                {String(Math.round(100 * this.screen.BATTERY_PERCENTAGE))}%)
               </Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
                 {this.screen.BATTERY_REMAINING_STRING}
               </Text>
             </View>
-          </View>  
+          </View>
         </View>
       </View>
     );

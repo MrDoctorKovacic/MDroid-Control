@@ -42,28 +42,28 @@ export default class SettingsScreen extends React.Component {
   updateScreen() {
     this.screen = {
       autolock:
-        'MDROID.AUTOLOCK' in this.props.settings
-          ? this.props.settings['MDROID.AUTOLOCK']
+        'mdroid.autolock' in this.props.settings
+          ? this.props.settings['mdroid.autolock']
           : 'N/A',
       wireless:
-        'WIRELESS.LTE' in this.props.settings
-          ? this.props.settings['WIRELESS.LTE']
+        'wireless.lte' in this.props.settings
+          ? this.props.settings['wireless.lte']
           : 'N/A',
       angelEyes:
-        'ANGEL_EYES.POWER' in this.props.settings
-          ? this.props.settings['ANGEL_EYES.POWER']
+        'angel_eyes.power' in this.props.settings
+          ? this.props.settings['angel_eyes.power']
           : 'N/A',
       videoRecording:
-        'BOARD.VIDEO_RECORDING' in this.props.settings
-          ? this.props.settings.BOARD.VIDEO_RECORDING['BOARD.VIDEO_RECORDING']
+        'board.video_recording' in this.props.settings
+          ? this.props.settings['board.video_recording']
           : 'N/A',
       exhaustNoise:
-        'SOUND.EXHAUST_NOISE' in this.props.settings
-          ? this.props.settings['SOUND.EXHAUST_NOISE']
+        'sound.exhaust_noise' in this.props.settings
+          ? this.props.settings['sound.exhaust_noise']
           : 'N/A',
       variableSpeedVolume:
-        'SOUND.VSV' in this.props.settings
-          ? this.props.settings['SOUND.VSV']
+        'sound.vsv' in this.props.settings
+          ? this.props.settings['sound.vsv']
           : 'N/A',
     };
   }
@@ -90,9 +90,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('ANGEL_EYES.POWER', 'OFF'),
-              () => this._requestUpdate('ANGEL_EYES.POWER', 'AUTO'),
-              () => this._requestUpdate('ANGEL_EYES.POWER', 'ON'),
+              () => this._requestUpdate('angel_eyes.power', 'OFF'),
+              () => this._requestUpdate('angel_eyes.power', 'AUTO'),
+              () => this._requestUpdate('angel_eyes.power', 'ON'),
             ]}
             status={this.screen.angelEyes}
           />
@@ -101,9 +101,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('MDROID.AUTOLOCK', 'OFF'),
-              () => this._requestUpdate('MDROID.AUTOLOCK', 'AUTO'),
-              () => this._requestUpdate('MDROID.AUTOLOCK', 'ON'),
+              () => this._requestUpdate('mdroid.autolock', 'OFF'),
+              () => this._requestUpdate('mdroid.autolock', 'AUTO'),
+              () => this._requestUpdate('mdroid.autolock', 'ON'),
             ]}
             status={this.screen.autolock}
           />
@@ -112,8 +112,8 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('BOARD.VIDEO_RECORDING', 'OFF'),
-              () => this._requestUpdate('BOARD.VIDEO_RECORDING', 'ON'),
+              () => this._requestUpdate('board.video_recording', 'OFF'),
+              () => this._requestUpdate('board.video_recording', 'ON'),
             ]}
             status={this.screen.videoRecording}
           />
@@ -122,8 +122,8 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('WIRELESS.LTE', 'OFF'),
-              () => this._requestUpdate('WIRELESS.LTE', 'ON'),
+              () => this._requestUpdate('wireless.lte', 'OFF'),
+              () => this._requestUpdate('wireless.lte', 'ON'),
             ]}
             status={this.screen.wireless}
           />
@@ -132,9 +132,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('SOUND.EXHAUST_NOISE', 'OFF'),
-              () => this._requestUpdate('SOUND.EXHAUST_NOISE', 'AUTO'),
-              () => this._requestUpdate('SOUND.EXHAUST_NOISE', 'ON'),
+              () => this._requestUpdate('sound.exhaust_noise', 'OFF'),
+              () => this._requestUpdate('sound.exhaust_noise', 'AUTO'),
+              () => this._requestUpdate('sound.exhaust_noise', 'ON'),
             ]}
             status={this.screen.exhaustNoise}
           />
@@ -143,8 +143,8 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('SOUND.VSV', 'OFF'),
-              () => this._requestUpdate('SOUND.VSV', 'ON'),
+              () => this._requestUpdate('sound.vsv', 'OFF'),
+              () => this._requestUpdate('sound.vsv', 'ON'),
             ]}
             status={this.screen.variableSpeedVolume}
           />
