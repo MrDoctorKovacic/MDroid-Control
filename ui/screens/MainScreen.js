@@ -54,16 +54,27 @@ export default class MainScreen extends React.Component {
   updateScreen() {
     var obj = {};
     Object.keys(this.screen).map(item => {
-      obj[item] = item in this.props.session ? this.props.session[item] : 'N/A';
-      if ('aux_voltage' in this.props.session) {
-        obj.BATTERY_PERCENTAGE = (
-          (parseFloat(this.props.session.aux_voltage) - lowestUsableVoltage) /
-          1.3
-        ).toFixed(2);
-        obj.BATTERY_REMAINING = (
-          obj.BATTERY_PERCENTAGE *
-          (ampHourCapacity / 0.3)
-        ).toFixed(1);
+      let value = item in this.props.session ? this.props.session[item] : 'N/A';
+      if (!isNaN(parseFloat(value))) {
+        value = parseFloat(value).toFixed(2);
+      }
+      obj[item] = value;
+    });
+    if ('aux_voltage' in this.props.session) {
+      obj.BATTERY_PERCENTAGE = (
+        (parseFloat(this.props.session.aux_voltage) - lowestUsableVoltage) /
+        1.3
+      ).toFixed(2);
+
+      obj.BATTERY_REMAINING = (
+        obj.BATTERY_PERCENTAGE *
+        (ampHourCapacity / 0.3)
+      ).toFixed(1);
+
+      if (obj.BATTERY_PERCENTAGE < 0) {
+        obj.BATTERY_PERCENTAGE = 0;
+        obj.BATTERY_REMAINING_STRING = 'critically low';
+      } else {
         if (obj.BATTERY_REMAINING > 24) {
           obj.BATTERY_REMAINING_STRING =
             String((obj.BATTERY_REMAINING / 24).toFixed(0)) +
@@ -75,7 +86,7 @@ export default class MainScreen extends React.Component {
             String(obj.BATTERY_REMAINING) + ' hours left';
         }
       }
-    });
+    }
     this.screen = obj;
   }
 
