@@ -70,7 +70,7 @@ export default class SystemScreen extends React.Component {
           <Text style={styles.mainTitleText}>System</Text>
         </View>
 
-        <View style={[styles.containerPadding]}>
+        <View style={[styles.containerPadding,{paddingBottom: 40}]}>
           <ButtonGroupTitle title="Custom Input" />
           <CustomInput request={this.props.getRequest} />
           {Object.keys(this.screen).map(item => {
