@@ -121,7 +121,10 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Interior</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {Math.round(parseInt(this.screen.interior_temperature, 10))} F
+                {Math.round(
+                  parseInt(this.cToF(this.screen.interior_temperature), 10),
+                )}{' '}
+                F
               </Text>
             </View>
           </View>

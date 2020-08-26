@@ -45,11 +45,15 @@ export default class SystemScreen extends React.Component {
 
   updateScreen() {
     var obj = {};
+    console.log(this.props.session);
     Object.keys(this.screen).map(item => {
-      obj[item] = item in this.props.session ? this.props.session[item] : 'N/A';
+      obj[item] =
+        item.toLowerCase() in this.props.session
+          ? this.props.session[item.toLowerCase()]
+          : 'N/A';
     });
     this.screen = obj;
-  };
+  }
 
   render() {
     this.updateScreen();
@@ -74,7 +78,9 @@ export default class SystemScreen extends React.Component {
           <CustomInput request={this.props.getRequest} />
           {Object.keys(this.screen).map(item => {
             if (typeof this.screen[item] === 'string') {
-              return <DataRow title={item} value={this.screen[item]} key={item} />;
+              return (
+                <DataRow title={item} value={this.screen[item]} key={item} />
+              );
             }
           })}
         </View>

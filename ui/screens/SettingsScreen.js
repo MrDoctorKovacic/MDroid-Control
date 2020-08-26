@@ -62,7 +62,7 @@ export default class SettingsScreen extends React.Component {
         'mdroid.autolock' in this.props.settings
           ? this.props.settings['mdroid.autolock']
           : 'N/A',
-      auto_sleep:
+      autosleep:
         'mdroid.autosleep' in this.props.settings
           ? this.props.settings['mdroid.autosleep']
           : 'N/A',
@@ -139,12 +139,11 @@ export default class SettingsScreen extends React.Component {
             status={this.screen.wireless}
           />
 
-          <ButtonGroupTitle title="Auto Locking" />
+          <ButtonGroupTitle title="Auto Lock" />
           <ButtonGroup
-            buttons={['Off', 'Auto', 'On']}
+            buttons={['Off', 'On']}
             buttonFunctions={[
               () => this._requestUpdate('mdroid.autolock', 'OFF'),
-              () => this._requestUpdate('mdroid.autolock', 'AUTO'),
               () => this._requestUpdate('mdroid.autolock', 'ON'),
             ]}
             status={this.screen.autolock}
@@ -154,10 +153,10 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('mdroid.auto_sleep', 'OFF'),
-              () => this._requestUpdate('mdroid.auto_sleep', 'ON'),
+              () => this._requestUpdate('mdroid.autosleep', 'OFF'),
+              () => this._requestUpdate('mdroid.autosleep', 'ON'),
             ]}
-            status={this.screen.autoSleep}
+            status={this.screen.autosleep}
           />
 
           <ButtonGroupTitle title="Enhanced Exhaust" />
