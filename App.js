@@ -110,6 +110,7 @@ export default class App extends React.Component {
       connectingOverlayHidden: true,
       isConnected: true,
     });
+    console.log(newState);
     newState = {};
   }
 
