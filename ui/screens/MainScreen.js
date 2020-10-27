@@ -115,31 +115,6 @@ export default class MainScreen extends React.Component {
             styles.containerPaddingBottom,
           ]}>
           <View style={[styles.container]}>
-            <IconSun
-              width={iconWidth}
-              height={iconHeight}
-              fill={Colors.buttonColorOn}
-              style={{top: -10}}
-            />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 0})
-              }>
-              <Text style={[styles.secondaryTitleText]}>Interior</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {Math.round(
-                  parseInt(this.cToF(this.screen.interior_temperature), 10),
-                )}{' '}
-                F
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.container]}>
             <IconBulb
               width={iconWidth}
               height={iconHeight}
