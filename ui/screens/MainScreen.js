@@ -42,7 +42,7 @@ export default class MainScreen extends React.Component {
       AUX_CURRENT: 'N/A',
       OUTSIDE_TEMP: 'N/A',
       INTERIOR_TEMPERATURE: 'N/A',
-      ANGEL_EYES_POWER: 'N/A',
+      ANGEL_EYES: 'N/A',
       AUX_VOLTAGE_OUTPUT: 'N/A',
     };
   }
@@ -140,7 +140,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Angel Eyes</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.ANGEL_EYES_POWER === 'TRUE' ? 'ON' : 'OFF'}
+                {this.screen.ANGEL_EYES === 'TRUE' ? 'ON' : 'OFF'}
               </Text>
             </View>
           </View>
