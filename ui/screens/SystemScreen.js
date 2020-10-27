@@ -24,37 +24,9 @@ export default class SystemScreen extends React.Component {
     this.state = {
       fails: 0,
     };
-    this.screen = {
-      MAIN_VOLTAGE: 'N/A',
-      AUX_VOLTAGE: 'N/A',
-      ACC_POWER: 'N/A',
-      KEY_POWER: 'N/A',
-      ANGEL_EYES: 'N/A',
-      USB_HUB: 'N/A',
-      LTE_ON: 'N/A',
-      KEY_STATE: 'N/A',
-      DOORS_OPEN: 'N/A',
-      OUTSIDE_TEMP: 'N/A',
-      INTERIOR_TEMPERATURE: 'N/A',
-      INTERIOR_HUMIDITY: 'N/A',
-    };
-  }
-
-  updateScreen() {
-    var obj = {};
-    console.log(this.props.session);
-    Object.keys(this.screen).map(item => {
-      obj[item] =
-        item.toLowerCase() in this.props.session
-          ? this.props.session[item.toLowerCase()]
-          : 'N/A';
-    });
-    this.screen = obj;
   }
 
   render() {
-    this.updateScreen();
-
     // Responsive styling
     var {height, width} = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
@@ -73,10 +45,10 @@ export default class SystemScreen extends React.Component {
         <View style={[styles.containerPadding,{paddingBottom: 40}]}>
           <ButtonGroupTitle title="Custom Input" />
           <CustomInput request={this.props.getRequest} />
-          {Object.keys(this.screen).map(item => {
-            if (typeof this.screen[item] === 'string') {
+          {Object.keys(this.props.session).sort().map(item => {
+            if (typeof this.props.session[item] === 'string') {
               return (
-                <DataRow title={item} value={this.screen[item]} key={item} />
+                <DataRow title={item} value={this.props.session[item]} key={item} />
               );
             }
           })}
