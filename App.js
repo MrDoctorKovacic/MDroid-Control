@@ -91,8 +91,8 @@ export default class App extends React.Component {
 
         global.client.on('connect', function() {
           console.log('connected');
-          global.client.subscribe('vehicle/session/+', 0);
-          global.client.subscribe('vehicle/settings/+', 0);
+          global.client.subscribe('vehicle/session/#', 0);
+          global.client.subscribe('vehicle/settings/#', 0);
           global.client.subscribe('$SYS/broker/clients/active', 0);
         });
 
