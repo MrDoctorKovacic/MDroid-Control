@@ -120,11 +120,14 @@ export default class App extends React.Component {
     const parsedTopic = msg.topic.replace('vehicle/', '').split('/');
     const topic = parsedTopic[0];
 
-    if (['session', 'settings'].includes(topic)) {
+    if (topic == "session") {
       const key = parsedTopic[1];
-      const value = msg.data;
+      newState[topic][key] = msg.data.toUpperCase();
 
-      newState[topic][key] = value;
+    } else if (topic === "settings") {
+      const key = parsedTopic.slice(1).join('.');
+      newState[topic][key] = msg.data.toUpperCase();
+
     } else if (topic === '$SYS') {
       global.isConnectedToDevice = msg.data === 2;
     } else {

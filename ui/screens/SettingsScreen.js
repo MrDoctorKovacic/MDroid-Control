@@ -67,20 +67,20 @@ export default class SettingsScreen extends React.Component {
           ? this.props.settings['mdroid.autosleep']
           : 'N/A',
       wireless:
-        'wireless.lte' in this.props.settings
-          ? this.props.settings['wireless.lte']
+        'components.lte' in this.props.settings
+          ? this.props.settings['components.lte']
           : 'N/A',
       angelEyes:
-        'angel_eyes.power' in this.props.settings
-          ? this.props.settings['angel_eyes.power']
+        'components.angel_eyes' in this.props.settings
+          ? this.props.settings['components.angel_eyes']
           : 'N/A',
       fullPower:
-        'usb_hub.power' in this.props.settings
-          ? this.props.settings['usb_hub.power']
+        'components.usb_hub' in this.props.settings
+          ? this.props.settings['components.usb_hub']
           : 'N/A',
       exhaustNoise:
-        'sound.exhaust_noise' in this.props.settings
-          ? this.props.settings['sound.exhaust_noise']
+        'enginesound.toggledon' in this.props.settings
+          ? this.props.settings['enginesound.toggledon'] == "TRUE" ? "ON" : "OFF" 
           : 'N/A',
       variableSpeedVolume:
         'sound.vsv' in this.props.settings
@@ -111,9 +111,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('angel_eyes.power', 'OFF'),
-              () => this._requestUpdate('angel_eyes.power', 'AUTO'),
-              () => this._requestUpdate('angel_eyes.power', 'ON'),
+              () => this._requestUpdate('components.angel_eyes', 'OFF'),
+              () => this._requestUpdate('components.angel_eyes', 'AUTO'),
+              () => this._requestUpdate('components.angel_eyes', 'ON'),
             ]}
             status={this.screen.angelEyes}
           />
@@ -122,9 +122,9 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('usb_hub.power', 'OFF'),
-              () => this._requestUpdate('usb_hub.power', 'AUTO'),
-              () => this._requestUpdate('usb_hub.power', 'ON'),
+              () => this._requestUpdate('components.usb_hub', 'OFF'),
+              () => this._requestUpdate('components.usb_hub', 'AUTO'),
+              () => this._requestUpdate('components.usb_hub', 'ON'),
             ]}
             status={this.screen.fullPower}
           />
@@ -133,8 +133,8 @@ export default class SettingsScreen extends React.Component {
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('wireless.lte', 'OFF'),
-              () => this._requestUpdate('wireless.lte', 'ON'),
+              () => this._requestUpdate('components.lte', 'OFF'),
+              () => this._requestUpdate('components.lte', 'ON'),
             ]}
             status={this.screen.wireless}
           />
@@ -161,11 +161,11 @@ export default class SettingsScreen extends React.Component {
 
           <ButtonGroupTitle title="Enhanced Exhaust" />
           <ButtonGroup
-            buttons={['Off', 'Auto', 'On']}
+            buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('sound.exhaust_noise', 'OFF'),
-              () => this._requestUpdate('sound.exhaust_noise', 'AUTO'),
-              () => this._requestUpdate('sound.exhaust_noise', 'ON'),
+              () => this._requestUpdate('enginesound.toggledon', 'OFF'),
+              //() => this._requestUpdate('enginesound.toggledon', 'AUTO'),
+              () => this._requestUpdate('enginesound.toggledon', 'ON'),
             ]}
             status={this.screen.exhaustNoise}
           />

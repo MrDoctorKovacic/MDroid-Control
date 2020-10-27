@@ -37,13 +37,13 @@ export default class MainScreen extends React.Component {
       refreshing: false,
     };
     this.screen = {
-      main_voltage: 'N/A',
-      aux_voltage: 'N/A',
-      aux_current: 'N/A',
-      outside_temp: 'N/A',
-      interior_temperature: 'N/A',
-      angel_eyes_power: 'N/A',
-      aux_voltage_output: 'N/A',
+      MAIN_VOLTAGE: 'N/A',
+      AUX_VOLTAGE: 'N/A',
+      AUX_CURRENT: 'N/A',
+      OUTSIDE_TEMP: 'N/A',
+      INTERIOR_TEMPERATURE: 'N/A',
+      ANGEL_EYES_POWER: 'N/A',
+      AUX_VOLTAGE_OUTPUT: 'N/A',
     };
   }
 
@@ -60,11 +60,17 @@ export default class MainScreen extends React.Component {
       }
       obj[item] = value;
     });
-    if ('aux_voltage' in this.props.session) {
-      obj.BATTERY_PERCENTAGE = (
-        (parseFloat(this.props.session.aux_voltage) - lowestUsableVoltage) /
-        1.3
-      ).toFixed(2);
+
+    if ('AUX_VOLTAGE' in this.props.session) {
+
+      if (obj["AUX_VOLTAGE"] < lowestUsableVoltage) {
+        obj.BATTERY_PERCENTAGE = 0;
+      } else {
+        obj.BATTERY_PERCENTAGE = (
+          (parseFloat(this.props.session.aux_voltage) - lowestUsableVoltage) /
+          1.3
+        ).toFixed(2);
+      }
 
       obj.BATTERY_REMAINING = (
         obj.BATTERY_PERCENTAGE *
@@ -91,7 +97,10 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
+    console.log(this.props.session)
     this.updateScreen();
+
+    console.log(this.screen)
 
     // Responsive styling
     var {height, width} = Dimensions.get('window');
@@ -131,7 +140,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Angel Eyes</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.angel_eyes_power === 'TRUE' ? 'ON' : 'OFF'}
+                {this.screen.ANGEL_EYES_POWER === 'TRUE' ? 'ON' : 'OFF'}
               </Text>
             </View>
           </View>
@@ -152,7 +161,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Main Voltage</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.main_voltage} V
+                {this.screen.MAIN_VOLTAGE} V
               </Text>
             </View>
           </View>
@@ -173,7 +182,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>Aux Voltage</Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.aux_voltage} V
+                {this.screen.AUX_VOLTAGE} V
               </Text>
             </View>
           </View>
