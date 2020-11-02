@@ -211,7 +211,8 @@ export default class App extends React.Component {
           isVisible={
             !this.state.isConnected && !this.state.connectingOverlayHidden
           }
-          overlayBackgroundColor="rgba(0, 0, 0, 1)"
+          backdropStyle={{backgroundColor: "rgba(0, 0, 0, .4)"}}
+          overlayStyle={{backgroundColor: "transparent"}}
           width="auto"
           height="auto">
           <Text style={[styles.mainTitleText, mainStyles.overlayText]}>
