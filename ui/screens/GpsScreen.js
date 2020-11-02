@@ -82,6 +82,7 @@ export default class GpsScreen extends React.Component {
               coordinate={[this.screen.region.longitude, this.screen.region.latitude]}
               title="Car"
             />
+            <MapboxGL.UserLocation />
           </MapboxGL.MapView>
       );
     } else {
