@@ -92,7 +92,6 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       // default button colors
       backgroundColor: Colors.buttonColorDisabled,
       color: Colors.buttonColorDisabled,
-      fontWeight: "600",
     },
     buttonsWrapper: {
       flex: 1,
