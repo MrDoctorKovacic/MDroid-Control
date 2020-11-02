@@ -121,7 +121,7 @@ export default class App extends React.Component {
     const topic = parsedTopic[0];
 
     if (topic == "session") {
-      const key = parsedTopic[1];
+      const key = parsedTopic.slice(1).join('.');
       newState[topic][key] = msg.data.toUpperCase();
 
     } else if (topic === "settings") {
@@ -147,6 +147,12 @@ export default class App extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     global.isConnected = nextState.isConnected;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isConnected !== this.state.isConnected) {
+      global.isConnected = this.state.isConnected;
+    }
   }
 
   componentDidMount() {

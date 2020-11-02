@@ -14,7 +14,8 @@ import {
 } from 'react-native-responsive-screen';
 import reloadStyles from '../styles/screen.js';
 
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapboxGL from "@react-native-mapbox-gl/maps";
+MapboxGL.setAccessToken("pk.eyJ1IjoicWNhc2V5MSIsImEiOiJja2d6ZHNzcnkwZG5uMnRtdGh3dTdhcjJzIn0.rw8W2nbgzrPrZ_AQlFpRZA");
 import MapStyle, {
   LATITUDE,
   LONGITUDE,
@@ -69,27 +70,36 @@ export default class GpsScreen extends React.Component {
   renderMap(styles) {
     if (this.screen.region.latitude !== 0) {
       return (
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          initialRegion={this.screen.region}
-          customMapStyle={MapStyle}
-          style={styles.map}
-          showsUserLocation={true}
-          scrollEnabled={false}>
-          <Marker coordinate={this.screen.region} />
-        </MapView>
+        <MapboxGL.MapView styleURL="mapbox://styles/qcasey1/ckgzjblff22i41ali9vujp0bw" scrollEnabled={false} style={styles.map}>
+            <MapboxGL.Camera
+              zoomLevel={15}
+              pitch={0}
+              animationDuration={200}
+              centerCoordinate={[this.screen.region.longitude, this.screen.region.latitude]}
+            />
+            <MapboxGL.PointAnnotation 
+              id="car"
+              coordinate={[this.screen.region.longitude, this.screen.region.latitude]}
+              title="Car"
+            />
+          </MapboxGL.MapView>
       );
     } else {
       console.log('No GPS signal');
       return (
         <>
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            customMapStyle={MapStyle}
-            style={styles.map}
-            showsUserLocation={true}
-            scrollEnabled={false}
-          />
+          <MapboxGL.MapView styleURL="mapbox://styles/qcasey1/ckgzjblff22i41ali9vujp0bw" scrollEnabled={false} style={styles.map}>
+            <MapboxGL.Camera
+              zoomLevel={10}
+              pitch={0}
+              centerCoordinate={[this.screen.region.latitude, this.screen.region.longitude]}
+            />
+            <MapboxGL.PointAnnotation 
+              id="car"
+              coordinate={[this.screen.region.latitude, this.screen.region.longitude]}
+              title="Car"
+            />
+          </MapboxGL.MapView>
           <View style={styles.overlaidView}>
             <Text style={[styles.mainTitleText, styles.overlaidText]}>
               GPS Signal Lost
@@ -106,28 +116,28 @@ export default class GpsScreen extends React.Component {
       ...this.screen,
       region: {
         latitude:
-          'gps.latitude' in session
-            ? parseFloat(session['gps.latitude'])
+          'gps.lat' in session
+            ? parseFloat(session['gps.lat'])
             : this.screen.region.latitude,
         longitude:
-          'gps.longitude' in session
-            ? parseFloat(session['gps.longitude'])
+          'gps.lng' in session
+            ? parseFloat(session['gps.lng'])
             : this.screen.region.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
       coordinate: {
         latitude:
-          'latitude' in session
-            ? parseFloat(session['gps.latitude'])
+          'gps.lat' in session
+            ? parseFloat(session['gps.lat'])
             : this.screen.region.latitude,
         longitude:
-          'longitude' in session
-            ? parseFloat(session['gps.longitude'])
+          'gps.lng' in session
+            ? parseFloat(session['gps.lng'])
             : this.screen.region.longitude,
       },
       gps: {
-        altitude: 'gps.altitude' in session ? session['gps.altitude'] : 'N/A',
+        altitude: 'gps.alt' in session ? session['gps.alt'] : 'N/A',
         speed: 'gps.speed' in session ? session['gps.speed'] : 'N/A',
       },
     };
