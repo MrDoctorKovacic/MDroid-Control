@@ -30,11 +30,10 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     },
     iconRowStyles: {
       flexDirection: isHorizontal ? 'row' : 'column',
-      paddingLeft: isHorizontal ? 0 : 15
     },
     iconInnerRow: {
       flexDirection: 'row',
-      marginBottom: isHorizontal ? 40 : 0,
+      marginBottom: isHorizontal ? 40 : 15,
     },
     iconInnerRowShort: {
       paddingLeft: 35,

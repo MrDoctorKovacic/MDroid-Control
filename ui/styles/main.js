@@ -31,7 +31,7 @@ var reloadMainStyles = function(isVertical = false, isConnected = false) {
     iconContainer: {
       flexDirection: isVertical ? 'column' : 'row',
       zIndex: isVertical ? 0 : 2,
-      paddingLeft: isVertical ? 0 : wp('7%'),
+      paddingLeft: isVertical ? 25 : wp('7%'),
     },
     mainLeftImage: {
       height: isVertical ? hp('20%') : hp('70%'),

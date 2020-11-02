@@ -50,25 +50,24 @@ export default class DataRow extends React.Component {
             this.props.settings['board.video_recording'] === 'AUTO'
           : false,
       acc_power:
-        'acc_power' in this.props.session
-          ? this.props.session.acc_power === 'TRUE'
+        'ACC_POWER' in this.props.session
+          ? this.props.session["ACC_POWER"] === 'TRUE'
           : false,
       board_on:
-        'board_power' in this.props.session
-          ? this.props.session.board_power === 'TRUE'
+        'BOARD' in this.props.session
+          ? this.props.session["BOARD"] === 'TRUE'
           : false,
       video_on:
         'board_power' in this.props.session
           ? this.props.session.board_power === 'TRUE'
           : false,
       tablet_on:
-        'tablet_power' in this.props.session
-          ? this.props.session.tablet_power === 'TRUE'
+        'USB_HUB' in this.props.session
+          ? this.props.session["USB_HUB"] === 'TRUE'
           : false,
       lte_on:
         global.isConnectedToDevice &&
-        ('lte_on' in this.props.session ||
-          'wifi_connected' in this.props.session)
+        ('lte_on' in this.props.session)
           ? this.props.session.lte_on === 'TRUE' ||
             this.props.session.wifi_connected === 'TRUE'
           : false,
@@ -122,6 +121,7 @@ export default class DataRow extends React.Component {
         <View
           style={[
             styles.container,
+            styles.containerPadding,
             styles.containerPaddingBottom,
             styles.iconRowStyles,
             styles.breakHalfContainer,
@@ -150,14 +150,6 @@ export default class DataRow extends React.Component {
                 width={iconWidth}
                 height={iconHeight}
                 fill={tabletColor}
-              />
-            </View>
-
-            <View style={[styles.buttonsContainer]}>
-              <IconRecord
-                width={iconWidth}
-                height={iconHeight}
-                fill={videoColor}
               />
             </View>
             <View style={[styles.buttonsContainer]}>
@@ -201,22 +193,7 @@ export default class DataRow extends React.Component {
                 fill={tabletColor}
               />
             </View>
-          </View>
-
-          <View
-            style={[
-              styles.mainContainer,
-              styles.iconInnerRow,
-              styles.iconInnerRowShort,
-            ]}>
             <View style={[styles.buttonsContainer]}>
-              <IconRecord
-                width={iconWidth}
-                height={iconHeight}
-                fill={videoColor}
-              />
-            </View>
-            <View style={[styles.buttonsContainer, {marginLeft: -30}]}>
               <IconLTE width={iconWidth} height={iconHeight} fill={lteColor} />
             </View>
           </View>
