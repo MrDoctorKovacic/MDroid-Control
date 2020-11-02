@@ -206,7 +206,7 @@ export default class App extends React.Component {
 
     const overlayText = 'Connecting...';
     return (
-      <View style={[mainStyles.container]} onLayout={this._onLayout}>
+      <View style={[mainStyles.container, {marginTop: 25}]} onLayout={this._onLayout}>
         <Overlay
           isVisible={
             !this.state.isConnected && !this.state.connectingOverlayHidden
