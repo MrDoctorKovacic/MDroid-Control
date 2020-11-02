@@ -104,13 +104,13 @@ export default class App extends React.Component {
   }
 
   flushState() {
-    console.log('Flushing state!');
+    //console.log('Flushing state!');
     this.setState({
       ...newState,
       connectingOverlayHidden: true,
       isConnected: true,
     });
-    console.log(newState);
+    //console.log(newState);
     newState = {};
   }
 

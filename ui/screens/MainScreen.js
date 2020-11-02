@@ -97,10 +97,7 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.session)
     this.updateScreen();
-
-    console.log(this.screen)
 
     // Responsive styling
     var {height, width} = Dimensions.get('window');

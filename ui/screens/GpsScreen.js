@@ -182,7 +182,7 @@ export default class GpsScreen extends React.Component {
               styles.containerPaddingLeft,
               styles.containerPaddingRight,
               styles.colContainer,
-              {paddingBottom: 20},
+              {marginBottom: 60},
             ]}>
             <Text style={styles.auxText}>
               Latitude: {this.screen.region.latitude}
