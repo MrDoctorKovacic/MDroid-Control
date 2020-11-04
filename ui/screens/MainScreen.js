@@ -62,23 +62,13 @@ export default class MainScreen extends React.Component {
     });
 
     if ('AUX_VOLTAGE' in this.props.session) {
-
-      if (obj["AUX_VOLTAGE"] < lowestUsableVoltage) {
-        obj.BATTERY_PERCENTAGE = 0;
-      } else {
-        obj.BATTERY_PERCENTAGE = (
-          (parseFloat(this.props.session.aux_voltage) - lowestUsableVoltage) /
-          1.3
-        ).toFixed(2);
-      }
-
       obj.BATTERY_REMAINING = (
-        obj.BATTERY_PERCENTAGE *
+        parseFloat(obj.BATTERY_PERCENT) *
         (ampHourCapacity / 0.3)
       ).toFixed(1);
 
-      if (obj.BATTERY_PERCENTAGE < 0) {
-        obj.BATTERY_PERCENTAGE = 0;
+      if (obj.BATTERY_PERCENT < 0) {
+        obj.BATTERY_PERCENT = 0;
         obj.BATTERY_REMAINING_STRING = 'critically low';
       } else {
         if (obj.BATTERY_REMAINING > 24) {
@@ -200,7 +190,7 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>
                 Battery (
-                {String(Math.round(100 * this.screen.BATTERY_PERCENTAGE))}%)
+                {String(this.screen.BATTERY_PERCENT)}%)
               </Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
                 {this.screen.BATTERY_REMAINING_STRING}
