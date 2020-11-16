@@ -44,6 +44,7 @@ export default class MainScreen extends React.Component {
       INTERIOR_TEMPERATURE: 'N/A',
       ANGEL_EYES: 'N/A',
       AUX_VOLTAGE_OUTPUT: 'N/A',
+      BATTERY_PERCENT: 'N/A',
     };
   }
 
@@ -62,24 +63,24 @@ export default class MainScreen extends React.Component {
     });
 
     if ('AUX_VOLTAGE' in this.props.session) {
-      obj.BATTERY_REMAINING = (
-        parseFloat(obj.BATTERY_PERCENT) *
+      obj.BATTERY_HOURS_REMAINING = (
+        (parseFloat(obj.BATTERY_PERCENT)/100) *
         (ampHourCapacity / 0.3)
       ).toFixed(1);
 
       if (obj.BATTERY_PERCENT < 0) {
         obj.BATTERY_PERCENT = 0;
-        obj.BATTERY_REMAINING_STRING = 'critically low';
+        obj.BATTERY_HOURS_REMAINING_STRING = 'critically low';
       } else {
-        if (obj.BATTERY_REMAINING > 24) {
-          obj.BATTERY_REMAINING_STRING =
-            String((obj.BATTERY_REMAINING / 24).toFixed(0)) +
+        if (obj.BATTERY_HOURS_REMAINING > 24) {
+          obj.BATTERY_HOURS_REMAINING_STRING =
+            String((obj.BATTERY_HOURS_REMAINING / 24).toFixed(0)) +
             ' days, ' +
-            String((obj.BATTERY_REMAINING % 24).toFixed(0)) +
+            String((obj.BATTERY_HOURS_REMAINING % 24).toFixed(0)) +
             ' hours left';
         } else {
-          obj.BATTERY_REMAINING_STRING =
-            String(obj.BATTERY_REMAINING) + ' hours left';
+          obj.BATTERY_HOURS_REMAINING_STRING =
+            String(obj.BATTERY_HOURS_REMAINING) + ' hours left';
         }
       }
     }
@@ -190,10 +191,10 @@ export default class MainScreen extends React.Component {
               }>
               <Text style={[styles.secondaryTitleText]}>
                 Battery (
-                {String(this.screen.BATTERY_PERCENT)}%)
+                {String(Math.round(this.screen.BATTERY_PERCENT))}%)
               </Text>
               <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.BATTERY_REMAINING_STRING}
+                {this.screen.BATTERY_HOURS_REMAINING_STRING}
               </Text>
             </View>
           </View>
