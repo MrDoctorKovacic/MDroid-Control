@@ -76,13 +76,13 @@ export default class App extends React.Component {
         global.client.on('closed', function() {
           console.warn('mqtt.event.closed');
           ToastAndroid.show('MQTT connection closed, reconnecting...');
-          global.client.reconnect();
         });
 
         global.client.on('error', function(msg) {
           console.warn('mqtt.event.error', msg);
-          ToastAndroid.show('MQTT error: ' + msg, ToastAndroid.SHORT);
-          global.client.reconnect();
+          setTimeout( () => {
+            global.client.connect();
+          }, 1000);
         });
 
         global.client.on('message', function(msg) {
