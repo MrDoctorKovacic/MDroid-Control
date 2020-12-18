@@ -24,6 +24,15 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       color: '#fff',
       fontFamily: 'orbitron-medium',
     },
+    mainScreenIcons: {
+      ...this.container,
+      flex: 1,
+      flexBasis: isHorizontal ? '50%' : '50%',
+      flexDirection: 'row',
+      paddingVertical: 7.5,
+      alignSelf: "center",
+      justifyContent: "center"
+    },
     breakHalfContainer: {
       flexDirection: isHorizontal ? 'column' : 'row',
       flex: 1,
@@ -88,6 +97,11 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       flexDirection: isHorizontal ? 'column' : 'row',
       alignItems: 'flex-start',
     },
+    buttonGroupContainer: {
+      flex: 1,
+      flexDirection: "row",
+      paddingVertical: 20
+    },
     button: {
       // default button colors
       backgroundColor: Colors.buttonColorDisabled,
@@ -96,7 +110,7 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     buttonsWrapper: {
       flex: 1,
       flexDirection: 'row',
-      marginBottom: 40,
+      marginBottom: 20,
     },
     buttonsContainer: {
       flex: 1,
@@ -104,9 +118,7 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     secondaryTitleText: {
       color: !isConnected ? '#777' : '#fff',
       fontFamily: 'orbitron-medium',
-      textAlign: 'left',
       fontSize: isHorizontal ? wp('2%') : wp('5%'),
-      marginBottom: 20,
     },
     mainTitleText: {
       fontSize: isHorizontal ? 40 : 32,
@@ -123,6 +135,12 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     },
     normalText: {
       color: !isConnected ? '#777' : '#fff',
+      fontFamily: 'Roboto',
+      fontSize: isHorizontal ? 20 : 14,
+      marginBottom: 20,
+    },
+    secondaryNormalText: {
+      color: '#777',
       fontFamily: 'Roboto',
       fontSize: isHorizontal ? 20 : 14,
       marginBottom: 20,

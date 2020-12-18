@@ -69,13 +69,6 @@ export default class ControlsScreen extends React.Component {
             ]}
           />
 
-          <ButtonGroupTitle title="Trunk" />
-          <ButtonGroup
-            reference="trunk"
-            buttons={['Open']}
-            buttonFunctions={[() => this.confirmAction('/trunk/open')]}
-          />
-
           <ButtonGroupTitle title="Hazards" />
           <ButtonGroup
             reference="hazards"

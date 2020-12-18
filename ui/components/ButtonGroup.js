@@ -53,7 +53,7 @@ export default class ButtonGroup extends React.Component {
     });
 
     return (
-      <View style={[styles.container, styles.rowContainer]}>
+      <View style={styles.buttonGroupContainer}>
         <View
           style={[
             styles.container,

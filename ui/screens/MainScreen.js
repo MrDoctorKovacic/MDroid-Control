@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Dimensions} from 'react-native';
+import { Text, View, Dimensions, Alert } from 'react-native';
 import {
   listenOrientationChange as loc,
   removeOrientationListener as rol,
@@ -14,12 +14,15 @@ import IconBulb from '../images/icons/bulb';
 import IconOutput from '../images/icons/output';
 import IconLTE from '../images/icons/lte.js';
 import IconTablet from '../images/icons/tablet.js';
-import IconRecord from '../images/icons/record.js';
+import IconDoor from '../images/icons/door.js';
+import IconLock from '../images/icons/lock.js';
+import IconTrunk from '../images/icons/trunk.js';
 import IconPower from '../images/icons/power.js';
 
 import Colors from '../constants/Colors.js';
-const iconHeight = 60;
-const iconWidth = 120;
+import { TouchableOpacity } from 'react-native';
+const iconHeight = 45;
+const iconWidth = 45;
 
 // Battery info
 const ampHourCapacity = 34;
@@ -32,6 +35,22 @@ export default class MainScreen extends React.Component {
 
   componentWillUnMount() {
     rol();
+  }
+
+  confirmAction(action) {
+    Alert.alert(
+      'Send ' + action + '?',
+      '',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => this.props.getRequest(action) },
+      ],
+      { cancelable: true },
+    );
   }
 
   constructor(props) {
@@ -68,7 +87,7 @@ export default class MainScreen extends React.Component {
 
     if ('AUX_VOLTAGE' in this.props.session) {
       obj.BATTERY_HOURS_REMAINING = (
-        (parseFloat(obj.BATTERY_PERCENT)/100) *
+        (parseFloat(obj.BATTERY_PERCENT) / 100) *
         (ampHourCapacity / 0.3)
       ).toFixed(1);
 
@@ -95,7 +114,7 @@ export default class MainScreen extends React.Component {
     this.updateScreen();
 
     // Responsive styling
-    var {height, width} = Dimensions.get('window');
+    var { height, width } = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
 
     return (
@@ -103,160 +122,133 @@ export default class MainScreen extends React.Component {
         <View
           style={[
             styles.largeContainer,
-            styles.colContainer,
-            styles.containerPaddingLeft,
+            styles.rowContainer,
             styles.containerPaddingBottom,
+            { flexWrap: 'wrap' }
           ]}>
-          <View style={[styles.container]}>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconPower
               width={iconWidth}
+              style={{ alignSelf: "center" }}
               height={iconHeight}
               fill={Colors.buttonColorOn}
             />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>Aux Power</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.UNLOCK_POWER === 'TRUE' ? 'ON' : 'OFF'}
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.container]}>
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Aux Power</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.UNLOCK_POWER === 'TRUE' ? 'ON' : 'OFF'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconTablet
               width={iconWidth}
+              style={{ alignSelf: "center" }}
               height={iconHeight}
               fill={Colors.buttonColorOn}
             />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>Display</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.USB_HUB === 'TRUE' ? 'ON' : 'OFF'}
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.container]}>
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Display</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.USB_HUB === 'TRUE' ? 'ON' : 'OFF'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconLTE
               width={iconWidth}
+              style={{ alignSelf: "center" }}
               height={iconHeight}
               fill={Colors.buttonColorOn}
             />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>LTE</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.container]}>
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>LTE</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconLock
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Doors</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.DOORS_LOCKED === 'TRUE' ? 'LOCKED' : 'UNLOCKED'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconDoor
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Windows</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.WINDOWS_OPEN === 'TRUE' ? 'OPEN' : 'CLOSED'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.confirmAction('/trunk/open')} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconTrunk
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Trunk</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.TRUNK_OPEN === 'TRUE' ? 'OPEN' : 'CLOSED'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconBulb
               width={iconWidth}
+              style={{ alignSelf: "center" }}
               height={iconHeight}
               fill={Colors.buttonColorOn}
             />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>Angel Eyes</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.ANGEL_EYES === 'TRUE' ? 'ON' : 'OFF'}
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.container]}>
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Angel Eyes</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.ANGEL_EYES === 'TRUE' ? 'ON' : 'OFF'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconOutput
               width={iconWidth}
-              height={iconHeight + 5}
-              fill={Colors.buttonColorOn}
-            />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>Main Voltage</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.MAIN_VOLTAGE} V
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.container]}>
-            <IconLightning
-              width={iconWidth}
+              style={{ alignSelf: "center" }}
               height={iconHeight}
               fill={Colors.buttonColorOn}
             />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>Aux Voltage</Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.AUX_VOLTAGE} V
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Main Voltage</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.MAIN_VOLTAGE} V
               </Text>
-            </View>
-          </View>
-          <View style={[styles.container]}>
-            <IconBattery
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconLightning
               width={iconWidth}
-              height={iconHeight + 15}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
               fill={Colors.buttonColorOn}
             />
-            <View
-              style={
-                ([
-                  styles.colContainer,
-                  styles.containerPaddingTopHalf,
-                  styles.containerPaddingLeftHalf,
-                ],
-                {paddingTop: 17})
-              }>
-              <Text style={[styles.secondaryTitleText]}>
-                Battery (
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }, { textAlign: "center" }]}>Aux Voltage</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.AUX_VOLTAGE} V
+              </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconBattery
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>
+              Battery (
                 {String(Math.round(this.screen.BATTERY_PERCENT))}%)
               </Text>
-              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
-                {this.screen.BATTERY_HOURS_REMAINING_STRING}
-              </Text>
-            </View>
-          </View>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.BATTERY_HOURS_REMAINING_STRING}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
