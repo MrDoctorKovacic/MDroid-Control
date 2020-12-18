@@ -8,6 +8,8 @@ target 'MDroidControl' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'sp-react-native-mqtt', :path => '../node_modules/sp-react-native-mqtt'
+
   target 'MDroidControlTests' do
     inherit! :complete
     # Pods for testing
