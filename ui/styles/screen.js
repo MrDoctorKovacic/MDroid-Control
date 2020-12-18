@@ -27,7 +27,7 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     mainScreenIcons: {
       ...this.container,
       flex: 1,
-      flexBasis: isHorizontal ? '50%' : '50%',
+      flexBasis: isHorizontal ? '33%' : '50%',
       flexDirection: 'row',
       paddingVertical: 7.5,
       alignSelf: "center",
@@ -94,7 +94,7 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       alignItems: 'flex-start',
     },
     rowContainer: {
-      flexDirection: isHorizontal ? 'column' : 'row',
+      flexDirection: 'row',
       alignItems: 'flex-start',
     },
     buttonGroupContainer: {

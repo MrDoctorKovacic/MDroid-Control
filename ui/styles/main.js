@@ -25,7 +25,7 @@ var reloadMainStyles = function(isVertical = false, isConnected = false) {
       color: '#FFF',
       alignSelf: "center",
       alignContent: "center",
-      flexDirection: isVertical ? 'column' : 'row',
+      flexDirection: 'column',
       zIndex: isVertical ? 0 : 2,
     },
     iconContainer: {
