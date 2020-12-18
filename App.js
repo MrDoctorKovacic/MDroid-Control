@@ -129,7 +129,7 @@ export default class App extends React.Component {
       newState[topic][key] = msg.data.toUpperCase();
 
     } else if (topic === '$SYS') {
-      global.isConnectedToDevice = msg.data === 2;
+      global.isConnectedToDevice = msg.data === 3;
     } else {
       console.log(msg);
       console.warn('No action found for topic');
@@ -241,7 +241,7 @@ export default class App extends React.Component {
               />
             </ScrollView>
           </>
-          
+
           <>
             <TitleView title={"Controls"}></TitleView>
             <ScrollView>

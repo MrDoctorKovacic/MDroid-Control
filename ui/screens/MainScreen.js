@@ -7,7 +7,7 @@ import {
 import reloadStyles from '../styles/screen.js';
 
 // Icons
-import IconSun from '../images/icons/sun.js';
+import IconLucio from '../images/icons/lucio';
 import IconLightning from '../images/icons/lightning';
 import IconBattery from '../images/icons/battery';
 import IconBulb from '../images/icons/bulb';
@@ -136,6 +136,18 @@ export default class MainScreen extends React.Component {
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Aux Power</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
               {this.screen.UNLOCK_POWER === 'TRUE' ? 'ON' : 'OFF'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconLucio
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Board</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {global.isConnectedToDevice ? 'CONNECTED' : 'DISCONNECTED'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
