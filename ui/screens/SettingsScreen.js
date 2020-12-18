@@ -106,10 +106,11 @@ export default class SettingsScreen extends React.Component {
 
           <ButtonGroupTitle title="LTE" />
           <ButtonGroup
-            buttons={['Off', 'Auto']}
+            buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
               () => this._requestUpdate('components.lte', 'OFF'),
               () => this._requestUpdate('components.lte', 'AUTO'),
+              () => this._requestUpdate('components.lte', 'ON'),
             ]}
             status={this.screen.wireless}
           />
