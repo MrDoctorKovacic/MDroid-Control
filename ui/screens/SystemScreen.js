@@ -39,7 +39,7 @@ export default class SystemScreen extends React.Component {
           {Object.keys(this.props.session).sort().map(item => {
             if (typeof this.props.session[item] === 'string') {
               return (
-                <DataRow title={item} value={this.props.session[item]} key={item} />
+                <DataRow title={item.toUpperCase()} value={this.props.session[item]} key={item} />
               );
             }
           })}
