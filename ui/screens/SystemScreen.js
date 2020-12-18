@@ -34,8 +34,6 @@ export default class SystemScreen extends React.Component {
     return (
       <View style={styles.screenView}>
         <View style={[styles.containerPadding,{paddingBottom: 40}]}>
-          <ButtonGroupTitle title="Custom Input" />
-          <CustomInput request={this.props.getRequest} />
           {Object.keys(this.props.session).sort().map(item => {
             if (typeof this.props.session[item] === 'string') {
               return (

@@ -34,23 +34,6 @@ export default class SettingsScreen extends React.Component {
     };
   }
 
-  _confirmRestart(target) {
-    var address = target === 'local' ? '/restart' : '/' + target + '/restart';
-    Alert.alert(
-      'Confirm Restart',
-      'Are you sure you want to restart ' + target + '?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => this.props.getRequest(address)},
-      ],
-      {cancelable: true},
-    );
-  }
-
   // Handler for update
   _requestUpdate = async (setting, value) => {
     this.props.postRequest('/settings/' + setting + '/' + value, '');
@@ -170,16 +153,6 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('sound.vsv', 'ON'),
             ]}
             status={this.screen.variableSpeedVolume}
-          />
-
-          <ButtonGroupTitle title="Restart Components" />
-          <ButtonGroup
-            buttons={['Restart MDroid']}
-            buttonFunctions={[() => this._confirmRestart('mdroid')]}
-          />
-          <ButtonGroup
-            buttons={['Restart Board']}
-            buttonFunctions={[() => this._confirmRestart('board')]}
           />
         </View>
       </View>
