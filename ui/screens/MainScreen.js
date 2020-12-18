@@ -18,6 +18,7 @@ import IconDoor from '../images/icons/door.js';
 import IconLock from '../images/icons/lock.js';
 import IconTrunk from '../images/icons/trunk.js';
 import IconPower from '../images/icons/power.js';
+import IconBluetooth from '../images/icons/bluetooth';
 
 import Colors from '../constants/Colors.js';
 import { TouchableOpacity } from 'react-native';
@@ -159,6 +160,19 @@ export default class MainScreen extends React.Component {
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>LTE</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
               {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => { var command = this.screen["network.bluetooth"] === 'TRUE' ? 'disconnect' : 'connect'; this.confirmAction('/bluetooth/network/'+command+'/') } }  
+            style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconBluetooth
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Tether</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen["network.bluetooth"] === 'TRUE' ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { var command = this.screen.DOORS_LOCKED === 'TRUE' ? 'unlock' : 'lock'; this.confirmAction('/doors/'+command+'/') } } 
