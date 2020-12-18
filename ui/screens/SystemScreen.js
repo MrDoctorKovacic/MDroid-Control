@@ -33,15 +33,6 @@ export default class SystemScreen extends React.Component {
 
     return (
       <View style={styles.screenView}>
-        <View
-          style={[
-            styles.container,
-            styles.containerPadding,
-            styles.titleContainer,
-          ]}>
-          <Text style={styles.mainTitleText}>System</Text>
-        </View>
-
         <View style={[styles.containerPadding,{paddingBottom: 40}]}>
           <ButtonGroupTitle title="Custom Input" />
           <CustomInput request={this.props.getRequest} />

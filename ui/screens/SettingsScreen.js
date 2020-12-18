@@ -98,14 +98,6 @@ export default class SettingsScreen extends React.Component {
 
     return (
       <View style={styles.screenView}>
-        <View
-          style={[
-            styles.container,
-            styles.containerPadding,
-            styles.titleContainer,
-          ]}>
-          <Text style={styles.mainTitleText}>Settings</Text>
-        </View>
         <View style={[styles.largeContainer, styles.colContainer]}>
           <ButtonGroupTitle title="Angel Eyes" />
           <ButtonGroup

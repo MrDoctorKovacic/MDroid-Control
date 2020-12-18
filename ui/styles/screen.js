@@ -109,7 +109,7 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       marginBottom: 20,
     },
     mainTitleText: {
-      fontSize: isHorizontal ? 40 : wp('7%'),
+      fontSize: isHorizontal ? 40 : 32,
       color: !isConnected ? '#777' : '#ff5722',
       fontFamily: 'orbitron-medium',
       textAlign: isHorizontal ? 'left' : 'center',

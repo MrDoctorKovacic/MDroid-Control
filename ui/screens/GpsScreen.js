@@ -153,14 +153,6 @@ export default class GpsScreen extends React.Component {
 
     return (
       <View style={styles.screenView}>
-        <View
-          style={[
-            styles.container,
-            styles.containerPadding,
-            styles.titleContainer,
-          ]}>
-          <Text style={styles.mainTitleText}>Location</Text>
-        </View>
         <View style={[styles.largeContainer, styles.colContainer]}>
           <View pointerEvents="auto">
             <TouchableWithoutFeedback

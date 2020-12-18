@@ -12,6 +12,11 @@ import IconLightning from '../images/icons/lightning';
 import IconBattery from '../images/icons/battery';
 import IconBulb from '../images/icons/bulb';
 import IconOutput from '../images/icons/output';
+import IconLTE from '../images/icons/lte.js';
+import IconTablet from '../images/icons/tablet.js';
+import IconRecord from '../images/icons/record.js';
+import IconPower from '../images/icons/power.js';
+
 import Colors from '../constants/Colors.js';
 const iconHeight = 60;
 const iconWidth = 120;
@@ -34,7 +39,6 @@ export default class MainScreen extends React.Component {
 
     this.state = {
       fails: 0,
-      refreshing: false,
     };
     this.screen = {
       MAIN_VOLTAGE: 'N/A',
@@ -98,19 +102,74 @@ export default class MainScreen extends React.Component {
       <View style={{paddingBottom: 30}}>
         <View
           style={[
-            styles.container,
-            styles.containerPadding,
-            styles.titleContainer,
-          ]}>
-          <Text style={styles.mainTitleText}>Quinn's M3</Text>
-        </View>
-        <View
-          style={[
             styles.largeContainer,
             styles.colContainer,
             styles.containerPaddingLeft,
             styles.containerPaddingBottom,
           ]}>
+          <View style={[styles.container]}>
+            <IconPower
+              width={iconWidth}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <View
+              style={
+                ([
+                  styles.colContainer,
+                  styles.containerPaddingTopHalf,
+                  styles.containerPaddingLeftHalf,
+                ],
+                {paddingTop: 17})
+              }>
+              <Text style={[styles.secondaryTitleText]}>Aux Power</Text>
+              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
+                {this.screen.UNLOCK_POWER === 'TRUE' ? 'ON' : 'OFF'}
+              </Text>
+            </View>
+          </View>
+          <View style={[styles.container]}>
+            <IconTablet
+              width={iconWidth}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <View
+              style={
+                ([
+                  styles.colContainer,
+                  styles.containerPaddingTopHalf,
+                  styles.containerPaddingLeftHalf,
+                ],
+                {paddingTop: 17})
+              }>
+              <Text style={[styles.secondaryTitleText]}>Display</Text>
+              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
+                {this.screen.USB_HUB === 'TRUE' ? 'ON' : 'OFF'}
+              </Text>
+            </View>
+          </View>
+          <View style={[styles.container]}>
+            <IconLTE
+              width={iconWidth}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <View
+              style={
+                ([
+                  styles.colContainer,
+                  styles.containerPaddingTopHalf,
+                  styles.containerPaddingLeftHalf,
+                ],
+                {paddingTop: 17})
+              }>
+              <Text style={[styles.secondaryTitleText]}>LTE</Text>
+              <Text style={[styles.normalText, styles.bold, styles.textLarge]}>
+                {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
+              </Text>
+            </View>
+          </View>
           <View style={[styles.container]}>
             <IconBulb
               width={iconWidth}

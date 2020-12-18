@@ -49,14 +49,6 @@ export default class ControlsScreen extends React.Component {
     return (
       <ScrollView removeClippedSubviews={true}>
         <View style={styles.screenView}>
-          <View
-            style={[
-              styles.container,
-              styles.containerPadding,
-              styles.titleContainer,
-            ]}>
-            <Text style={styles.mainTitleText}>Controls</Text>
-          </View>
           <View style={[styles.largeContainer, styles.colContainer]}>
             <ButtonGroupTitle title="Doors" />
             <ButtonGroup

@@ -3,7 +3,6 @@ import {
   Dimensions,
   StatusBar,
   ToastAndroid,
-  RefreshControl,
   ScrollView,
   View,
   Image,
@@ -15,7 +14,7 @@ import {
 } from 'react-native-responsive-screen';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Swiper from 'react-native-swiper';
-import {Overlay} from 'react-native-elements';
+import { Overlay } from 'react-native-elements';
 import MQTT from 'sp-react-native-mqtt';
 
 // Screens
@@ -30,7 +29,8 @@ import reloadStyles from './ui/styles/screen.js';
 import reloadMainStyles from './ui/styles/main.js';
 
 // Config
-import {serverHost, token, user, pass} from './config.json';
+import { serverHost, token, user, pass } from './config.json';
+import TitleView from './ui/components/TitleView.js';
 global.SERVER_HOST = serverHost;
 global.TOKEN = token;
 global.USER = user;
@@ -70,26 +70,26 @@ export default class App extends React.Component {
       pass: global.PASS,
       auth: true,
     })
-      .then(function(client) {
+      .then(function (client) {
         global.client = client;
 
-        global.client.on('closed', function() {
+        global.client.on('closed', function () {
           console.warn('mqtt.event.closed');
           ToastAndroid.show('MQTT connection closed, reconnecting...');
         });
 
-        global.client.on('error', function(msg) {
+        global.client.on('error', function (msg) {
           console.warn('mqtt.event.error', msg);
-          setTimeout( () => {
+          setTimeout(() => {
             global.client.connect();
           }, 1000);
         });
 
-        global.client.on('message', function(msg) {
+        global.client.on('message', function (msg) {
           component.handleMessage(msg);
         });
 
-        global.client.on('connect', function() {
+        global.client.on('connect', function () {
           console.log('connected');
           global.client.subscribe('vehicle/session/#', 0);
           global.client.subscribe('vehicle/settings/#', 0);
@@ -98,7 +98,7 @@ export default class App extends React.Component {
 
         global.client.connect();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.warn(err);
       });
   }
@@ -116,7 +116,7 @@ export default class App extends React.Component {
 
   handleMessage(msg) {
     // Create new state
-    newState = {...this.state, ...newState};
+    newState = { ...this.state, ...newState };
     const parsedTopic = msg.topic.replace('vehicle/', '').split('/');
     const topic = parsedTopic[0];
 
@@ -171,7 +171,6 @@ export default class App extends React.Component {
     this.setupMQTT();
     this.state = {
       isConnected: false,
-      refreshing: false,
       connectingOverlayHidden: false,
 
       settings: {},
@@ -180,16 +179,11 @@ export default class App extends React.Component {
     };
   }
 
-  _onRefresh = () => {
-    this.setState({refreshing: true});
-    this.setState({refreshing: false});
-  };
-
   render() {
     changeNavigationBarColor('#000000', false);
 
     // Responsive styling
-    var {height, width} = Dimensions.get('window');
+    var { height, width } = Dimensions.get('window');
     var isVertical = width < height;
     var image = isVertical
       ? require('./ui/images/1.png')
@@ -197,22 +191,15 @@ export default class App extends React.Component {
     var mainStyles = reloadMainStyles(isVertical, this.state.isConnected);
     var styles = reloadStyles(height < width, this.state.isConnected);
 
-    var refeshControl = (
-      <RefreshControl
-        refreshing={this.state.refreshing}
-        onRefresh={this._onRefresh}
-      />
-    );
-
     const overlayText = 'Connecting...';
     return (
-      <View style={[mainStyles.container, {marginTop: 25}]} onLayout={this._onLayout}>
+      <View style={[mainStyles.container, { marginTop: 25 }]} onLayout={this._onLayout}>
         <Overlay
           isVisible={
             !this.state.isConnected && !this.state.connectingOverlayHidden
           }
-          backdropStyle={{backgroundColor: "rgba(0, 0, 0, .4)"}}
-          overlayStyle={{backgroundColor: "transparent"}}
+          backdropStyle={{ backgroundColor: "rgba(0, 0, 0, .4)" }}
+          overlayStyle={{ backgroundColor: "transparent" }}
           width="auto"
           height="auto">
           <Text style={[styles.mainTitleText, mainStyles.overlayText]}>
@@ -224,68 +211,69 @@ export default class App extends React.Component {
           <View style={[mainStyles.imageContainer]}>
             <Image style={mainStyles.mainLeftImage} source={image} />
           </View>
-
-          <View style={[mainStyles.iconContainer]}>
-            <IconRow
-              session={this.state.session}
-              settings={this.state.settings}
-            />
-          </View>
         </View>
 
         <Swiper
           index={0}
-          style={mainStyles.swiperContainer}
+          style={[mainStyles.swiperContainer]}
           showsPagination={true}
           opacity={this.state.isConnected ? 1 : 0.7}
           dotColor="rgba(255,255,255,.2)"
           activeDotColor="rgba(255,255,255,1)">
-          <ScrollView
-            refreshControl={refeshControl}
-            removeClippedSubviews={true}>
-            <MainScreen
+          <>
+            <TitleView title={"Quinn's M3"}></TitleView>
+            <ScrollView removeClippedSubviews={true}>
+              <MainScreen
+                postRequest={postRequest}
+                getRequest={getRequest}
+                session={this.state.session}
+              />
+            </ScrollView>
+          </>
+
+          <>
+            <TitleView title={"Controls"}></TitleView>
+            <ControlsScreen
               postRequest={postRequest}
               getRequest={getRequest}
               session={this.state.session}
-            />
-          </ScrollView>
-
-          <ControlsScreen
-            postRequest={postRequest}
-            getRequest={getRequest}
-            session={this.state.session}
-            settings={this.state.settings}
-          />
-
-          <ScrollView
-            refreshControl={refeshControl}
-            removeClippedSubviews={true}>
-            <GpsScreen
-              postRequest={postRequest}
-              getRequest={getRequest}
-              gps={this.state.session}
-            />
-          </ScrollView>
-
-          <ScrollView
-            refreshControl={refeshControl}
-            removeClippedSubviews={true}>
-            <SettingsScreen
-              postRequest={postRequest}
-              getRequest={getRequest}
               settings={this.state.settings}
             />
-          </ScrollView>
+          </>
 
-          <ScrollView
-            refreshControl={refeshControl}
-            removeClippedSubviews={true}>
-            <SystemScreen
-              postRequest={postRequest}
-              getRequest={getRequest}
-              session={this.state.session}
-            />
-          </ScrollView>
+          <>
+            <TitleView title={"Location"}></TitleView>
+            <ScrollView removeClippedSubviews={true}>
+              <GpsScreen
+                postRequest={postRequest}
+                getRequest={getRequest}
+                gps={this.state.session}
+              />
+            </ScrollView>
+          </>
+
+          <>
+            <TitleView title={"Settings"}></TitleView>
+            <ScrollView removeClippedSubviews={true}>
+              <SettingsScreen
+                postRequest={postRequest}
+                getRequest={getRequest}
+                settings={this.state.settings}
+              />
+            </ScrollView>
+          </>
+
+          <>
+            <TitleView title={"System"}></TitleView>
+            <ScrollView removeClippedSubviews={true}>
+              <SystemScreen
+                postRequest={postRequest}
+                getRequest={getRequest}
+                session={this.state.session}
+              />
+            </ScrollView>
+          </>
+
         </Swiper>
         <View style={mainStyles.viewBlocker} />
       </View>
