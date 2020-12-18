@@ -47,9 +47,6 @@ export default class GpsScreen extends React.Component {
         longitude: LONGITUDE,
       },
       gps: {
-        course: 'N/A',
-        altitude: 'N/A',
-        speed: 'N/A',
       },
       fails: 0,
     };
@@ -137,10 +134,6 @@ export default class GpsScreen extends React.Component {
             ? parseFloat(session['gps.lng'])
             : this.screen.region.longitude,
       },
-      gps: {
-        altitude: 'gps.alt' in session ? session['gps.alt'] : 'N/A',
-        speed: 'gps.speed' in session ? session['gps.speed'] : 'N/A',
-      },
     };
   }
 
@@ -180,10 +173,6 @@ export default class GpsScreen extends React.Component {
             </Text>
             <Text style={styles.auxText}>
               Longitude: {this.screen.region.longitude}
-            </Text>
-            <Text style={styles.auxText}>Speed: {this.screen.gps.speed}</Text>
-            <Text style={styles.auxText}>
-              Altitude: {this.screen.gps.altitude}
             </Text>
           </View>
         </View>
