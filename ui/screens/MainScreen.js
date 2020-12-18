@@ -60,14 +60,14 @@ export default class MainScreen extends React.Component {
       fails: 0,
     };
     this.screen = {
-      MAIN_VOLTAGE: 'N/A',
-      AUX_VOLTAGE: 'N/A',
-      AUX_CURRENT: 'N/A',
-      OUTSIDE_TEMP: 'N/A',
-      INTERIOR_TEMPERATURE: 'N/A',
-      ANGEL_EYES: 'N/A',
-      AUX_VOLTAGE_OUTPUT: 'N/A',
-      BATTERY_PERCENT: 'N/A',
+      MAIN_VOLTAGE: 'UNKNOWN',
+      AUX_VOLTAGE: 'UNKNOWN',
+      AUX_CURRENT: 'UNKNOWN',
+      OUTSIDE_TEMP: 'UNKNOWN',
+      INTERIOR_TEMPERATURE: 'UNKNOWN',
+      ANGEL_EYES: 'UNKNOWN',
+      AUX_VOLTAGE_OUTPUT: 'UNKNOWN',
+      BATTERY_PERCENT: 'UNKNOWN',
     };
   }
 
@@ -77,8 +77,9 @@ export default class MainScreen extends React.Component {
 
   updateScreen() {
     var obj = {};
-    Object.keys(this.screen).map(item => {
-      let value = item in this.props.session ? this.props.session[item] : 'N/A';
+    Object.keys(this.props.session).map(item => {
+      //let value = item in this.props.session ? this.props.session[item] : 'UNKNOWN';
+      let value = this.props.session[item];
       if (!isNaN(parseFloat(value))) {
         value = parseFloat(value).toFixed(2);
       }
@@ -116,7 +117,6 @@ export default class MainScreen extends React.Component {
     // Responsive styling
     var { height, width } = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
-
     return (
       <View style={styles.screenView}>
         <View
