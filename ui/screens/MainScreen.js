@@ -44,10 +44,9 @@ export default class MainScreen extends React.Component {
       [
         {
           text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'OK', onPress: () => this.props.getRequest(action) },
+        { text: 'Execute', onPress: () => this.props.getRequest(action) },
       ],
       { cancelable: true },
     );
@@ -162,7 +161,8 @@ export default class MainScreen extends React.Component {
               {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+          <TouchableOpacity onPress={() => { var command = this.screen.DOORS_LOCKED === 'TRUE' ? 'unlock' : 'lock'; this.confirmAction('/doors/'+command+'/') } } 
+            style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconLock
               width={iconWidth}
               style={{ alignSelf: "center" }}
@@ -174,7 +174,8 @@ export default class MainScreen extends React.Component {
               {this.screen.DOORS_LOCKED === 'TRUE' ? 'LOCKED' : 'UNLOCKED'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+          <TouchableOpacity onPress={() => { var command = this.screen.WINDOWS_OPEN === 'TRUE' ? 'up' : 'down'; this.confirmAction('/windows/'+command+'/') } }  
+            style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconDoor
               width={iconWidth}
               style={{ alignSelf: "center" }}
@@ -198,7 +199,8 @@ export default class MainScreen extends React.Component {
               {this.screen.TRUNK_OPEN === 'TRUE' ? 'OPEN' : 'CLOSED'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+          <TouchableOpacity onPress={() => { var command = this.screen.ANGEL_EYES === 'TRUE' ? 'AUTO' : 'ON'; this.confirmAction('/settings/components.angel_eyes/'+command+'/') } } 
+            style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconBulb
               width={iconWidth}
               style={{ alignSelf: "center" }}
