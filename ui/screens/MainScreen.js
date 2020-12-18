@@ -60,14 +60,11 @@ export default class MainScreen extends React.Component {
       fails: 0,
     };
     this.screen = {
-      MAIN_VOLTAGE: 'UNKNOWN',
-      AUX_VOLTAGE: 'UNKNOWN',
-      AUX_CURRENT: 'UNKNOWN',
-      OUTSIDE_TEMP: 'UNKNOWN',
+      main_voltage: 'UNKNOWN',
+      aux_voltage: 'UNKNOWN',
       INTERIOR_TEMPERATURE: 'UNKNOWN',
-      ANGEL_EYES: 'UNKNOWN',
-      AUX_VOLTAGE_OUTPUT: 'UNKNOWN',
-      BATTERY_PERCENT: 'UNKNOWN',
+      angel_eyes: 'UNKNOWN',
+      battery_percent: 'UNKNOWN',
     };
   }
 
@@ -86,25 +83,25 @@ export default class MainScreen extends React.Component {
       obj[item] = value;
     });
 
-    if ('AUX_VOLTAGE' in this.props.session) {
-      obj.BATTERY_HOURS_REMAINING = (
-        (parseFloat(obj.BATTERY_PERCENT) / 100) *
+    if ('aux_voltage' in this.props.session) {
+      obj.battery_hours_remaining = (
+        (parseFloat(obj.battery_percent) / 100) *
         (ampHourCapacity / 0.3)
       ).toFixed(1);
 
-      if (obj.BATTERY_PERCENT < 0) {
-        obj.BATTERY_PERCENT = 0;
-        obj.BATTERY_HOURS_REMAINING_STRING = 'critically low';
+      if (obj.battery_percent < 0) {
+        obj.battery_percent = 0;
+        obj.battery_hours_remaining_string = 'critically low';
       } else {
-        if (obj.BATTERY_HOURS_REMAINING > 24) {
-          obj.BATTERY_HOURS_REMAINING_STRING =
-            String((obj.BATTERY_HOURS_REMAINING / 24).toFixed(0)) +
+        if (obj.battery_hours_remaining > 24) {
+          obj.battery_hours_remaining_string =
+            String((obj.battery_hours_remaining / 24).toFixed(0)) +
             ' days, ' +
-            String((obj.BATTERY_HOURS_REMAINING % 24).toFixed(0)) +
+            String((obj.battery_hours_remaining % 24).toFixed(0)) +
             ' hours left';
         } else {
-          obj.BATTERY_HOURS_REMAINING_STRING =
-            String(obj.BATTERY_HOURS_REMAINING) + ' hours left';
+          obj.battery_hours_remaining_string =
+            String(obj.battery_hours_remaining) + ' hours left';
         }
       }
     }
@@ -135,7 +132,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Aux Power</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.UNLOCK_POWER === 'TRUE' ? 'ON' : 'OFF'}
+              {this.screen.UNLOCK_POWER === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
@@ -159,10 +156,10 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>LTE</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
+              {this.screen.LTE === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen["network.bnep0"] === 'TRUE' ? 'disconnect' : 'connect'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" Bluetooth network?", () => this.props.getRequest('/bluetooth/network/'+command)) } }  
+          <TouchableOpacity onPress={() => { var command = this.screen["network.bnep0"] === "true" ? 'disconnect' : 'connect'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" Bluetooth network?", () => this.props.getRequest('/bluetooth/network/'+command)) } }  
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconBluetooth
               width={iconWidth}
@@ -172,10 +169,10 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Tether</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen["network.bnep0"] === 'TRUE' ? 'ON' : 'OFF'}
+              {this.screen["network.bnep0"] === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen.DOORS_LOCKED === 'TRUE' ? 'unlock' : 'lock'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" doors?", () => this.props.getRequest('/doors/'+command)) } } 
+          <TouchableOpacity onPress={() => { var command = this.screen.doors_locked === "true" ? 'unlock' : 'lock'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" doors?", () => this.props.getRequest('/doors/'+command)) } } 
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconLock
               width={iconWidth}
@@ -185,10 +182,10 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Doors</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.DOORS_LOCKED === 'TRUE' ? 'LOCKED' : 'UNLOCKED'}
+              {this.screen.doors_locked === "true" ? 'LOCKED' : 'UNLOCKED'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen.WINDOWS_OPEN === 'TRUE' ? 'up' : 'down'; this.confirmAction("Roll "+command+" windows?", () => this.props.getRequest('/windows/'+command)) } }  
+          <TouchableOpacity onPress={() => { var command = this.screen.windows_open === "true" ? 'up' : 'down'; this.confirmAction("Roll "+command+" windows?", () => this.props.getRequest('/windows/'+command)) } }  
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconDoor
               width={iconWidth}
@@ -198,10 +195,11 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Windows</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.WINDOWS_OPEN === 'TRUE' ? 'OPEN' : 'CLOSED'}
+              {this.screen.windows_open === "true" ? 'OPEN' : 'CLOSED'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={"Open trunk?", () => this.confirmAction('/trunk/open')} style={[styles.mainScreenIcons, styles.colContainer]}>
+          <TouchableOpacity onPress={() => this.confirmAction("Open trunk?", () => this.props.getRequest('/trunk/open'))}
+            style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconTrunk
               width={iconWidth}
               style={{ alignSelf: "center" }}
@@ -210,11 +208,11 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Trunk</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.TRUNK_OPEN === 'TRUE' ? 'OPEN' : 'CLOSED'}
+              {this.screen.trunk_open === "true" ? 'OPEN' : 'CLOSED'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { 
-              var command = this.screen.ANGEL_EYES === 'TRUE' ? 'AUTO' : 'ON'; 
+              var command = this.screen.angel_eyes === "true" ? 'AUTO' : 'ON'; 
               this.confirmAction("Toggle angel eyes?", () => this.props.postRequest('/settings/components.angel_eyes/'+command, '')) } 
             } 
             style={[styles.mainScreenIcons, styles.colContainer]}>
@@ -226,7 +224,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Angel Eyes</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.ANGEL_EYES === 'TRUE' ? 'ON' : 'OFF'}
+              {this.screen.angel_eyes === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
@@ -238,7 +236,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Display</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.USB_HUB === 'TRUE' ? 'ON' : 'OFF'}
+              {this.screen.USB_HUB === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
@@ -250,10 +248,10 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>
               Battery (
-                {String(Math.round(this.screen.BATTERY_PERCENT))}%)
+                {String(Math.round(this.screen.battery_percent))}%)
               </Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.BATTERY_HOURS_REMAINING_STRING}
+              {this.screen.battery_hours_remaining_string}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
@@ -265,7 +263,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Main Voltage</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.MAIN_VOLTAGE} V
+              {this.screen.main_voltage} V
               </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
@@ -277,7 +275,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }, { textAlign: "center" }]}>Aux Voltage</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.AUX_VOLTAGE} V
+              {this.screen.aux_voltage} V
               </Text>
           </TouchableOpacity>
         </View>

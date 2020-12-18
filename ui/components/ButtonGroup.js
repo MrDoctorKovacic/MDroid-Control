@@ -69,7 +69,7 @@ export default class ButtonGroup extends React.Component {
                 disabled={global.isConnected ? false : true}
                 color={
                   !this.props.status ||
-                  this.props.status === buttonOneTitle.toUpperCase()
+                  this.props.status === buttonOneTitle.toLowerCase()
                     ? buttonOnColor
                     : Colors.buttonColorOff
                 }
@@ -83,7 +83,7 @@ export default class ButtonGroup extends React.Component {
                 disabled={global.isConnected ? false : true}
                 color={
                   !this.props.status ||
-                  this.props.status === buttonTwoTitle.toUpperCase()
+                  this.props.status === buttonTwoTitle.toLowerCase()
                     ? buttonOnColor
                     : Colors.buttonColorOff
                 }
@@ -97,7 +97,7 @@ export default class ButtonGroup extends React.Component {
                 disabled={global.isConnected ? false : true}
                 color={
                   !this.props.status ||
-                  this.props.status === buttonThreeTitle.toUpperCase()
+                  this.props.status === buttonThreeTitle.toLowerCase()
                     ? buttonOnColor
                     : Colors.buttonColorOff
                 }

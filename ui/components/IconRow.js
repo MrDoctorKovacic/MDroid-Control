@@ -51,25 +51,25 @@ export default class DataRow extends React.Component {
           : false,
       acc_power:
         'ACC_POWER' in this.props.session
-          ? this.props.session["ACC_POWER"] === 'TRUE'
+          ? this.props.session["ACC_POWER"] === "true"
           : false,
       board_on:
         'BOARD' in this.props.session
-          ? this.props.session["BOARD"] === 'TRUE'
+          ? this.props.session["BOARD"] === "true"
           : false,
       video_on:
         'board_power' in this.props.session
-          ? this.props.session.board_power === 'TRUE'
+          ? this.props.session.board_power === "true"
           : false,
       tablet_on:
         'USB_HUB' in this.props.session
-          ? this.props.session["USB_HUB"] === 'TRUE'
+          ? this.props.session["USB_HUB"] === "true"
           : false,
       lte_on:
         global.isConnectedToDevice &&
         ('lte_on' in this.props.session)
-          ? this.props.session.lte_on === 'TRUE' ||
-            this.props.session.wifi_connected === 'TRUE'
+          ? this.props.session.lte_on === "true" ||
+            this.props.session.wifi_connected === "true"
           : false,
     };
   }

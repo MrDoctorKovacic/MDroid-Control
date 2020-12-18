@@ -122,11 +122,11 @@ export default class App extends React.Component {
 
     if (topic == "session") {
       const key = parsedTopic.slice(1).join('.');
-      newState[topic][key] = msg.data.toUpperCase();
+      newState[topic][key] = msg.data.toLowerCase();
 
     } else if (topic === "settings") {
       const key = parsedTopic.slice(1).join('.');
-      newState[topic][key] = msg.data.toUpperCase();
+      newState[topic][key] = msg.data.toLowerCase();
 
     } else if (topic === '$SYS') {
       global.isConnectedToDevice = parseInt(msg.data) >= 3;
