@@ -222,7 +222,7 @@ export default class App extends React.Component {
           activeDotColor="rgba(255,255,255,1)">
           <>
             <TitleView title={"Quinn's M3"}></TitleView>
-            <ScrollView removeClippedSubviews={true}>
+            <ScrollView>
               <MainScreen
                 postRequest={postRequest}
                 getRequest={getRequest}
@@ -233,12 +233,14 @@ export default class App extends React.Component {
 
           <>
             <TitleView title={"Controls"}></TitleView>
-            <ControlsScreen
-              postRequest={postRequest}
-              getRequest={getRequest}
-              session={this.state.session}
-              settings={this.state.settings}
-            />
+            <ScrollView>
+              <ControlsScreen
+                postRequest={postRequest}
+                getRequest={getRequest}
+                session={this.state.session}
+                settings={this.state.settings}
+              />
+            </ScrollView>
           </>
 
           <>

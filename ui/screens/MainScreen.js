@@ -99,7 +99,7 @@ export default class MainScreen extends React.Component {
     var styles = reloadStyles(height < width, global.isConnected);
 
     return (
-      <View style={{paddingBottom: 30}}>
+      <View style={styles.screenView}>
         <View
           style={[
             styles.largeContainer,

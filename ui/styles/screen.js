@@ -8,7 +8,7 @@ import Colors from '../constants/Colors';
 var reloadStyles = function(isHorizontal = false, isConnected = false) {
   var styles = StyleSheet.create({
     screenView: {
-      paddingBottom: 35,
+      paddingBottom: 50,
     },
     mainContainer: {
       flex: 1,
