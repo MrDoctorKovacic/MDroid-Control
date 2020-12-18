@@ -38,16 +38,16 @@ export default class MainScreen extends React.Component {
     rol();
   }
 
-  confirmAction(action) {
+  confirmAction(title, action) {
     Alert.alert(
-      'Send ' + action + '?',
+      title,
       '',
       [
         {
           text: 'Cancel',
           style: 'cancel',
         },
-        { text: 'Execute', onPress: () => this.props.getRequest(action) },
+        { text: 'Execute', onPress: () => action() },
       ],
       { cancelable: true },
     );
@@ -162,7 +162,7 @@ export default class MainScreen extends React.Component {
               {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen["network.bluetooth"] === 'TRUE' ? 'disconnect' : 'connect'; this.confirmAction('/bluetooth/network/'+command+'/') } }  
+          <TouchableOpacity onPress={() => { var command = this.screen["network.bluetooth"] === 'TRUE' ? 'disconnect' : 'connect'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" Bluetooth network?", () => this.props.getRequest('/bluetooth/network/'+command+'/')) } }  
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconBluetooth
               width={iconWidth}
@@ -175,7 +175,7 @@ export default class MainScreen extends React.Component {
               {this.screen["network.bluetooth"] === 'TRUE' ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen.DOORS_LOCKED === 'TRUE' ? 'unlock' : 'lock'; this.confirmAction('/doors/'+command+'/') } } 
+          <TouchableOpacity onPress={() => { var command = this.screen.DOORS_LOCKED === 'TRUE' ? 'unlock' : 'lock'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" doors?", () => this.props.getRequest('/doors/'+command+'/')) } } 
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconLock
               width={iconWidth}
@@ -188,7 +188,7 @@ export default class MainScreen extends React.Component {
               {this.screen.DOORS_LOCKED === 'TRUE' ? 'LOCKED' : 'UNLOCKED'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen.WINDOWS_OPEN === 'TRUE' ? 'up' : 'down'; this.confirmAction('/windows/'+command+'/') } }  
+          <TouchableOpacity onPress={() => { var command = this.screen.WINDOWS_OPEN === 'TRUE' ? 'up' : 'down'; this.confirmAction("Roll "+command+" windows?", () => this.props.getRequest('/windows/'+command+'/')) } }  
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconDoor
               width={iconWidth}
@@ -201,7 +201,7 @@ export default class MainScreen extends React.Component {
               {this.screen.WINDOWS_OPEN === 'TRUE' ? 'OPEN' : 'CLOSED'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.confirmAction('/trunk/open')} style={[styles.mainScreenIcons, styles.colContainer]}>
+          <TouchableOpacity onPress={"Open trunk?", () => this.confirmAction('/trunk/open')} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconTrunk
               width={iconWidth}
               style={{ alignSelf: "center" }}
@@ -213,7 +213,10 @@ export default class MainScreen extends React.Component {
               {this.screen.TRUNK_OPEN === 'TRUE' ? 'OPEN' : 'CLOSED'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen.ANGEL_EYES === 'TRUE' ? 'AUTO' : 'ON'; this.confirmAction('/settings/components.angel_eyes/'+command+'/') } } 
+          <TouchableOpacity onPress={() => { 
+              var command = this.screen.ANGEL_EYES === 'TRUE' ? 'AUTO' : 'ON'; 
+              this.confirmAction("Toggle angel eyes?", () => this.props.postRequest('/settings/components.angel_eyes/'+command, '')) } 
+            } 
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconBulb
               width={iconWidth}
