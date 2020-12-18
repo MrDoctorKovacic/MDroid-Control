@@ -162,7 +162,7 @@ export default class MainScreen extends React.Component {
               {this.screen.LTE === 'TRUE' ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { var command = this.screen["network.bluetooth"] === 'TRUE' ? 'disconnect' : 'connect'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" Bluetooth network?", () => this.props.getRequest('/bluetooth/network/'+command)) } }  
+          <TouchableOpacity onPress={() => { var command = this.screen["network.bnep0"] === 'TRUE' ? 'disconnect' : 'connect'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" Bluetooth network?", () => this.props.getRequest('/bluetooth/network/'+command)) } }  
             style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconBluetooth
               width={iconWidth}
@@ -172,7 +172,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Tether</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen["network.bluetooth"] === 'TRUE' ? 'ON' : 'OFF'}
+              {this.screen["network.bnep0"] === 'TRUE' ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { var command = this.screen.DOORS_LOCKED === 'TRUE' ? 'unlock' : 'lock'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" doors?", () => this.props.getRequest('/doors/'+command)) } } 
