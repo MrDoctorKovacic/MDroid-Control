@@ -151,18 +151,6 @@ export default class MainScreen extends React.Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
-            <IconTablet
-              width={iconWidth}
-              style={{ alignSelf: "center" }}
-              height={iconHeight}
-              fill={Colors.buttonColorOn}
-            />
-            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Display</Text>
-            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.USB_HUB === 'TRUE' ? 'ON' : 'OFF'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconLTE
               width={iconWidth}
               style={{ alignSelf: "center" }}
@@ -239,6 +227,33 @@ export default class MainScreen extends React.Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconTablet
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Display</Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.USB_HUB === 'TRUE' ? 'ON' : 'OFF'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
+            <IconBattery
+              width={iconWidth}
+              style={{ alignSelf: "center" }}
+              height={iconHeight}
+              fill={Colors.buttonColorOn}
+            />
+            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>
+              Battery (
+                {String(Math.round(this.screen.BATTERY_PERCENT))}%)
+              </Text>
+            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
+              {this.screen.BATTERY_HOURS_REMAINING_STRING}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
             <IconOutput
               width={iconWidth}
               style={{ alignSelf: "center" }}
@@ -261,21 +276,6 @@ export default class MainScreen extends React.Component {
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
               {this.screen.AUX_VOLTAGE} V
               </Text>
-          </TouchableOpacity>
-          <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
-            <IconBattery
-              width={iconWidth}
-              style={{ alignSelf: "center" }}
-              height={iconHeight}
-              fill={Colors.buttonColorOn}
-            />
-            <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>
-              Battery (
-                {String(Math.round(this.screen.BATTERY_PERCENT))}%)
-              </Text>
-            <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.BATTERY_HOURS_REMAINING_STRING}
-            </Text>
           </TouchableOpacity>
         </View>
       </View>
