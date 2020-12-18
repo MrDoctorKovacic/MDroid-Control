@@ -232,6 +232,17 @@ export default class App extends React.Component {
           </>
 
           <>
+            <TitleView title={"Location"}></TitleView>
+            <ScrollView removeClippedSubviews={true}>
+              <GpsScreen
+                postRequest={postRequest}
+                getRequest={getRequest}
+                gps={this.state.session}
+              />
+            </ScrollView>
+          </>
+          
+          <>
             <TitleView title={"Controls"}></TitleView>
             <ScrollView>
               <ControlsScreen
@@ -239,17 +250,6 @@ export default class App extends React.Component {
                 getRequest={getRequest}
                 session={this.state.session}
                 settings={this.state.settings}
-              />
-            </ScrollView>
-          </>
-
-          <>
-            <TitleView title={"Location"}></TitleView>
-            <ScrollView removeClippedSubviews={true}>
-              <GpsScreen
-                postRequest={postRequest}
-                getRequest={getRequest}
-                gps={this.state.session}
               />
             </ScrollView>
           </>
