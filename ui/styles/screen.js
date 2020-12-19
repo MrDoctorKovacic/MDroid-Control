@@ -8,7 +8,7 @@ import Colors from '../constants/Colors';
 var reloadStyles = function(isHorizontal = false, isConnected = false) {
   var styles = StyleSheet.create({
     screenView: {
-      paddingBottom: 35,
+      paddingBottom: 80,
     },
     mainContainer: {
       flex: 1,
@@ -24,6 +24,15 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       color: '#fff',
       fontFamily: 'orbitron-medium',
     },
+    mainScreenIcons: {
+      ...this.container,
+      flex: 1,
+      flexBasis: isHorizontal ? '33%' : '50%',
+      flexDirection: 'row',
+      paddingVertical: 7.5,
+      alignSelf: "center",
+      justifyContent: "center"
+    },
     breakHalfContainer: {
       flexDirection: isHorizontal ? 'column' : 'row',
       flex: 1,
@@ -33,7 +42,7 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     },
     iconInnerRow: {
       flexDirection: 'row',
-      marginBottom: isHorizontal ? 40 : 0,
+      marginBottom: isHorizontal ? 40 : 15,
     },
     iconInnerRowShort: {
       paddingLeft: 35,
@@ -85,8 +94,13 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
       alignItems: 'flex-start',
     },
     rowContainer: {
-      flexDirection: isHorizontal ? 'column' : 'row',
+      flexDirection: 'row',
       alignItems: 'flex-start',
+    },
+    buttonGroupContainer: {
+      flex: 1,
+      flexDirection: "row",
+      paddingVertical: 20
     },
     button: {
       // default button colors
@@ -96,7 +110,7 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     buttonsWrapper: {
       flex: 1,
       flexDirection: 'row',
-      marginBottom: 40,
+      marginBottom: 20,
     },
     buttonsContainer: {
       flex: 1,
@@ -104,12 +118,10 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     secondaryTitleText: {
       color: !isConnected ? '#777' : '#fff',
       fontFamily: 'orbitron-medium',
-      textAlign: 'left',
       fontSize: isHorizontal ? wp('2%') : wp('5%'),
-      marginBottom: 20,
     },
     mainTitleText: {
-      fontSize: isHorizontal ? 40 : wp('7%'),
+      fontSize: isHorizontal ? 40 : 32,
       color: !isConnected ? '#777' : '#ff5722',
       fontFamily: 'orbitron-medium',
       textAlign: isHorizontal ? 'left' : 'center',
@@ -123,6 +135,12 @@ var reloadStyles = function(isHorizontal = false, isConnected = false) {
     },
     normalText: {
       color: !isConnected ? '#777' : '#fff',
+      fontFamily: 'Roboto',
+      fontSize: isHorizontal ? 20 : 14,
+      marginBottom: 20,
+    },
+    secondaryNormalText: {
+      color: '#777',
       fontFamily: 'Roboto',
       fontSize: isHorizontal ? 20 : 14,
       marginBottom: 20,

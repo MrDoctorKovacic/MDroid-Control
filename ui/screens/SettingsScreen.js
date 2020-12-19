@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Dimensions} from 'react-native';
+import {Text, View, Dimensions, Alert} from 'react-native';
 import {
   listenOrientationChange as loc,
   removeOrientationListener as rol,
@@ -13,45 +13,6 @@ export default class SettingsScreen extends React.Component {
     loc(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.settings !== this.props.settings &&
-      this.props.settings !== undefined
-    ) {
-      this.setState({
-        autolock:
-          'MDROID' in this.props.settings &&
-          'AUTOLOCK' in this.props.settings.MDROID
-            ? this.props.settings.MDROID.AUTOLOCK
-            : 'N/A',
-        wireless:
-          'WIRELESS' in this.props.settings &&
-          'LTE' in this.props.settings.WIRELESS
-            ? this.props.settings.WIRELESS.LTE
-            : 'N/A',
-        angelEyes:
-          'ANGEL_EYES' in this.props.settings &&
-          'POWER' in this.props.settings.ANGEL_EYES
-            ? this.props.settings.ANGEL_EYES.POWER
-            : 'N/A',
-        videoRecording:
-          'BOARD' in this.props.settings &&
-          'VIDEO_RECORDING' in this.props.settings.BOARD
-            ? this.props.settings.BOARD.VIDEO_RECORDING
-            : 'N/A',
-        exhaustNoise:
-          'SOUND' in this.props.settings &&
-          'EXHAUST_NOISE' in this.props.settings.SOUND
-            ? this.props.settings.SOUND.EXHAUST_NOISE
-            : 'N/A',
-        variableSpeedVolume:
-          'SOUND' in this.props.settings && 'VSV' in this.props.settings.SOUND
-            ? this.props.settings.SOUND.VSV
-            : 'N/A',
-      });
-    }
-  }
-
   componentWillUnMount() {
     rol();
   }
@@ -60,102 +21,139 @@ export default class SettingsScreen extends React.Component {
     super(props);
 
     this.state = {
+      toasted: 0,
+      fails: 0,
+    };
+    this.screen = {
       angelEyes: 'N/A',
       sentryMode: 'N/A',
       exhaustNoise: 'N/A',
       variableSpeedVolume: 'N/A',
       wireless: 'N/A',
       autolock: 'N/A',
-      toasted: 0,
-      fails: 0,
     };
   }
 
   // Handler for update
-  _requestUpdate = async (component, setting, value) => {
-    this.props.postRequest(
-      '/settings/' + component + '/' + setting + '/' + value,
-      '',
-    );
+  _requestUpdate = async (setting, value) => {
+    this.props.postRequest('/settings/' + setting + '/' + value, '');
   };
 
+  updateScreen() {
+    this.screen = {
+      autolock:
+        'mdroid.autolock' in this.props.settings
+          ? this.props.settings['mdroid.autolock']
+          : 'N/A',
+      autosleep:
+        'mdroid.autosleep' in this.props.settings
+          ? this.props.settings['mdroid.autosleep']
+          : 'N/A',
+      wireless:
+        'components.lte' in this.props.settings
+          ? this.props.settings['components.lte']
+          : 'N/A',
+      angelEyes:
+        'components.angel_eyes' in this.props.settings
+          ? this.props.settings['components.angel_eyes']
+          : 'N/A',
+      fullPower:
+        'components.usb_hub' in this.props.settings
+          ? this.props.settings['components.usb_hub']
+          : 'N/A',
+      exhaustNoise:
+        'enginesound.toggledon' in this.props.settings
+          ? this.props.settings['enginesound.toggledon'] == "TRUE" ? "ON" : "OFF" 
+          : 'N/A',
+      variableSpeedVolume:
+        'sound.vsv' in this.props.settings
+          ? this.props.settings['sound.vsv']
+          : 'N/A',
+    };
+  }
+
   render() {
+    this.updateScreen();
+
     // Responsive styling
     var {height, width} = Dimensions.get('window');
     var styles = reloadStyles(height < width, global.isConnected);
 
     return (
       <View style={styles.screenView}>
-        <View
-          style={[
-            styles.container,
-            styles.containerPadding,
-            styles.titleContainer,
-          ]}>
-          <Text style={styles.mainTitleText}>Settings</Text>
-        </View>
         <View style={[styles.largeContainer, styles.colContainer]}>
           <ButtonGroupTitle title="Angel Eyes" />
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('ANGEL_EYES', 'POWER', 'OFF'),
-              () => this._requestUpdate('ANGEL_EYES', 'POWER', 'AUTO'),
-              () => this._requestUpdate('ANGEL_EYES', 'POWER', 'ON'),
+              () => this._requestUpdate('components.angel_eyes', 'OFF'),
+              () => this._requestUpdate('components.angel_eyes', 'AUTO'),
+              () => this._requestUpdate('components.angel_eyes', 'ON'),
             ]}
-            status={this.state.angelEyes}
+            status={this.screen.angelEyes}
           />
 
-          <ButtonGroupTitle title="Auto Locking" />
+          <ButtonGroupTitle title="Full Power" />
           <ButtonGroup
             buttons={['Off', 'Auto', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('MDROID', 'AUTOLOCK', 'OFF'),
-              () => this._requestUpdate('MDROID', 'AUTOLOCK', 'AUTO'),
-              () => this._requestUpdate('MDROID', 'AUTOLOCK', 'ON'),
+              () => this._requestUpdate('components.usb_hub', 'OFF'),
+              () => this._requestUpdate('components.usb_hub', 'AUTO'),
+              () => this._requestUpdate('components.usb_hub', 'ON'),
             ]}
-            status={this.state.autolock}
-          />
-
-          <ButtonGroupTitle title="Video Recording" />
-          <ButtonGroup
-            buttons={['Off', 'On']}
-            buttonFunctions={[
-              () => this._requestUpdate('BOARD', 'VIDEO_RECORDING', 'OFF'),
-              () => this._requestUpdate('BOARD', 'VIDEO_RECORDING', 'ON'),
-            ]}
-            status={this.state.videoRecording}
+            status={this.screen.fullPower}
           />
 
           <ButtonGroupTitle title="LTE" />
           <ButtonGroup
+            buttons={['Off', 'Auto', 'On']}
+            buttonFunctions={[
+              () => this._requestUpdate('components.lte', 'OFF'),
+              () => this._requestUpdate('components.lte', 'AUTO'),
+              () => this._requestUpdate('components.lte', 'ON'),
+            ]}
+            status={this.screen.wireless}
+          />
+
+          <ButtonGroupTitle title="Auto Lock" />
+          <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('WIRELESS', 'LTE', 'OFF'),
-              () => this._requestUpdate('WIRELESS', 'LTE', 'ON'),
+              () => this._requestUpdate('mdroid.autolock', 'OFF'),
+              () => this._requestUpdate('mdroid.autolock', 'ON'),
             ]}
-            status={this.state.wireless}
+            status={this.screen.autolock}
+          />
+
+          <ButtonGroupTitle title="Auto Sleep" />
+          <ButtonGroup
+            buttons={['Off', 'On']}
+            buttonFunctions={[
+              () => this._requestUpdate('mdroid.autosleep', 'OFF'),
+              () => this._requestUpdate('mdroid.autosleep', 'ON'),
+            ]}
+            status={this.screen.autosleep}
           />
 
           <ButtonGroupTitle title="Enhanced Exhaust" />
           <ButtonGroup
-            buttons={['Off', 'Auto', 'On']}
+            buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'OFF'),
-              () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'AUTO'),
-              () => this._requestUpdate('SOUND', 'EXHAUST_NOISE', 'ON'),
+              () => this._requestUpdate('enginesound.toggledon', 'OFF'),
+              //() => this._requestUpdate('enginesound.toggledon', 'AUTO'),
+              () => this._requestUpdate('enginesound.toggledon', 'ON'),
             ]}
-            status={this.state.exhaustNoise}
+            status={this.screen.exhaustNoise}
           />
 
           <ButtonGroupTitle title="Variable Speed Volume" />
           <ButtonGroup
             buttons={['Off', 'On']}
             buttonFunctions={[
-              () => this._requestUpdate('SOUND', 'VSV', 'OFF'),
-              () => this._requestUpdate('SOUND', 'VSV', 'ON'),
+              () => this._requestUpdate('sound.vsv', 'OFF'),
+              () => this._requestUpdate('sound.vsv', 'ON'),
             ]}
-            status={this.state.variableSpeedVolume}
+            status={this.screen.variableSpeedVolume}
           />
         </View>
       </View>
