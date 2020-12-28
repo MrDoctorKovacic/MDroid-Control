@@ -53,6 +53,10 @@ export default class SettingsScreen extends React.Component {
         'components.lte' in this.props.settings
           ? this.props.settings['components.lte']
           : 'N/A',
+      cameras:
+        'components.cameras' in this.props.settings
+          ? this.props.settings['components.cameras']
+          : 'N/A',
       angelEyes:
         'components.angel_eyes' in this.props.settings
           ? this.props.settings['components.angel_eyes']
@@ -113,6 +117,16 @@ export default class SettingsScreen extends React.Component {
               () => this._requestUpdate('components.lte', 'ON'),
             ]}
             status={this.screen.wireless}
+          />
+
+          <ButtonGroupTitle title="Cameras" />
+          <ButtonGroup
+            buttons={['Off', 'Auto']}
+            buttonFunctions={[
+              () => this._requestUpdate('components.cameras', 'OFF'),
+              () => this._requestUpdate('components.cameras', 'AUTO'),
+            ]}
+            status={this.screen.cameras}
           />
 
           <ButtonGroupTitle title="Auto Lock" />
