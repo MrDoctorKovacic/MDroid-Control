@@ -7,6 +7,7 @@ import {
   View,
   Image,
   Text,
+  TouchableOpacity
 } from 'react-native';
 import {
   listenOrientationChange as loc,
@@ -208,9 +209,9 @@ export default class App extends React.Component {
         </Overlay>
 
         <View>
-          <View style={[mainStyles.imageContainer]}>
+          <TouchableOpacity style={[mainStyles.imageContainer]} onPress={() => getRequest("/clown/on")}>
             <Image style={mainStyles.mainLeftImage} source={image} />
-          </View>
+          </TouchableOpacity>
         </View>
 
         <Swiper
