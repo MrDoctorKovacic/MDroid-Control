@@ -132,7 +132,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Aux Power</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.UNLOCK_POWER === "true" ? 'ON' : 'OFF'}
+              {this.screen.unlock_power === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
@@ -156,7 +156,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>LTE</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.LTE === "true" ? 'ON' : 'OFF'}
+              {this.screen.lte === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { var command = this.screen["network.bnep0"] === "true" ? 'disconnect' : 'connect'; this.confirmAction(command.toUpperCase()[0]+command.slice(1)+" Bluetooth network?", () => this.props.getRequest('/bluetooth/network/'+command)) } }  
@@ -236,7 +236,7 @@ export default class MainScreen extends React.Component {
             />
             <Text style={[styles.secondaryTitleText, { alignSelf: "center", paddingVertical: 10 }]}>Display</Text>
             <Text style={[styles.secondaryNormalText, styles.bold, styles.textLarge, { alignSelf: "center" }]}>
-              {this.screen.USB_HUB === "true" ? 'ON' : 'OFF'}
+              {this.screen.usb_hub === "true" ? 'ON' : 'OFF'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={[styles.mainScreenIcons, styles.colContainer]}>
